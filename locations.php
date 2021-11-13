@@ -9,6 +9,7 @@ $locations = array(
 	),
 	"Characters" => array(
 		"Characters list" => "characters",
+		"New Character" => "characters-new",
 	),
 	"Admin" => array(
 		"Admin panel" => "admin",

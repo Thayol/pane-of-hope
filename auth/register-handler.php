@@ -1,7 +1,7 @@
 <?php
-require "../settings.php";
-require "../dbconnection.php";
-require "../functions.php";
+require __DIR__ . "/../settings.php";
+require __DIR__ . "/../dbconnection.php";
+require __DIR__ . "/../functions.php";
 
 $displayname = $_POST["displayname"];
 $username = $_POST["username"];

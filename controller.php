@@ -1,7 +1,7 @@
 <?php
-require "session.php";
-require "settings.php";
-require "functions.php";
+require __DIR__ . "/session.php";
+require __DIR__ . "/settings.php";
+require __DIR__ . "/functions.php";
 
 if ($error_reporting)
 {
@@ -18,6 +18,8 @@ $actions = array(
 	"admin" => "admin/admin.php",
 	"sitemap" => "sitemap/sitemap.php",
 	"characters" => "characters/characters.php",
+	"characters-new" => "characters/new-character.php",
+	"character" => "characters/character.php",
 );
 
 if (in_array($action, array_keys($actions)))

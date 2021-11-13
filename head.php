@@ -5,4 +5,4 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
 <link rel="icon" type="image/png" href="/pane-of-hope/favicon.png">
-<style><?php require "style.css"; ?></style>
+<style><?php require __DIR__ . "/style.css"; ?></style>

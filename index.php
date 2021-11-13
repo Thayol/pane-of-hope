@@ -1,3 +1,3 @@
 <?php
 $action = "";
-require "controller.php";
+require __DIR__ . "/controller.php";

@@ -1,8 +1,8 @@
 <?php
-require "../session.php";
-require "../settings.php";
-require "../dbconnection.php";
-require "../functions.php";
+require __DIR__ . "/../session.php";
+require __DIR__ . "/../settings.php";
+require __DIR__ . "/../dbconnection.php";
+require __DIR__ . "/../functions.php";
 
 $username = $_POST["username"];
 $plain_password = $_POST["password"];

@@ -1,12 +1,12 @@
 <html>
 <head>
 <?php
-require "head.php";
+require __DIR__ . "/head.php";
 ?>
 </head>
 <body>
 <?php
-require "header.php";
+require __DIR__ . "/header.php";
 ?>
 <main class="main">
 <p style="margin-top:0;">Pane of Hope</p>
@@ -14,7 +14,7 @@ require "header.php";
 <p></p>
 </main>
 <?php
-require "footer.php";
+require __DIR__ . "/footer.php";
 ?>
 </body>
 </html>

@@ -43,7 +43,14 @@ a:hover {
 
 .header {
 	background-color: var(--secondary-background-color);
-	padding: 10px 20px;
+	padding: 10px 20px 0 20px;
+}
+
+.sub-header {
+	margin-top: 1px;
+	background-color: var(--secondary-background-color);
+	padding: 0 20px;
+	height: fit-content;
 }
 
 .title {
@@ -99,6 +106,10 @@ a:hover {
 	margin-top: 20px;
 }
 
+.input-textbox, .input-select {
+	width: 300px;
+}
+
 .notice {
 	border-radius: 7px;
 	padding: 20px 30px;
@@ -113,4 +124,8 @@ a:hover {
 .notice-success {
 	background-color: var(--notification-success-background);
 	color: var(--notification-success-text);
+}
+
+.table-wide {
+	width: 100%;
 }

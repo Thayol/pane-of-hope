@@ -1,15 +1,15 @@
 <?php
-require "../locations.php";
+require __DIR__ . "/../locations.php";
 ?>
 <html>
 <head>
 <?php
-require "../head.php";
+require __DIR__ . "/../head.php";
 ?>
 </head>
 <body>
 <?php
-require "../header.php";
+require __DIR__ . "/../header.php";
 ?>
 <main class="main">
 <?php
@@ -18,7 +18,7 @@ foreach ($locations as $category => $actions)
 	?><p><?php echo $category ?></p><ul><?php
 	foreach ($actions as $text => $action)
 	{
-		$url = action_to_link($action);
+		$url = action_to_link(str_replace("-", "/", $action));
 		echo "<li><a href=\"{$url}\">{$text}</a></li>";
 	}
 	?></ul><?php
@@ -26,7 +26,7 @@ foreach ($locations as $category => $actions)
 ?>
 </main>
 <?php
-require "../footer.php";
+require __DIR__ . "/../footer.php";
 ?>
 </body>
 </html>

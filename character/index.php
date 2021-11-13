@@ -1,3 +1,3 @@
 <?php
-$action = "sitemap";
+$action = "character";
 require __DIR__ . "/../controller.php";

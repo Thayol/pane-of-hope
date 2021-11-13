@@ -13,7 +13,7 @@
 		
 		if ($profile_id > 0)
 		{
-			require "../dbconnection.php";
+			require __DIR__ . "/../dbconnection.php";
 			$profile_query = $db->query("SELECT id, username, displayname, email FROM users WHERE id={$profile_id} ORDER BY id ASC;");
 			
 			if ($profile_query->num_rows == 1)
@@ -53,12 +53,12 @@
 <html>
 <head>
 <?php
-require "../head.php";
+require __DIR__ . "/../head.php";
 ?>
 </head>
 <body>
 <?php
-require "../header.php";
+require __DIR__ . "/../header.php";
 ?>
 <main class="main">
 <?php if ($profile_found): ?>
@@ -74,7 +74,7 @@ require "../header.php";
 <?php endif; ?>
 </main>
 <?php
-require "../footer.php";
+require __DIR__ . "/../footer.php";
 ?>
 </body>
 </html>

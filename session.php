@@ -26,6 +26,6 @@ if (isset($_SESSION["paneofhope"]))
 	$session_displayname = $_SESSION["paneofhope"]["displayname"];
 	$session_email = $_SESSION["paneofhope"]["email"];
 	$session_userid = $_SESSION["paneofhope"]["userid"];
-	$session_is_admin = $_SESSION["paneofhope"]["is_admin"];
+	$session_is_admin = $_SESSION["paneofhope"]["admin"];
 	$session_permission_level = $_SESSION["paneofhope"]["permission_level"];
 }
