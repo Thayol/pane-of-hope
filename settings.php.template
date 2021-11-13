@@ -1,0 +1,13 @@
+<?php
+
+// MySQL connection settings
+$mysql_addr = "localhost"; // IP:port
+$mysql_user = "paneofhope"; // username
+$mysql_pass = "strong_password"; // password
+$mysql_db = "paneofhope"; // database
+
+// General
+$absolute_prefix = "/pane-of-hope"; // If the home page is at "http://example.com/pane-of-hope/" then this is "/pane-of-hope"
+$site_title = "Pane of Hope"; // The title of the site.
+$error_reporting = true; // Error reporting for development. Should set to "false" in live/production environments.
+$show_home_button = false; // Show home button in the navigation bar?
