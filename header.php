@@ -1,6 +1,6 @@
 <header class="header">
 <nav class="nav">
-<h1 class="title"><a href="<?php echo action_to_link(); ?>">Pane of Hope</a></h1>
+<h1 class="title"><a href="<?php echo action_to_link(); ?>"><?php echo $site_title; ?></a></h1>
 <?php
 $nav_button = '<a class="nav-button" href="[[ LINK ]]">[[ TEXT ]]</a>';
 $nav_button_current = '<a class="nav-button nav-button-current" href="[[ LINK ]]">[[ TEXT ]]</a>';
