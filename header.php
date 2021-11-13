@@ -5,6 +5,23 @@
 $nav_button = '<a class="nav-button" href="[[ LINK ]]">[[ TEXT ]]</a>';
 $nav_button_current = '<a class="nav-button nav-button-current" href="[[ LINK ]]">[[ TEXT ]]</a>';
 
+$nav_buttons = array();
+
+if ($show_home_button)
+{
+	$nav_buttons["Home"] = "";
+}
+
+$nav_buttons_unauthenticated = array(
+	"Log in" => "login",
+	"Register" => "register",
+);
+
+$nav_buttons_authenticated = array(
+	"Profile" => "profile",
+	"Log out" => "logout",
+);
+
 if ($session_authenticated)
 {
 	$nav_buttons = array_merge($nav_buttons, $nav_buttons_authenticated);
