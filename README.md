@@ -1,2 +1,3 @@
-# pane-of-hope
-Waifu Mining Camp &amp; Rehabilitation Center
+# Pane of Hope
+
+Work in progress...
