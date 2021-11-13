@@ -1,7 +1,7 @@
 <?php
-// require "session.php";
-require "settings.php";
-require "dbconnection.php";
+require "../settings.php";
+require "../dbconnection.php";
+require "../functions.php";
 
 $displayname = $_POST["displayname"];
 $username = $_POST["username"];
@@ -13,6 +13,8 @@ $displayname_valid = preg_match('/[A-Za-z0-9_\. -]{1,16}/', $displayname) == 1 ?
 $username_valid = preg_match('/[A-Za-z0-9_\.-]{3,128}/', $username) == 1 ? true : false;
 $password_valid = preg_match('/.{8,4000}/', $plain_password) == 1 ? true : false;
 $email_valid = filter_var($email, FILTER_VALIDATE_EMAIL) !== false ? true : false;
+
+$action = "register";
 
 if ($username_valid && $password_valid && $displayname_valid && $email_valid && $plain_password === $plain_password2)
 {
@@ -29,11 +31,11 @@ if ($username_valid && $password_valid && $displayname_valid && $email_valid && 
 	{
 		$db->query("INSERT INTO users (username, displayname, password, email) VALUES ('{$username}', '{$displayname}', '{$password}', '{$email}')");
 		
-		header('Location: ' . $absolute_prefix . '/login/?registered');
+		header('Location: ' . action_to_link('login') . '?registered');
 	}
 	else
 	{
-		header('Location: ' . $absolute_prefix . '/register/?invalid=registered');
+		header('Location: ' . action_to_link($action) . '?invalid=registered');
 	}
 	
 }
@@ -51,5 +53,5 @@ else
 	}
 	
 	$invalid_comma_delimited = implode(",", $invalid_values);
-	header('Location: ' . $absolute_prefix . '/register/?invalid=' . $invalid_comma_delimited);
+	header('Location: ' . action_to_link($action) . '?invalid=' . $invalid_comma_delimited);
 }

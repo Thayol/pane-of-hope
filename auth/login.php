@@ -24,12 +24,12 @@ if (isset($_GET["registered"]))
 <html>
 <head>
 <?php
-require "head.php";
+require "../head.php";
 ?>
 </head>
 <body>
 <?php
-require "header.php";
+require "../header.php";
 ?>
 <main class="main">
 
@@ -41,7 +41,10 @@ require "header.php";
 <div class="notice notice-success">Successfully registered. Log in.</div>
 <?php endif; ?>
 
-<form class="login-form" action="../login-handler.php" method="POST">
+<?php if ($session_authenticated):
+	require "log-out-first.php";
+else: ?>
+<form class="login-form" action="../auth/login-handler.php" method="POST">
 
 <h2>Log in</h2>
 
@@ -53,9 +56,10 @@ require "header.php";
 
 <input class="input-submit" type="submit" value="Log in">
 </form>
+<?php endif; ?>
 </main>
 <?php
-require "footer.php";
+require "../footer.php";
 ?>
 </body>
 </html>

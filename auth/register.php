@@ -1,12 +1,12 @@
 <html>
 <head>
 <?php
-require "head.php";
+require "../head.php";
 ?>
 </head>
 <body>
 <?php
-require "header.php";
+require "../header.php";
 ?>
 <main class="main">
 
@@ -32,7 +32,10 @@ if ($is_invalid): ?>
 <div class="notice notice-error"><?php echo $invalid_message; ?></div>
 <?php endif; ?>
 
-<form class="login-form" action="../register-handler.php" method="POST">
+<?php if ($session_authenticated):
+	require "log-out-first.php";
+else: ?>
+<form class="login-form" action="../auth/register-handler.php" method="POST">
 
 <h2>Register</h2>
 
@@ -53,9 +56,10 @@ if ($is_invalid): ?>
 
 <input class="input-submit" type="submit" value="Register">
 </form>
+<?php endif; ?>
 </main>
 <?php
-require "footer.php";
+require "../footer.php";
 ?>
 </body>
 </html>

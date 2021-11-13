@@ -1,7 +1,8 @@
 <?php
-require "session.php";
-require "settings.php";
-require "dbconnection.php";
+require "../session.php";
+require "../settings.php";
+require "../dbconnection.php";
+require "../functions.php";
 
 $username = $_POST["username"];
 $plain_password = $_POST["password"];
@@ -9,6 +10,7 @@ $plain_password = $_POST["password"];
 $username_valid = preg_match('/[A-Za-z0-9_\.-]{3,128}/', $username) == 1 ? true : false;
 $password_valid = preg_match('/.{8,4000}/', $plain_password) == 1 ? true : false;
 
+$action = "login";
 
 if ($username_valid && $password_valid)
 {
@@ -32,7 +34,7 @@ if ($username_valid && $password_valid)
 			$perm = $reg_arr["permission_level"];
 			if ($perm < 10)
 			{
-				header('Location: ' . $absolute_prefix . '/login/?invalid=banned');
+				header('Location: ' . action_to_link($action) . '?invalid=banned');
 				exit(0);
 			}
 			
@@ -51,16 +53,16 @@ if ($username_valid && $password_valid)
 			
 			$_SESSION["paneofhope"] = $session_array;
 			
-			header('Location: ' . $absolute_prefix . '/profile/');
+			header('Location: ' . action_to_link('profile'));
 		}
 		else
 		{
-			header('Location: ' . $absolute_prefix . '/login/?invalid=wrongpass');
+			header('Location: ' . action_to_link($action) . '?invalid=wrongpass');
 		}
 	}
 	else
 	{
-		header('Location: ' . $absolute_prefix . '/login/?invalid=unregistered');
+		header('Location: ' . action_to_link($action) . '?invalid=unregistered');
 	}
 }
 else
@@ -72,5 +74,5 @@ else
 	}
 	
 	$invalid_comma_delimited = implode(",", $invalid_values);
-	header('Location: ' . $absolute_prefix . '/login/?invalid=' . $invalid_comma_delimited);
+	header('Location: ' . action_to_link($action) . '?invalid=' . $invalid_comma_delimited);
 }

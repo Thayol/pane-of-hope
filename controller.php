@@ -1,6 +1,7 @@
 <?php
 require "session.php";
 require "settings.php";
+require "functions.php";
 
 if ($error_reporting)
 {
@@ -8,25 +9,20 @@ if ($error_reporting)
 	ini_set('display_errors', 1);
 }
 
-if ($action == "")
+$actions = array(
+	"" => "home.php",
+	"login" => "auth/login.php",
+	"register" => "auth/register.php",
+	"logout" => "auth/logout.php",
+	"profile" => "profile/profile.php",
+	"admin" => "admin/admin.php",
+	"sitemap" => "sitemap/sitemap.php",
+	"characters" => "characters/characters.php",
+);
+
+if (in_array($action, array_keys($actions)))
 {
-	require "home.php";
-}
-else if ($action == "login")
-{
-	require "login.php";
-}
-else if ($action == "register")
-{
-	require "register.php";
-}
-else if ($action == "profile")
-{
-	require "profile.php";
-}
-else if ($action == "logout")
-{
-	require "logout.php";
+	require $actions[$action];
 }
 else
 {
