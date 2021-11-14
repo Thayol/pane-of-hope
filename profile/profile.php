@@ -13,7 +13,7 @@
 		
 		if ($profile_id > 0)
 		{
-			require __DIR__ . "/../dbconnection.php";
+			$db = db_connect();
 			$profile_query = $db->query("SELECT id, username, displayname, email FROM users WHERE id={$profile_id} ORDER BY id ASC;");
 			
 			if ($profile_query->num_rows == 1)

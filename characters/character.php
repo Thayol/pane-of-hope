@@ -6,7 +6,7 @@ if (!empty($_GET["id"]))
 	$id = intval($_GET["id"]);
 	if ($id > 0)
 	{
-		require __DIR__ . "/../dbconnection.php";
+		$db = db_connect();
 		$result = $db->query("SELECT * FROM characters WHERE id={$id} ORDER BY id ASC;");
 		if ($result->num_rows == 1)
 		{

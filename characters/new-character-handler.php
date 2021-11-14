@@ -11,7 +11,7 @@ if ($session_is_admin)
 
 	if (!empty($name) && $gender >= 0 && $gender < 3)
 	{
-		require __DIR__ . "/../dbconnection.php";
+		$db = db_connect();
 		if ($db->query("INSERT INTO characters (name, original_name, gender) VALUES ('{$name}', '{$original_name}', {$gender});") === true)
 		{
 			$id = $db->insert_id;

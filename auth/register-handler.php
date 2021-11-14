@@ -1,6 +1,5 @@
 <?php
 require __DIR__ . "/../settings.php";
-require __DIR__ . "/../dbconnection.php";
 require __DIR__ . "/../functions.php";
 
 $displayname = $_POST["displayname"];
@@ -21,6 +20,7 @@ if ($username_valid && $password_valid && $displayname_valid && $email_valid && 
 	$password = password_hash($plain_password, PASSWORD_DEFAULT);
 	
 	$is_registered = false;
+	$db = db_connect();
 	$reg_query = $db->query("SELECT id, username FROM users WHERE username='{$username}' ORDER BY id ASC;");
 	if ($reg_query->num_rows > 0)
 	{

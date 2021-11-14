@@ -18,7 +18,7 @@ require __DIR__ . "/../header.php";
 <?php
 $page_size = 10;
 
-require __DIR__ . "/../dbconnection.php";
+$db = db_connect();
 $result = $db->query("SELECT * FROM characters ORDER BY id ASC LIMIT {$page_size};");
 
 $characters = array();
