@@ -22,6 +22,7 @@ if (!empty($_GET["id"]))
 	}
 }
 
+$context_nav_buttons["List"] = "characters";
 ?>
 <html>
 <head>

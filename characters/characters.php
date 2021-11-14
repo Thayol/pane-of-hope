@@ -9,7 +9,7 @@ require __DIR__ . "/../head.php";
 $context_nav_buttons = array();
 if ($session_is_admin)
 {
-	$context_nav_buttons["New character"] = "character-new";
+	$context_nav_buttons["New"] = "character-new";
 }
 
 require __DIR__ . "/../header.php";

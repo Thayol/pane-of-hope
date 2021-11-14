@@ -35,7 +35,10 @@ $nav_buttons["More »"] = "sitemap";
 
 foreach ($nav_buttons as $text => $this_action)
 {
-	echo str_replace([ "[[ TEXT ]]", "[[ LINK ]]" ], [ $text, action_to_link($this_action) ], (strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
+	echo str_replace(
+		[ "[[ TEXT ]]", "[[ LINK ]]" ],
+		[ $text, action_to_link(str_replace("-", "/", $this_action)) ],
+		(strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
 }
 ?>
 </nav>
@@ -45,10 +48,12 @@ foreach ($nav_buttons as $text => $this_action)
 <?php
 if (!empty($context_nav_buttons))
 {
-	// echo '<br>';
 	foreach ($context_nav_buttons as $text => $this_action)
 	{
-		echo str_replace([ "[[ TEXT ]]", "[[ LINK ]]" ], [ $text, action_to_link($this_action) ], (strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
+		echo str_replace(
+			[ "[[ TEXT ]]", "[[ LINK ]]" ],
+			[ $text, action_to_link(str_replace("-", "/", $this_action)) ],
+			(strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
 	}
 }
 ?>
