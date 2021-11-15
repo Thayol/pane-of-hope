@@ -19,7 +19,7 @@ CREATE TABLE characters (
 
 CREATE TABLE character_images (
 	id int NOT NULL AUTO_INCREMENT,
-	character_id int DEFAULT NULL,
+	character_id int,
 	path varchar(256) NOT NULL,
 	PRIMARY KEY (id),
 	CONSTRAINT fk_char_img
@@ -31,4 +31,27 @@ CREATE TABLE sources (
 	id int NOT NULL AUTO_INCREMENT,
 	title nvarchar(300) NOT NULL,
 	PRIMARY KEY (id)
+);
+
+CREATE TABLE source_aliases (
+	id int NOT NULL AUTO_INCREMENT,
+	source_id int,
+	alias nvarchar(300) NOT NULL,
+	PRIMARY KEY (id),
+	CONSTRAINT fk_src_alias
+		FOREIGN KEY (source_id)
+		REFERENCES sources (id)
+);
+
+CREATE TABLE conn_character_source (
+	id INT NOT NULL AUTO_INCREMENT,
+	character_id int,
+	source_id int,
+	PRIMARY KEY (id),
+	CONSTRAINT fk_char_src_conn_char
+		FOREIGN KEY (character_id)
+		REFERENCES characters (id),
+	CONSTRAINT fk_char_src_conn_src
+		FOREIGN KEY (source_id)
+		REFERENCES sources (id)
 );
