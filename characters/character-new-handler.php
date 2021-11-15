@@ -15,12 +15,12 @@ if ($session_is_admin)
 		if ($db->query("INSERT INTO characters (name, original_name, gender) VALUES ('{$name}', '{$original_name}', {$gender});") === true)
 		{
 			$id = $db->insert_id;
-			header('Location: ' . action_to_link("character", "id={$id}"));
+			header('Location: ' . action_to_link("character", "id={$id}&created"));
 		}
 	}
 	else
 	{
-		header('Location: ' . action_to_link("characters-new", "invalid"));
+		header('Location: ' . action_to_link("character-new", "invalid"));
 	}	
 }
 else

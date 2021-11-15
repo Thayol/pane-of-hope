@@ -17,7 +17,7 @@ if (!empty($_GET["invalid"]))
 
 if (isset($_GET["registered"]))
 {
-	$notice_successful = "Successfully registered. Log in.";
+	$notice_success = "Successfully registered. Log in.";
 }
 ?>
 <html>

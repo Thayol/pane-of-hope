@@ -62,6 +62,7 @@ require __DIR__ . "/../head.php";
 require __DIR__ . "/../header.php";
 ?>
 <main class="main">
+<?php require __DIR__ . "/../notice.php"; ?>
 
 <?php if ($session_is_admin): ?>
 <form class="login-form" action="<?php echo $form_action; ?>" method="POST">

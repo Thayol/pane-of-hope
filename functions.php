@@ -12,7 +12,7 @@ function action_to_link($action = "", $querystring = "") : string
 	$absolute = '/';
 	if (!empty($action))
 	{
-		$absolute .= $action . '/';
+		$absolute .= str_replace("-", "/", $action) . '/';
 	}
 	
 	if (!empty($querystring))

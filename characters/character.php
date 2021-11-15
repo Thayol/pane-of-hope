@@ -1,5 +1,4 @@
 <?php
-
 $character_found = false;
 $character = array();
 
@@ -49,6 +48,15 @@ if ($session_is_admin)
 	}
 }
 
+if (isset($_GET["edited"]))
+{
+	$notice_success = "Character edited.";
+}
+else if (isset($_GET["created"]))
+{
+	$notice_success = "Character created.";
+}
+
 ?>
 <html>
 <head>
@@ -61,6 +69,7 @@ require __DIR__ . "/../head.php";
 require __DIR__ . "/../header.php";
 ?>
 <main class="main">
+<?php require __DIR__ . "/../notice.php"; ?>
 <?php if (!$character_found): ?>
 <p>Character not found.</p>
 <?php else: ?>

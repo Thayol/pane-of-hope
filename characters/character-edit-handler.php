@@ -15,12 +15,12 @@ if ($session_is_admin)
 		$db = db_connect();
 		if ($db->query("UPDATE characters SET name = '{$name}', original_name = '{$original_name}', gender = {$gender} WHERE id={$id};") === true)
 		{
-			header('Location: ' . action_to_link("character", "id={$id}"));
+			header('Location: ' . action_to_link("character", "id={$id}&edited"));
 		}
 	}
 	else
 	{
-		header('Location: ' . action_to_link("characters-new", "invalid"));
+		header('Location: ' . action_to_link("characters-edit", "id={$id}&invalid"));
 	}	
 }
 else
