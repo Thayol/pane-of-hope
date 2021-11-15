@@ -22,3 +22,6 @@ $data_root_absolute = $absolute_prefix . "/data"; // Path to the data folder fro
 
 $character_images_path = $data_root . "/img/"; // Full path to the character images folder.
 $character_images_path_absolute = $data_root_absolute . "/img/"; // Path to the character images folder from the webroot.
+
+// Data handling
+$htmlspecialchars_flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401; // See: https://www.php.net/manual/en/function.htmlspecialchars.php

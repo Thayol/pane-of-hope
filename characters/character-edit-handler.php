@@ -6,8 +6,8 @@ require __DIR__ . "/../functions.php";
 if ($session_is_admin)
 {
 	$id = intval($_POST["id"]);
-	$name = htmlspecialchars($_POST["name"]);
-	$original_name = htmlspecialchars($_POST["original_name"]);
+	$name = htmlspecialchars($_POST["name"], $htmlspecialchars_flags);
+	$original_name = htmlspecialchars($_POST["original_name"], $htmlspecialchars_flags);
 	$gender = intval($_POST["gender"]);
 
 	if (!empty($name) && $gender >= 0 && $gender < 3)

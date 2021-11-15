@@ -5,10 +5,14 @@ require __DIR__ . "/../functions.php";
 
 if ($session_is_admin)
 {
-	$name = htmlspecialchars($_POST["name"]);
-	$original_name = htmlspecialchars($_POST["original_name"]);
+	$name = htmlspecialchars($_POST["name"], $htmlspecialchars_flags, $htmlspecialchars_flags);
+	$original_name = htmlspecialchars($_POST["original_name"], $htmlspecialchars_flags);
 	$gender = intval($_POST["gender"]);
 
+	echo "<pre>";print_r($_POST);echo "</pre><pre>";
+	echo $name . "\n";
+	echo $original_name . "\n";
+	echo $gender . "\n";
 	if (!empty($name) && $gender >= 0 && $gender < 3)
 	{
 		$db = db_connect();

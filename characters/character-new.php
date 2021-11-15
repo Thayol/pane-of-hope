@@ -34,8 +34,8 @@ if ($action == "character-edit")
 				$character_temp = $result->fetch_assoc();
 				
 				$id = $character_temp["id"];
-				$name = $character_temp["name"];
-				$og_name = $character_temp["original_name"];
+				$name = htmlspecialchars_decode($character_temp["name"], $htmlspecialchars_flags);
+				$og_name = htmlspecialchars_decode($character_temp["original_name"], $htmlspecialchars_flags);
 				$gender = $character_temp["gender"];
 			}
 		}
@@ -70,10 +70,10 @@ require __DIR__ . "/../header.php";
 <h2>New Character</h2>
 
 <label class="input-label">Name:</label>
-<input class="input-textbox" type="text" name="name" value="<?php echo htmlspecialchars($name); ?>" placeholder="English Name"><br>
+<input class="input-textbox" type="text" name="name" value="<?php echo htmlspecialchars($name, ENT_COMPAT); ?>" placeholder="English Name" required><br>
 
 <label class="input-label">Original Name:</label>
-<input class="input-textbox" type="text" name="original_name" value="<?php echo htmlspecialchars($og_name); ?>" placeholder="Original Name"><br>
+<input class="input-textbox" type="text" name="original_name" value="<?php echo htmlspecialchars($og_name, ENT_COMPAT); ?>" placeholder="Original Name"><br>
 
 <label class="input-label">Gender:</label>
 <select class="input-select" name="gender">
