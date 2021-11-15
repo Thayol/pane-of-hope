@@ -5,6 +5,7 @@ require __DIR__ . "/../functions.php";
 
 if ($session_is_admin)
 {
+	$id = intval($_POST["id"]);
 	$name = htmlspecialchars($_POST["name"]);
 	$original_name = htmlspecialchars($_POST["original_name"]);
 	$gender = intval($_POST["gender"]);
@@ -12,15 +13,14 @@ if ($session_is_admin)
 	if (!empty($name) && $gender >= 0 && $gender < 3)
 	{
 		$db = db_connect();
-		if ($db->query("INSERT INTO characters (name, original_name, gender) VALUES ('{$name}', '{$original_name}', {$gender});") === true)
+		if ($db->query("UPDATE characters SET name = '{$name}', original_name = '{$original_name}', gender = {$gender} WHERE id={$id};") === true)
 		{
-			$id = $db->insert_id;
-			header('Location: ' . action_to_link("character") . '?id=' . $id);
+			header('Location: ' . action_to_link("character", "id={$id}"));
 		}
 	}
 	else
 	{
-		header('Location: ' . action_to_link("characters-new") . '?invalid');
+		header('Location: ' . action_to_link("characters-new", "invalid"));
 	}	
 }
 else

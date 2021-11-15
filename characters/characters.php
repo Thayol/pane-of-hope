@@ -6,7 +6,9 @@ require __DIR__ . "/../head.php";
 </head>
 <body>
 <?php
-$context_nav_buttons = array();
+
+$context_nav_buttons["Listing"] = "characters";
+
 if ($session_is_admin)
 {
 	$context_nav_buttons["New"] = "character-new";
@@ -16,10 +18,24 @@ require __DIR__ . "/../header.php";
 ?>
 <main class="main">
 <?php
-$page_size = 10;
+$page = 1; // if not set
+$page_count = 1; // default fallback
+$page_size = $listing_page_size;
 
 $db = db_connect();
-$result = $db->query("SELECT * FROM characters ORDER BY id ASC LIMIT {$page_size};");
+$count_result = $db->query("SELECT COUNT(id) as char_count FROM characters;");
+if ($count_result->num_rows > 0)
+{
+	$page_count = ceil($count_result->fetch_assoc()["char_count"] / $page_size);
+}
+
+if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
+{
+	$page = intval($_GET["page"]);
+}
+
+$offset = ($page - 1) * $page_size;
+$result = $db->query("SELECT * FROM characters ORDER BY id ASC LIMIT {$page_size} OFFSET {$offset};");
 
 $characters = array();
 if ($result->num_rows > 0)
@@ -47,7 +63,7 @@ foreach ($characters as $character)
 		$name .= " ($og_name)";
 	}
 	
-	$gender = "";
+	$gender = "?";
 	if ($gender_raw == 1) $gender = "♀";
 	if ($gender_raw == 2) $gender = "♂";
 	
@@ -60,6 +76,24 @@ foreach ($characters as $character)
 	echo '</tr>';
 }
 echo "</tbody></table>";
+
+echo "<nav>Page: ";
+for ($i = $page - $max_seek_page_numbers; $i <= $page + $max_seek_page_numbers; $i++)
+{
+	if ($i > 0 && $i <= $page_count)
+	{
+		$url = action_to_link($action, "page={$i}");
+		$class = "nav-button";
+		if ($i == $page)
+		{
+			$class .= " nav-button-current";
+		}
+		
+		echo "<a class=\"{$class}\" href=\"{$url}\">{$i}</a> ";
+	}
+}
+echo "</nav>";
+
 endif; ?>
 
 </main>

@@ -34,7 +34,7 @@ if ($username_valid && $password_valid)
 			$perm = $reg_arr["permission_level"];
 			if ($perm < 10)
 			{
-				header('Location: ' . action_to_link($action) . '?invalid=banned');
+				header('Location: ' . action_to_link($action, "invalid=banned"));
 				exit(0);
 			}
 			
@@ -57,12 +57,12 @@ if ($username_valid && $password_valid)
 		}
 		else
 		{
-			header('Location: ' . action_to_link($action) . '?invalid=wrongpass');
+			header('Location: ' . action_to_link($action, "invalid=wrongpass"));
 		}
 	}
 	else
 	{
-		header('Location: ' . action_to_link($action) . '?invalid=unregistered');
+		header('Location: ' . action_to_link($action, "invalid=unregistered"));
 	}
 }
 else
@@ -74,5 +74,5 @@ else
 	}
 	
 	$invalid_comma_delimited = implode(",", $invalid_values);
-	header('Location: ' . action_to_link($action) . '?invalid=' . $invalid_comma_delimited);
+	header('Location: ' . action_to_link($action, "invalid={$invalid_comma_delimited}"));
 }

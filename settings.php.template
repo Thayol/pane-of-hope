@@ -11,3 +11,14 @@ $absolute_prefix = "/pane-of-hope"; // If the home page is at "http://example.co
 $site_title = "Pane of Hope"; // The title of the site.
 $error_reporting = true; // Error reporting for development. Should set to "false" in live/production environments.
 $show_home_button = false; // Show home button in the navigation bar?
+$max_seek_page_numbers = 5; // How many page numbers should be shown in one direction in the navigation bar.
+
+// Uploads
+$max_file_upload_size = 10485760; // Maximum file size accepted in bytes.
+$allowed_image_extensions = [ "png", "gif", "jpeg", "jpeg" ]; // The list of (lowercase) extensions allowed when uploading pictures.
+
+$data_root = __DIR__ . "/data"; // Full path to the data folder.
+$data_root_absolute = $absolute_prefix . "/data"; // Path to the data folder from the webroot.
+
+$character_images_path = $data_root . "/img/"; // Full path to the character images folder.
+$character_images_path_absolute = $data_root_absolute . "/img/"; // Path to the character images folder from the webroot.

@@ -31,11 +31,11 @@ if ($username_valid && $password_valid && $displayname_valid && $email_valid && 
 	{
 		$db->query("INSERT INTO users (username, displayname, password, email) VALUES ('{$username}', '{$displayname}', '{$password}', '{$email}')");
 		
-		header('Location: ' . action_to_link('login') . '?registered');
+		header('Location: ' . action_to_link('login', "registered"));
 	}
 	else
 	{
-		header('Location: ' . action_to_link($action) . '?invalid=registered');
+		header('Location: ' . action_to_link($action, "invalid=registered"));
 	}
 	
 }
@@ -53,5 +53,5 @@ else
 	}
 	
 	$invalid_comma_delimited = implode(",", $invalid_values);
-	header('Location: ' . action_to_link($action) . '?invalid=' . $invalid_comma_delimited);
+	header('Location: ' . action_to_link($action, "invalid={$invalid_comma_delimited}"));
 }

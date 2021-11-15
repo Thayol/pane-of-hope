@@ -12,6 +12,9 @@ if ($show_home_button)
 	$nav_buttons["Home"] = "";
 }
 
+$nav_buttons["Users"] = "users";
+$nav_buttons["Characters"] = "characters";
+
 $nav_buttons_unauthenticated = array(
 	"Log in" => "login",
 	"Register" => "register",

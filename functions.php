@@ -1,12 +1,23 @@
 <?php
-function action_to_link($action = "") : string
+function action_to_link($action = "", $querystring = "") : string
 {
 	global $absolute_prefix;
 	
+	if (strpos($action, "?") !== false)
+	{
+		$temp = explode("?", $action);
+		$action = $temp[0];
+		$querystring = $temp[1];
+	}
 	$absolute = '/';
 	if (!empty($action))
 	{
 		$absolute .= $action . '/';
+	}
+	
+	if (!empty($querystring))
+	{
+		$absolute .= "?" . $querystring;
 	}
 	
 	return $absolute_prefix . $absolute;

@@ -18,8 +18,11 @@ $actions = array(
 	"admin" => "admin/admin.php",
 	"sitemap" => "sitemap/sitemap.php",
 	"characters" => "characters/characters.php",
-	"characters-new" => "characters/new-character.php",
 	"character" => "characters/character.php",
+	"character-new" => "characters/character-new.php",
+	"character-add-image" => "characters/character-add-image.php",
+	"character-edit" => "characters/character-new.php",
+	"users" => "profile/profile-list.php",
 );
 
 if (in_array($action, array_keys($actions)))
