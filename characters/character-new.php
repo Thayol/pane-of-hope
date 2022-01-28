@@ -49,11 +49,13 @@ if ($action == "character-edit")
 if ($action == "character-edit")
 {
 	$form_action = action_to_link("characters") . "character-edit-handler.php";
+	$title_text = "Edit Character";
 	$submit_text = "Update";
 }
 else
 {
 	$form_action = action_to_link("characters") . "character-new-handler.php";
+	$title_text = "New Character";
 	$submit_text = "Create";
 }
 ?>
@@ -73,7 +75,7 @@ require __DIR__ . "/../header.php";
 <?php if ($session_is_admin): ?>
 <form class="login-form" action="<?= $form_action ?>" method="POST">
 
-<h2>New Character</h2>
+<h2><?= $title_text ?></h2>
 
 <label class="input-label">Name:</label>
 <input class="input-textbox" type="text" name="name" value="<?= htmlspecialchars($name, ENT_COMPAT) ?>" placeholder="English Name" required><br>

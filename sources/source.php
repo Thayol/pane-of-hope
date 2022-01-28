@@ -65,7 +65,7 @@ require __DIR__ . "/../header.php";
 <main class="main">
 <?php require __DIR__ . "/../notice.php"; ?>
 <?php if (!$source_found): ?>
-<p>source not found.</p>
+<p>Source not found.</p>
 <?php else: ?>
 <h2><?= $source["title"] ?></h2>
 <?php foreach ($source["aliases"] as $alias): ?>

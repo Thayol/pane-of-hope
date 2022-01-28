@@ -57,11 +57,13 @@ if ($action == "source-edit")
 if ($action == "source-edit")
 {
 	$form_action = action_to_link("sources") . "source-edit-handler.php";
+	$title_text = "Edit Source";
 	$submit_text = "Update";
 }
 else
 {
 	$form_action = action_to_link("sources") . "source-new-handler.php";
+	$title_text = "New Source";
 	$submit_text = "Create";
 }
 ?>
@@ -81,7 +83,7 @@ require __DIR__ . "/../header.php";
 <?php if ($session_is_admin): ?>
 <form class="login-form" action="<?= $form_action ?>" method="POST">
 
-<h2>New source</h2>
+<h2><?= $title_text ?></h2>
 
 <label class="input-label">Title:</label>
 <input class="input-textbox" type="text" name="title" value="<?= htmlspecialchars($title, ENT_COMPAT) ?>" placeholder="Title" required><br>
