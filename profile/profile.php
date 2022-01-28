@@ -73,10 +73,10 @@ require __DIR__ . "/../header.php";
 		echo " <small>(Administrator)</small>";
 	}
 ?></h2>
-<p>User ID: #<?php echo $profile_userid; ?></p>
+<p>User ID: #<?= $profile_userid ?></p>
 	<?php if (!$custom_request): ?>
-	<p>Username: <?php echo $profile_username; ?></p>
-	<p>E-mail: <?php echo $profile_email; ?></p>
+	<p>Username: <?= $profile_username ?></p>
+	<p>E-mail: <?= $profile_email ?></p>
 	<?php endif; ?>
 <?php else: ?>
 <div class="notice notice-error">User not found.</div>

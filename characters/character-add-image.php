@@ -29,7 +29,7 @@ if (!empty($_GET["id"]))
 			$character_temp = $result->fetch_assoc();
 			
 			$character["name"] = $character_temp["name"];
-			$character["original_name"] = empty($character_temp["original_name"]) ? "" : " (" . $character_temp["original_name"] . ")";
+			$character["original_name"] = empty($character_temp["original_name"]) ? "" : "(" . $character_temp["original_name"] . ")";
 		}
 	}
 }
@@ -38,9 +38,9 @@ if (!$character_found): ?>
 <p>Character not found.</p>
 <?php else: ?>
 
-<form class="login-form" action="<?php echo action_to_link("characters"); ?>character-add-image-handler.php" method="POST" enctype="multipart/form-data">
-<h2>Add image for <?php echo $character["name"]; echo $character["original_name"]; ?></h2>
-<input type="hidden" name="id" value="<?php echo $id; ?>">
+<form class="login-form" action="<?= action_to_link("characters") ?>character-add-image-handler.php" method="POST" enctype="multipart/form-data">
+<h2>Add image for <?= $character["name"] ?> <?= $character["original_name"] ?></h2>
+<input type="hidden" name="id" value="<?= $id ?>">
 <input class="input-file" type="file" name="uploadfile" value=""><br>
 
 <input class="input-submit" type="submit" value="Upload">

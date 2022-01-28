@@ -1,4 +1,4 @@
-<title><?php echo $site_title; ?></title>
+<title><?= $site_title ?></title>
 <meta name="robots" content="noindex" />
 <meta name="author" content="Thayol" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">

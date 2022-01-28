@@ -36,7 +36,7 @@ require __DIR__ . "/../header.php";
 <?php if ($session_authenticated):
 	require __DIR__ . "/log-out-first.php";
 else: ?>
-<form class="login-form" action="<?php echo action_to_link("auth"); ?>login-handler.php" method="POST">
+<form class="login-form" action="<?= action_to_link("auth") ?>login-handler.php" method="POST">
 
 <h2>Log in</h2>
 

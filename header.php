@@ -1,5 +1,5 @@
 <header class="header">
-<h1 class="title"><a href="<?php echo action_to_link(); ?>"><?php echo $site_title; ?></a></h1>
+<h1 class="title"><a href="<?= action_to_link() ?>"><?= $site_title ?></a></h1>
 <nav class="nav">
 <?php
 $nav_button = '<a class="nav-button" href="[[ LINK ]]">[[ TEXT ]]</a>';

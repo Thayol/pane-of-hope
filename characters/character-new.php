@@ -65,15 +65,15 @@ require __DIR__ . "/../header.php";
 <?php require __DIR__ . "/../notice.php"; ?>
 
 <?php if ($session_is_admin): ?>
-<form class="login-form" action="<?php echo $form_action; ?>" method="POST">
+<form class="login-form" action="<?= $form_action ?>" method="POST">
 
 <h2>New Character</h2>
 
 <label class="input-label">Name:</label>
-<input class="input-textbox" type="text" name="name" value="<?php echo htmlspecialchars($name, ENT_COMPAT); ?>" placeholder="English Name" required><br>
+<input class="input-textbox" type="text" name="name" value="<?= htmlspecialchars($name, ENT_COMPAT) ?>" placeholder="English Name" required><br>
 
 <label class="input-label">Original Name:</label>
-<input class="input-textbox" type="text" name="original_name" value="<?php echo htmlspecialchars($og_name, ENT_COMPAT); ?>" placeholder="Original Name"><br>
+<input class="input-textbox" type="text" name="original_name" value="<?= htmlspecialchars($og_name, ENT_COMPAT) ?>" placeholder="Original Name"><br>
 
 <label class="input-label">Gender:</label>
 <select class="input-select" name="gender">
@@ -82,7 +82,7 @@ require __DIR__ . "/../header.php";
 	<option value="2" <?php if ($gender == 2) echo "selected"; ?>>Male</option>
 </select><br>
 
-<input type="hidden" name="id" value="<?php echo $id; ?>">
+<input type="hidden" name="id" value="<?= $id ?>">
 
 <input class="input-submit" type="submit" value="Create">
 </form>

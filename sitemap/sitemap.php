@@ -15,7 +15,7 @@ require __DIR__ . "/../header.php";
 <?php
 foreach ($locations as $category => $actions)
 {
-	?><p><?php echo $category ?></p><ul><?php
+	?><p><?= $category ?></p><ul><?php
 	foreach ($actions as $text => $action)
 	{
 		$url = action_to_link(str_replace("-", "/", $action));

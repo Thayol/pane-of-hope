@@ -32,7 +32,7 @@ require __DIR__ . "/../notice.php";
 <?php if ($session_authenticated):
 	require __DIR__ . "/log-out-first.php";
 else: ?>
-<form class="login-form" action="<?php echo action_to_link("auth"); ?>register-handler.php" method="POST">
+<form class="login-form" action="<?= action_to_link("auth") ?>register-handler.php" method="POST">
 
 <h2>Register</h2>
 
