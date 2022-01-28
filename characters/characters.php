@@ -49,8 +49,19 @@ if ($result->num_rows > 0)
 
 <?php if (empty($characters)): ?>
 <p>There are no characters in the database. (Or there is a database error.)</p>
-<?php else:
-echo '<table class="table-wide"><thead><tr><td>Name</td><td>Gender</td><td>ID</td></tr></thead><tbody>';
+<?php else: ?>
+
+<table class="table-wide thead-separator alternating-rows">
+	<thead>
+		<tr>
+			<td>ID</td>
+			<td>Name</td>
+			<td>Gender</td>
+		</tr>
+	</thead>
+	<tbody>
+
+<?php
 foreach ($characters as $character)
 {
 	$id = $character["id"];

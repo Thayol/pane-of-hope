@@ -35,8 +35,12 @@ if ($result->num_rows > 0)
 
 <?php if (empty($users)): ?>
 <p>There are no characters in the database. (Or there is a database error.)</p>
-<?php else:
-echo '<table><tbody>';
+<?php else: ?>
+
+<table class="table-wide alternating-rows">
+	<tbody>
+
+<?php
 foreach ($users as $user)
 {
 	$id = $user["id"];
