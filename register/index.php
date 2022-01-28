@@ -1,3 +1,3 @@
 <?php
 $action = "register";
-require __DIR__ . "/../controller.php";
+require __DIR__ . "/../router.php";

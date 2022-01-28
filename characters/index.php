@@ -1,3 +1,3 @@
 <?php
 $action = "characters";
-require __DIR__ . "/../controller.php";
+require __DIR__ . "/../router.php";
