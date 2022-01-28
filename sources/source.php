@@ -27,6 +27,24 @@ if (!empty($_GET["id"]))
 					$source["aliases"][] = $alias["alias"];
 				}
 			}
+
+			$source["characters"] = array();
+
+			$db = db_connect();
+			$result = $db->query("SELECT * FROM conn_character_source AS conn INNER JOIN characters AS ch ON conn.character_id=ch.id WHERE conn.source_id={$id} ORDER BY ch.name ASC;");
+			if ($result->num_rows > 0)
+			{
+				while ($conn = $result->fetch_assoc())
+				{
+					$displayed_name = $conn["name"];
+					if (!empty($conn["original_name"]))
+					{
+						$displayed_name .= " ({$conn["original_name"]})";
+					}
+
+					$source["characters"][$conn["character_id"]] = $displayed_name;
+				}
+			}
 		}
 	}
 }
@@ -67,10 +85,26 @@ require __DIR__ . "/../header.php";
 <?php if (!$source_found): ?>
 <p>Source not found.</p>
 <?php else: ?>
+
 <h2><?= $source["title"] ?></h2>
 <?php foreach ($source["aliases"] as $alias): ?>
 <p><?= $alias ?></P>
 <?php endforeach; ?>
+
+<?php if (!empty($source["characters"])): ?>
+<div>
+<p>Characters:</p>
+<ul>
+<?php
+	foreach ($source["characters"] as $character_id => $character_name):
+	$url = action_to_link("character") . "?id={$character_id}";
+?>
+<li><a href="<?= $url ?>"><?= $character_name ?></a></li>
+<?php endforeach; ?>
+</ul>
+</div>
+<?php endif; ?>
+
 <?php endif; ?>
 </main>
 <?php
