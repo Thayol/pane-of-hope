@@ -24,6 +24,10 @@ html, body {
 	padding: 0;
 }
 
+table {
+	border-collapse: collapse;
+}
+
 a {
 	color: var(--link-color);
 	text-decoration: none;
@@ -128,6 +132,14 @@ a:hover {
 
 .table-wide {
 	width: 100%;
+}
+
+.thead-separator thead td, .thead-separator {
+	border-bottom: 1px solid var(--disabled-text-color);
+}
+
+.alternating-rows tbody tr:nth-child(even) td {
+	background-color: var(--secondary-background-color);
 }
 
 .character-image {
