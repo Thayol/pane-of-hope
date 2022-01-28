@@ -4,8 +4,7 @@ if (isset($_GET["invalid"]))
 {
 	$notice_error = "Could not add character.";
 }
-
-if (isset($_GET["error"]))
+else if (isset($_GET["error"]))
 {
 	$notice_error = "Database error!";
 }

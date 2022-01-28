@@ -39,7 +39,7 @@ if ($session_is_admin)
 		$result = $db->query($sql);
 		if ($result === true)
 		{
-			header('Location: ' . action_to_link("character", "id={$id}"));
+			header('Location: ' . action_to_link("character", "id={$id}&uploaded"));
 		}
 		else
 		{

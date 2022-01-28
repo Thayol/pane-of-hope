@@ -56,6 +56,14 @@ else if (isset($_GET["created"]))
 {
 	$notice_success = "Character created.";
 }
+else if (isset($_GET["uploaded"]))
+{
+	$notice_success = "Image uploaded.";
+}
+else if (isset($_GET["sources_updated"]))
+{
+	$notice_success = "Sources updated.";
+}
 
 ?>
 <html>

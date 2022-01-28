@@ -164,3 +164,7 @@ a:hover {
 	object-fit: cover;
 	object-position: top;
 }
+
+.left-align {
+	text-align: left;
+}
