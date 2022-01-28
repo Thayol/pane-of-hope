@@ -22,6 +22,8 @@ $actions = array(
 	"character-new" => "characters/character-new.php",
 	"character-add-image" => "characters/character-add-image.php",
 	"character-edit" => "characters/character-new.php",
+	"sources" => "sources/sources.php",
+	"source" => "sources/source.php",
 	"users" => "profile/profile-list.php",
 );
 
