@@ -17,11 +17,15 @@ if ($session_is_admin)
 			$id = $db->insert_id;
 			header('Location: ' . action_to_link("character", "id={$id}&created"));
 		}
+		else
+		{
+			header('Location: ' . action_to_link("character-new", "error"));
+		}
 	}
 	else
 	{
 		header('Location: ' . action_to_link("character-new", "invalid"));
-	}	
+	}
 }
 else
 {

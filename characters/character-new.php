@@ -5,6 +5,11 @@ if (isset($_GET["invalid"]))
 	$notice_error = "Could not add character.";
 }
 
+if (isset($_GET["error"]))
+{
+	$notice_error = "Database error!";
+}
+
 $context_nav_buttons["Listing"] = "characters";
 
 if ($session_is_admin)
