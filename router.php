@@ -25,7 +25,7 @@ $actions = array(
 	"sources" => "sources/sources.php",
 	"source" => "sources/source.php",
 	"source-new" => "sources/source-new.php",
-	"source-edit" => "sources/source-edit.php",
+	"source-edit" => "sources/source-new.php",
 	"users" => "profile/profile-list.php",
 );
 
