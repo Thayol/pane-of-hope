@@ -45,10 +45,12 @@ if ($action == "character-edit")
 if ($action == "character-edit")
 {
 	$form_action = action_to_link("characters") . "character-edit-handler.php";
+	$submit_text = "Update";
 }
 else
 {
 	$form_action = action_to_link("characters") . "character-new-handler.php";
+	$submit_text = "Create";
 }
 ?>
 <html>
@@ -84,7 +86,7 @@ require __DIR__ . "/../header.php";
 
 <input type="hidden" name="id" value="<?= $id ?>">
 
-<input class="input-submit" type="submit" value="Create">
+<input class="input-submit" type="submit" value="<?= $submit_text ?>">
 </form>
 <?php else: ?>
 <p>Unauthorized.</p>
