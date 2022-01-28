@@ -17,6 +17,10 @@ if ($session_is_admin)
 		{
 			header('Location: ' . action_to_link("character", "id={$id}&edited"));
 		}
+		else
+		{
+			header('Location: ' . action_to_link("character-edit", "id={$id}&error"));
+		}
 	}
 	else
 	{
