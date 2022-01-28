@@ -5,7 +5,7 @@ require __DIR__ . "/../functions.php";
 
 if ($session_is_admin)
 {
-	$name = htmlspecialchars($_POST["name"], $htmlspecialchars_flags, $htmlspecialchars_flags);
+	$name = htmlspecialchars($_POST["name"], $htmlspecialchars_flags);
 	$original_name = htmlspecialchars($_POST["original_name"], $htmlspecialchars_flags);
 	$gender = intval($_POST["gender"]);
 
