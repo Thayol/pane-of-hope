@@ -11,6 +11,12 @@ Work in progress...
 1. Register a new user.\*
 1. Run the SQL query: `UPDATE users SET permission_level=100 WHERE id=1;`
 1. Add new characters.\*
+1. (optional) Character image uploading:
+    1. Create the folder: `data/` (`$ mkdir data`)
+    1. Set needed permissions. (`$ chmod 777 data` or `chown USER:GROUP data`)
+    1. Upload images for characters.\*
+1. Add new sources.\*
+1. Link characters to sources.\*
 
 *\*Using the Web UI.*
 
