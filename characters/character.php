@@ -41,7 +41,7 @@ if (!empty($_GET["id"]))
 			{
 				while ($conn = $result->fetch_assoc())
 				{
-					$character["sources"][] = $conn["title"];
+					$character["sources"][$conn["source_id"]] = $conn["title"];
 				}
 			}
 		}
@@ -103,10 +103,10 @@ require __DIR__ . "/../header.php";
 <p><?= $sources_text ?>:</p>
 <ul>
 <?php
-	foreach ($character["sources"] as $source):
-	$url = action_to_link("source") . "?id={$id}";
+	foreach ($character["sources"] as $source_id => $source_title):
+	$url = action_to_link("source") . "?id={$source_id}";
 ?>
-<li><a href="<?= $url ?>"><?= $source ?></a></li>
+<li><a href="<?= $url ?>"><?= $source_title ?></a></li>
 <?php endforeach; ?>
 </ul>
 </div>
