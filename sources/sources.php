@@ -35,14 +35,14 @@ if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 }
 
 $offset = ($page - 1) * $page_size;
-$result = $db->query("SELECT * FROM sources INNER JOIN source_aliases ON sources.id=source_aliases.source_id ORDER BY sources.id ASC LIMIT {$page_size} OFFSET {$offset};");
+$result = $db->query("SELECT sources.id AS id, sources.title AS title, source_aliases.alias AS alias FROM sources LEFT JOIN source_aliases ON sources.id=source_aliases.source_id ORDER BY sources.id ASC LIMIT {$page_size} OFFSET {$offset};");
 
 $sources = array();
 if ($result->num_rows > 0)
 {
 	while ($source = $result->fetch_assoc())
 	{
-        $id = $source["source_id"];
+        $id = $source["id"];
         if (empty($sources[$id]))
         {
             $sources[$id] = $source;
