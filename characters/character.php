@@ -45,6 +45,7 @@ if ($session_is_admin)
 	{
 		$context_nav_buttons["Edit"] = "character-edit?id={$id}";
 		$context_nav_buttons["Upload image"] = "character-upload?id={$id}";
+		$context_nav_buttons["Manage sources"] = "character-set-sources?id={$id}";
 	}
 }
 
