@@ -9,10 +9,6 @@ if ($session_is_admin)
 	$original_name = htmlspecialchars($_POST["original_name"], $htmlspecialchars_flags);
 	$gender = intval($_POST["gender"]);
 
-	echo "<pre>";print_r($_POST);echo "</pre><pre>";
-	echo $name . "\n";
-	echo $original_name . "\n";
-	echo $gender . "\n";
 	if (!empty($name) && $gender >= 0 && $gender < 3)
 	{
 		$db = db_connect();
