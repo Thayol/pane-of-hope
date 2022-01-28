@@ -35,14 +35,32 @@ if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 }
 
 $offset = ($page - 1) * $page_size;
-$result = $db->query("SELECT * FROM characters ORDER BY id ASC LIMIT {$page_size} OFFSET {$offset};");
+
+$result = $db->query("SELECT characters.id AS id, characters.name AS name, characters.original_name AS original_name, characters.gender AS gender, sources.id AS source_id, sources.title AS source_title FROM characters LEFT OUTER JOIN conn_character_source AS conn ON characters.id=conn.character_id LEFT JOIN sources ON conn.source_id=sources.id ORDER BY characters.id ASC LIMIT {$page_size} OFFSET {$offset};");
 
 $characters = array();
 if ($result->num_rows > 0)
 {
 	while ($character = $result->fetch_assoc())
 	{
-		$characters[$character["id"]] = $character;
+		if (empty($characters[$character["id"]]))
+		{
+			$characters[$character["id"]] = $character;
+			$characters[$character["id"]]["sources"] = array();
+			if (!empty($character["source_id"]) && !empty($character["source_title"]))
+			{
+				$characters[$character["id"]]["sources"][$character["source_id"]] = $character["source_title"];
+				unset($characters[$character["id"]]["source_id"]);
+				unset($characters[$character["id"]]["source_title"]);
+			}
+		}
+		else
+		{
+			if (!empty($character["source_id"]) && !empty($character["source_title"]))
+			{
+				$characters[$character["id"]]["sources"][$character["source_id"]] = $character["source_title"];
+			}
+		}
 	}
 }
 ?>
@@ -56,6 +74,7 @@ if ($result->num_rows > 0)
 		<tr>
 			<td>ID</td>
 			<td>Name</td>
+			<td>Source</td>
 			<td>Gender</td>
 		</tr>
 	</thead>
@@ -68,6 +87,14 @@ foreach ($characters as $character)
 	$name = $character["name"];
 	$og_name = $character["original_name"];
 	$gender_raw = $character["gender"];
+	$formatted_sources = "";
+
+	foreach ($character["sources"] as $source_id => $source_title)
+	{
+		if (!empty($formatted_sources)) $formatted_sources .= "<br>";
+		$source_url = action_to_link("source") . "?id={$source_id}";
+		$formatted_sources .= "<span><a href=\"{$source_url}\">{$source_title}</a></span>";
+	}
 	
 	if ($og_name != null)
 	{
@@ -78,11 +105,12 @@ foreach ($characters as $character)
 	if ($gender_raw == 1) $gender = "♀";
 	if ($gender_raw == 2) $gender = "♂";
 	
-	$url = action_to_link("character") . "?id={$id}";
+	$char_url = action_to_link("character") . "?id={$id}";
 	
 	echo '<tr>';
 	echo "<td>{$id}</td>";
-	echo "<td><a href=\"{$url}\">{$name}</a></td>";
+	echo "<td><a href=\"{$char_url}\">{$name}</a></td>";
+	echo "<td>$formatted_sources</td>";
 	echo "<td>{$gender}</td>";
 	echo '</tr>';
 }
