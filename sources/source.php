@@ -44,11 +44,11 @@ if ($session_is_admin)
 
 if (isset($_GET["edited"]))
 {
-	$notice_success = "source edited.";
+	$notice_success = "Source edited.";
 }
 else if (isset($_GET["created"]))
 {
-	$notice_success = "source created.";
+	$notice_success = "Source created.";
 }
 
 ?>

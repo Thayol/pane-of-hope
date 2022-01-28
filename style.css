@@ -110,8 +110,15 @@ a:hover {
 	margin-top: 20px;
 }
 
-.input-textbox, .input-select {
+.input-textbox, .input-select, .input-multiline-textbox {
 	width: 300px;
+}
+
+.input-multiline-textbox {
+	height: 150px;
+	resize: vertical;
+	overflow-x: scroll;
+	white-space: nowrap;
 }
 
 .notice {
