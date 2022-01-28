@@ -81,9 +81,9 @@ foreach ($characters as $character)
 	$url = action_to_link("character") . "?id={$id}";
 	
 	echo '<tr>';
+	echo "<td>{$id}</td>";
 	echo "<td><a href=\"{$url}\">{$name}</a></td>";
 	echo "<td>{$gender}</td>";
-	echo "<td>{$id}</td>";
 	echo '</tr>';
 }
 echo "</tbody></table>";
