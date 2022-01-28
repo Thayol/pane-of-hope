@@ -32,6 +32,18 @@ if (!empty($_GET["id"]))
 					$character["images"][] = $image_temp["path"];
 				}
 			}
+
+			$character["sources"] = array();
+
+			$db = db_connect();
+			$result = $db->query("SELECT * FROM conn_character_source AS conn INNER JOIN sources ON conn.source_id=sources.id WHERE conn.character_id={$id} ORDER BY sources.title ASC;");
+			if ($result->num_rows > 0)
+			{
+				while ($conn = $result->fetch_assoc())
+				{
+					$character["sources"][] = $conn["title"];
+				}
+			}
 		}
 	}
 }
@@ -84,6 +96,22 @@ require __DIR__ . "/../header.php";
 <?php else: ?>
 <h2><?= $character["name"] ?> <?= $character["original_name"] ?></h2>
 <p>Gender: <?= $character["gender"] ?></p>
+
+<?php if (!empty($character["sources"])): ?>
+<div>
+<?php $sources_text = count($character["sources"]) > 1 ? "Sources" : "Source"?>
+<p><?= $sources_text ?>:</p>
+<ul>
+<?php
+	foreach ($character["sources"] as $source):
+	$url = action_to_link("source") . "?id={$id}";
+?>
+<li><a href="<?= $url ?>"><?= $source ?></a></li>
+<?php endforeach; ?>
+</ul>
+</div>
+<?php endif; ?>
+
 <div>
 <?php foreach ($character["images"] as $image): ?>
 <div class="character-image">
