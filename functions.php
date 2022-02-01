@@ -37,3 +37,15 @@ function db_connect()
 	
 	return $db;
 }
+
+function db_query($query)
+{
+	$db = db_connect();
+    return $db->query($query);
+}
+
+function db_multiquery($queries)
+{
+	$db = db_connect();
+    return $db->multi_query($queries);
+}
