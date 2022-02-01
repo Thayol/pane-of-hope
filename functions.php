@@ -44,7 +44,42 @@ function db_query($query)
     return $db->query($query);
 }
 
-function db_multiquery($queries)
+function db_find($query)
+{
+	$result = db_query($query);
+	if ($result->num_rows == 1)
+	{
+		return $result->fetch_assoc();
+	}
+	else if ($result->num_rows > 1)
+	{
+		throw new Exception("More than one matching record found.");
+	}
+	else
+	{
+		throw new Exception("Record not found in database.");
+	}
+
+	return $result;
+}
+
+function db_find_multiple($query)
+{
+	$result = db_query($query);
+	$result_array = array();
+
+	if ($result !== false && $result->num_rows > 0)
+	{
+		while ($temp = $result->fetch_assoc())
+		{
+			$result_array[] = $temp;
+		}
+	}
+
+	return $result_array;
+}
+
+function db_multi_query($queries)
 {
 	$db = db_connect();
     return $db->multi_query($queries);

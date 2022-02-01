@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . "/session.php";
 require_once __DIR__ . "/settings.php";
-require_once __DIR__ . "/models.php";
 require_once __DIR__ . "/functions.php";
+require_once __DIR__ . "/models.php";
 
 if ($error_reporting)
 {

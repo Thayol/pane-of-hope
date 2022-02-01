@@ -2,6 +2,7 @@
 
 class DatabaseRecord
 {
+    protected $table;
     public $id;
 
     public function __construct($id) {
@@ -12,6 +13,12 @@ class DatabaseRecord
 class DatabaseTable
 {
     protected $table;
+    protected $columns;
+
+    public function __construct() {
+        $this->table = null;
+        $this->columns = array();
+    }
 
     public function count()
     {
@@ -23,5 +30,32 @@ class DatabaseTable
         }
 
         return 0;
+    }
+    
+    public function find_by_id($id)
+    {
+        return $this->find_by("id", $id);
+    }
+
+    public function find_by($column, $value)
+    {
+        $table = $this->table;
+        $columns = implode(",", $this->columns);
+        $value = is_string($value) ? "'{$value}'" : strval($value);
+
+        $result = db_find("SELECT {$columns} FROM {$table} WHERE {$column}={$value} ORDER BY {$column} ASC;");
+
+        return $result;
+    }
+
+    public function multi_find_by($column, $value)
+    {
+        $table = $this->table;
+        $columns = implode(",", $this->columns);
+        $value = is_string($value) ? "'{$value}'" : strval($value);
+
+        $result = db_find_multiple("SELECT {$columns} FROM {$table} WHERE {$column}={$value} ORDER BY {$column} ASC;");
+
+        return $result;
     }
 }

@@ -1,49 +1,21 @@
 <?php
 $character_found = false;
-$character = array();
+$character = null;
 
 if (!empty($_GET["id"]))
 {
 	$id = intval($_GET["id"]);
 	if ($id > 0)
 	{
-		$db = db_connect();
-		$result = $db->query("SELECT * FROM characters WHERE id={$id} ORDER BY id ASC;");
-		if ($result->num_rows == 1)
+		$characters_table = new Characters();
+
+		try
 		{
+			$character = $characters_table->find_by_id($id);
 			$character_found = true;
-			$character_temp = $result->fetch_assoc();
-			
-			$character["name"] = $character_temp["name"];
-			$character["original_name"] = empty($character_temp["original_name"]) ? "" : "(" . $character_temp["original_name"] . ")";
-			
-			if ($character_temp["gender"] == 1) $character["gender"] = "Female";
-			else if ($character_temp["gender"] == 2) $character["gender"] = "Male";
-			else $character["gender"] = "N/A";
-			
-			$character["images"] = array();
-			
-			$db = db_connect();
-			$result = $db->query("SELECT * FROM character_images WHERE character_id={$id} ORDER BY id ASC;");
-			if ($result->num_rows > 0)
-			{
-				while ($image_temp = $result->fetch_assoc())
-				{
-					$character["images"][] = $image_temp["path"];
-				}
-			}
-
-			$character["sources"] = array();
-
-			$db = db_connect();
-			$result = $db->query("SELECT * FROM conn_character_source AS conn INNER JOIN sources ON conn.source_id=sources.id WHERE conn.character_id={$id} ORDER BY sources.title ASC;");
-			if ($result->num_rows > 0)
-			{
-				while ($conn = $result->fetch_assoc())
-				{
-					$character["sources"][$conn["source_id"]] = $conn["title"];
-				}
-			}
+		}
+		catch (Exception $e)
+		{
 		}
 	}
 }
@@ -94,28 +66,28 @@ require __DIR__ . "/../header.php";
 <?php if (!$character_found): ?>
 <p>Character not found.</p>
 <?php else: ?>
-<h2><?= $character["name"] ?> <?= $character["original_name"] ?></h2>
-<p>Gender: <?= $character["gender"] ?></p>
+<h2><?= $character->name ?> <?= empty($character->original_name) ? "" : " ({$character->original_name})" ?></h2>
+<p>Gender: <?= $character->pretty_gender() ?></p>
 
-<?php if (!empty($character["sources"])): ?>
+<?php if (!empty($character->sources())): ?>
 <div>
-<?php $sources_text = count($character["sources"]) > 1 ? "Sources" : "Source"?>
+<?php $sources_text = count($character->sources()) > 1 ? "Sources" : "Source"?>
 <p><?= $sources_text ?>:</p>
 <ul>
 <?php
-	foreach ($character["sources"] as $source_id => $source_title):
-	$url = action_to_link("source") . "?id={$source_id}";
+	foreach ($character->sources() as $source):
+	$url = action_to_link("source") . "?id={$source->id}";
 ?>
-<li><a href="<?= $url ?>"><?= $source_title ?></a></li>
+<li><a href="<?= $url ?>"><?= $source->title ?></a></li>
 <?php endforeach; ?>
 </ul>
 </div>
 <?php endif; ?>
 
 <div>
-<?php foreach ($character["images"] as $image): ?>
+<?php foreach ($character->images() as $image): ?>
 <div class="character-image">
-<img src="<?= $image ?>">
+<img src="<?= $image->path ?>">
 </div>
 <?php endforeach; ?>
 </div>
