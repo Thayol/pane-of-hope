@@ -74,7 +74,7 @@ if ($result->num_rows > 0)
         <tr>
             <td>ID</td>
             <td>Name</td>
-            <td>Gender</td>
+            <td>Alternative Titles</td>
         </tr>
     </thead>
     <tbody>
