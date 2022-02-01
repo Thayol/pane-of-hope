@@ -52,7 +52,7 @@ require __DIR__ . "/../header.php";
 <?php if ($character == null): ?>
 <p>Character not found.</p>
 <?php else: ?>
-<h2><?= $character->name ?> <?= empty($character->original_name) ? "" : " ({$character->original_name})" ?></h2>
+<h2><?= $character->name ?> <?= empty($character->original_name) ? "" : "({$character->original_name})" ?></h2>
 <p>Gender: <?= $character->pretty_gender() ?></p>
 
 <?php if (!empty($character->sources())): ?>

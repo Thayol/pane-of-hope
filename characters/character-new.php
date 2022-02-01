@@ -19,30 +19,19 @@ if ($session_is_admin)
 
 $id = "";
 $name = "";
-$og_name = "";
+$original_name = "";
 $gender = 0;
 
 if ($action == "character-edit")
 {
+	$character = load_character_or_null($_GET["id"]);
 	$character_found = false;
-	if (!empty($_GET["id"]))
+	if ($character != null)
 	{
-		$id = intval($_GET["id"]);
-		if ($id > 0)
-		{
-			$db = db_connect();
-			$result = $db->query("SELECT * FROM characters WHERE id={$id} ORDER BY id ASC;");
-			if ($result->num_rows == 1)
-			{
-				$character_found = true;
-				$character_temp = $result->fetch_assoc();
-				
-				$id = $character_temp["id"];
-				$name = htmlspecialchars_decode($character_temp["name"], $htmlspecialchars_flags);
-				$og_name = htmlspecialchars_decode($character_temp["original_name"], $htmlspecialchars_flags);
-				$gender = $character_temp["gender"];
-			}
-		}
+		$id = $character->id;
+		$name = htmlspecialchars_decode($character->name, $htmlspecialchars_flags);
+		$original_name = htmlspecialchars_decode($character->original_name, $htmlspecialchars_flags);
+		$gender = $character->gender;
 	}
 }
 
@@ -81,7 +70,7 @@ require __DIR__ . "/../header.php";
 <input class="input-textbox" type="text" name="name" value="<?= htmlspecialchars($name, ENT_COMPAT) ?>" placeholder="English Name" required><br>
 
 <label class="input-label">Original Name:</label>
-<input class="input-textbox" type="text" name="original_name" value="<?= htmlspecialchars($og_name, ENT_COMPAT) ?>" placeholder="Original Name"><br>
+<input class="input-textbox" type="text" name="original_name" value="<?= htmlspecialchars($original_name, ENT_COMPAT) ?>" placeholder="Original Name"><br>
 
 <label class="input-label">Gender:</label>
 <select class="input-select" name="gender">

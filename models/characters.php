@@ -117,12 +117,10 @@ class CharacterImages extends DatabaseTable
 
     public function multi_find_by_character_id($character_id)
     {
-        $raw_character_images = $this->multi_find_by("character_id", $character_id);
-
         $character_images = array();
-        foreach($raw_character_images as $raw_character_image)
+        foreach($this->multi_find_by("character_id", $character_id) as $raw)
         {
-            $character_images[] = new CharacterImage(...$raw_character_image);
+            $character_images[] = new CharacterImage(...$raw);
         }
 
         return $character_images;

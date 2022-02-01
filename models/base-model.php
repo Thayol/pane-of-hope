@@ -17,7 +17,7 @@ class DatabaseTable
 
     public function __construct() {
         $this->table = null;
-        $this->columns = array();
+        $this->columns = array("id");
     }
 
     public function count()
@@ -30,6 +30,17 @@ class DatabaseTable
         }
 
         return 0;
+    }
+
+    public function all()
+    {
+        $table = $this->table;
+        $columns = implode(",", $this->columns);
+        $order_by = $this->columns[0];
+        
+        $result = db_find_multiple("SELECT {$columns} FROM {$table} ORDER BY {$order_by} ASC;");
+
+        return $result;
     }
     
     public function find_by_id($id)

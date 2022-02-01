@@ -12,8 +12,7 @@ if ($session_is_admin)
 
 	if (!empty($name) && $gender >= 0 && $gender < 3)
 	{
-		$db = db_connect();
-		if ($db->query("UPDATE characters SET name = '{$name}', original_name = '{$original_name}', gender = {$gender} WHERE id={$id};") === true)
+		if (db_query("UPDATE characters SET name = '{$name}', original_name = '{$original_name}', gender = {$gender} WHERE id={$id};") === true)
 		{
 			header('Location: ' . action_to_link("character", "id={$id}&edited"));
 		}

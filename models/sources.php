@@ -39,6 +39,17 @@ class Sources extends DatabaseTable
         );
     }
 
+    public function all()
+    {
+        $sources = array();
+        foreach(parent::all() as $raw)
+        {
+            $sources[] = new Source(...$raw);
+        }
+
+        return $sources;
+    }
+
     public function find_by_id($id)
     {
         return new Source(...parent::find_by_id($id));
@@ -79,12 +90,10 @@ class SourceAliases extends DatabaseTable
 
     public function multi_find_by_source_id($source_id)
     {
-        $raw_source_aliases = $this->multi_find_by("source_id", $source_id);
-
         $source_aliases = array();
-        foreach($raw_source_aliases as $raw_source_alias)
+        foreach($this->multi_find_by("source_id", $source_id) as $raw)
         {
-            $source_aliases[] = new SourceAlias(...$raw_source_alias);
+            $source_aliases[] = new SourceAlias(...$raw);
         }
 
         return $source_aliases;

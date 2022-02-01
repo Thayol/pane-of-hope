@@ -44,14 +44,25 @@ function db_query($query)
     return $db->query($query);
 }
 
+function db_insert_query($query)
+{
+	$db = db_connect();
+    if ($db->query($query) === true)
+	{
+		return $db->insert_id;
+	}
+
+	return false;
+}
+
 function db_find($query)
 {
 	$result = db_query($query);
-	if ($result->num_rows == 1)
+	if ($result !== false && $result->num_rows == 1)
 	{
 		return $result->fetch_assoc();
 	}
-	else if ($result->num_rows > 1)
+	else if ($result !== false && $result->num_rows > 1)
 	{
 		throw new Exception("More than one matching record found.");
 	}
@@ -107,6 +118,18 @@ function sources_table()
 	}
 
 	return $global_sources_table;
+}
+
+$global_conn_character_source_table = null;
+function conn_character_source_table()
+{
+	global $global_conn_character_source_table;
+	if ($global_conn_character_source_table == null)
+	{
+		$global_conn_character_source_table = new CharacterSourceConnectors();
+	}
+
+	return $global_conn_character_source_table;
 }
 
 function load_character_or_null($raw_id_input)

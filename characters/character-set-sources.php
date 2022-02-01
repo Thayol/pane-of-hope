@@ -5,53 +5,14 @@ if (isset($_GET["error"]))
 	$notice_error = "Database error!";
 }
 
-$character_found = false;
-$character = array();
+$character = null;
 
 if (!empty($_GET["id"]))
 {
-	$id = intval($_GET["id"]);
-	if ($id > 0)
-	{
-		$db = db_connect();
-		$result = $db->query("SELECT * FROM characters WHERE id={$id} ORDER BY id ASC;");
-		if ($result->num_rows == 1)
-		{
-			$character_found = true;
-			$character_temp = $result->fetch_assoc();
-			
-			$character["name"] = $character_temp["name"];
-			$character["original_name"] = empty($character_temp["original_name"]) ? "" : "(" . $character_temp["original_name"] . ")";
-		}
+	$character = load_character_or_null($_GET["id"]);
+	$sources = sources_table()->all();
 
-		$char_sources = array();
-
-		$db = db_connect();
-		$result = $db->query("SELECT * FROM conn_character_source AS conn WHERE conn.character_id={$id} ORDER BY id ASC;");
-		if ($result->num_rows > 0)
-		{
-			while ($conn = $result->fetch_assoc())
-			{
-				$char_sources[] = $conn["source_id"];
-			}
-		}
-
-		$sources = array();
-
-		$db = db_connect();
-		$result = $db->query("SELECT * FROM sources ORDER BY title ASC;");
-		if ($result->num_rows > 0)
-		{
-			while ($source = $result->fetch_assoc())
-			{
-				$sources[$source["id"]] = array(
-					"id" => $source["id"],
-					"title" => $source["title"],
-					"checked" => in_array($source["id"], $char_sources),
-				);
-			}
-		}
-	}
+	usort($sources, fn($a, $b) => strnatcmp($a->title, $b->title));
 }
 
 ?>
@@ -72,18 +33,18 @@ require __DIR__ . "/../header.php";
 
 <?php
 
-if (!$character_found): ?>
+if ($character == null): ?>
 <p>Character not found.</p>
 <?php else: ?>
 
 <form class="login-form" action="<?= action_to_link("characters") ?>character-set-sources-handler.php" method="POST">
-<h2>Manage sources of <?= $character["name"] ?> <?= $character["original_name"] ?></h2>
-<input type="hidden" name="id" value="<?= $id ?>">
+<h2>Manage sources of <?= $character->name ?> <?= empty($character->original_name) ? "" : "({$character->original_name})" ?></h2>
+<input type="hidden" name="id" value="<?= $character->id ?>">
 
 <div class="left-align">
 <?php foreach ($sources as $source): ?>
-<input type="checkbox" name="sources[]" id="source<?= $source["id"] ?>" value="<?= $source["id"] ?>" <?php if ($source["checked"]) echo "checked"; ?>>
-<label for="source<?= $source["id"] ?>"><?= $source["title"] ?></label>
+<input type="checkbox" name="sources[]" id="source<?= $source->id ?>" value="<?= $source->id ?>" <?php if (in_array($source, $character->sources())) echo "checked"; ?>>
+<label for="source<?= $source->id ?>"><?= $source->title ?></label>
 <br>
 <?php endforeach; ?>
 </div>

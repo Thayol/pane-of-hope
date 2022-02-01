@@ -62,12 +62,10 @@ class CharacterSourceConnectors extends DatabaseTable
 
     public function multi_find_by($column, $value)
     {
-        $raw_connections = parent::multi_find_by($column, $value);
-
         $connections = array();
-        foreach($raw_connections as $raw_connection)
+        foreach(parent::multi_find_by($column, $value) as $raw)
         {
-            $connections[] = new CharacterSourceConnector(...$raw_connection);
+            $connections[] = new CharacterSourceConnector(...$raw);
         }
 
         return $connections;

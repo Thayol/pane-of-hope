@@ -1,7 +1,8 @@
 <?php
-require __DIR__ . "/../session.php";
-require __DIR__ . "/../settings.php";
-require __DIR__ . "/../functions.php";
+require_once __DIR__ . "/../session.php";
+require_once __DIR__ . "/../settings.php";
+require_once __DIR__ . "/../functions.php";
+require_once __DIR__ . "/../models.php";
 
 if ($session_is_admin)
 {
@@ -10,14 +11,9 @@ if ($session_is_admin)
 	
 	$old_sources = array();
 
-	$db = db_connect();
-	$result = $db->query("SELECT * FROM conn_character_source AS conn WHERE conn.character_id={$id} ORDER BY id ASC;");
-	if ($result->num_rows > 0)
+	foreach (conn_character_source_table()->multi_find_by_character_id($id) as $connection)
 	{
-		while ($conn = $result->fetch_assoc())
-		{
-			$old_sources[] = $conn["source_id"];
-		}
+		$old_sources[] = $connection->source_id;
 	}
 
 	$removed_sources = array_diff($old_sources, $sources);
@@ -36,8 +32,7 @@ if ($session_is_admin)
 	
 	if (!empty($query))
 	{
-		$db = db_connect();
-		if ($db->multi_query($query) === true)
+		if (db_multi_query($query) === true)
 		{
 			header('Location: ' . action_to_link("character", "id={$id}&sources_updated"));
 		}
