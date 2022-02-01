@@ -101,9 +101,9 @@ foreach ($characters as $character)
 		$name .= " ($og_name)";
 	}
 	
-	$gender = '<span class="gender-neutral-color">?</span>';
-	if ($gender_raw == 1) $gender = '<span class="gender-female-color">♀</span>';
-	if ($gender_raw == 2) $gender = '<span class="gender-male-color">♂</span>';
+	$gender = '<span class="gender-neutral-icon">?</span>';
+	if ($gender_raw == 1) $gender = '<span class="gender-female-icon">F</span>';
+	if ($gender_raw == 2) $gender = '<span class="gender-male-icon">M</span>';
 	
 	$char_url = action_to_link("character") . "?id={$id}";
 	

@@ -181,3 +181,27 @@ a:hover {
 .gender-female-color {
 	color: var(--gender-female);
 }
+
+.gender-neutral-icon,
+.gender-male-icon,
+.gender-female-icon {
+	display: inline-block;
+	border-radius: 50%;
+	width: 1.3em;
+	height: 1.3em;
+	line-height: 1.3em;
+	text-align: center;
+	color: var(--inverted-text);
+}
+
+.gender-neutral-icon {
+	background-color: var(--gender-neutral);
+}
+
+.gender-male-icon {
+	background-color: var(--gender-male);
+}
+
+.gender-female-icon {
+	background-color: var(--gender-female);
+}
