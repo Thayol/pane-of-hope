@@ -84,7 +84,7 @@ foreach ($sources as $source)
 {
 	$id = $source["id"];
 	$title = $source["title"];
-    $aliases = $source["aliases"];
+    $aliases = $source["aliases"] ?? array();
     $aliases_concat = "<span>" . implode("</span><br><span>", $aliases) . "</span>";
 	
 	$url = action_to_link("source") . "?id={$id}";
