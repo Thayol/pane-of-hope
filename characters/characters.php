@@ -102,8 +102,8 @@ foreach ($characters as $character)
 	}
 	
 	$gender = '<span class="gender-neutral-color">?</span>';
-	if ($gender_raw == 1) $gender = '<span class="gender-male-color">♀</span>';
-	if ($gender_raw == 2) $gender = '<span class="gender-female-color">♂</span>';
+	if ($gender_raw == 1) $gender = '<span class="gender-female-color">♀</span>';
+	if ($gender_raw == 2) $gender = '<span class="gender-male-color">♂</span>';
 	
 	$char_url = action_to_link("character") . "?id={$id}";
 	
