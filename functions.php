@@ -84,3 +84,45 @@ function db_multi_query($queries)
 	$db = db_connect();
     return $db->multi_query($queries);
 }
+
+$global_characters_table = null;
+function characters_table()
+{
+	global $global_characters_table;
+	if ($global_characters_table == null)
+	{
+		$global_characters_table = new Characters();
+	}
+
+	return $global_characters_table;
+}
+
+$global_sources_table = null;
+function sources_table()
+{
+	global $global_sources_table;
+	if ($global_sources_table == null)
+	{
+		$global_sources_table = new Sources();
+	}
+
+	return $global_sources_table;
+}
+
+function load_character_or_null($raw_id_input)
+{
+	$id = intval($raw_id_input);
+	if ($id > 0)
+	{
+		try
+		{
+			$character = characters_table()->find_by_id($id);
+		}
+		catch (Exception $e)
+		{
+			return null;
+		}
+
+		return $character;
+	}
+}

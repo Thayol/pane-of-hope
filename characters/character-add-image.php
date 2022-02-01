@@ -12,42 +12,28 @@ require __DIR__ . "/../header.php";
 
 <?php if ($session_is_admin): ?>
 
-<?php
-$character_found = false;
-$character = array();
+	<?php
+	$character = null;
 
-if (!empty($_GET["id"]))
-{
-	$id = intval($_GET["id"]);
-	if ($id > 0)
+	if (!empty($_GET["id"]))
 	{
-		$db = db_connect();
-		$result = $db->query("SELECT * FROM characters WHERE id={$id} ORDER BY id ASC;");
-		if ($result->num_rows == 1)
-		{
-			$character_found = true;
-			$character_temp = $result->fetch_assoc();
-			
-			$character["name"] = $character_temp["name"];
-			$character["original_name"] = empty($character_temp["original_name"]) ? "" : "(" . $character_temp["original_name"] . ")";
-		}
+		$character = load_character_or_null($_GET["id"]);
 	}
-}
 
-if (!$character_found): ?>
-<p>Character not found.</p>
-<?php else: ?>
+	if ($character == null): ?>
+	<p>Character not found.</p>
+	<?php else: ?>
 
-<form class="login-form" action="<?= action_to_link("characters") ?>character-add-image-handler.php" method="POST" enctype="multipart/form-data">
-<h2>Add image for <?= $character["name"] ?> <?= $character["original_name"] ?></h2>
-<input type="hidden" name="id" value="<?= $id ?>">
-<input class="input-file" type="file" name="uploadfile" value=""><br>
+	<form class="login-form" action="<?= action_to_link("characters") ?>character-add-image-handler.php" method="POST" enctype="multipart/form-data">
+	<h2>Add image for <?= $character->name ?> <?= empty($character->original_name) ? "" : " ({$character->original_name})" ?></h2>
+	<input type="hidden" name="id" value="<?= $character->id ?>">
+	<input class="input-file" type="file" name="uploadfile" value=""><br>
 
-<input class="input-submit" type="submit" value="Upload">
-</form>
-<?php endif;
+	<input class="input-submit" type="submit" value="Upload">
+	</form>
+	<?php endif;
 else: ?>
-<p>Unauthorized.</p>
+	<p>Unauthorized.</p>
 <?php endif; ?>
 
 </main>

@@ -1,23 +1,9 @@
 <?php
-$character_found = false;
 $character = null;
 
 if (!empty($_GET["id"]))
 {
-	$id = intval($_GET["id"]);
-	if ($id > 0)
-	{
-		$characters_table = new Characters();
-
-		try
-		{
-			$character = $characters_table->find_by_id($id);
-			$character_found = true;
-		}
-		catch (Exception $e)
-		{
-		}
-	}
+	$character = load_character_or_null($_GET["id"]);
 }
 
 $context_nav_buttons["Listing"] = "characters";
@@ -25,11 +11,11 @@ $context_nav_buttons["Listing"] = "characters";
 if ($session_is_admin)
 {
 	$context_nav_buttons["New"] = "character-new";
-	if ($character_found)
+	if ($character != null)
 	{
-		$context_nav_buttons["Edit"] = "character-edit?id={$id}";
-		$context_nav_buttons["Upload image"] = "character-upload?id={$id}";
-		$context_nav_buttons["Manage sources"] = "character-set-sources?id={$id}";
+		$context_nav_buttons["Edit"] = "character-edit?id={$character->id}";
+		$context_nav_buttons["Upload image"] = "character-upload?id={$character->id}";
+		$context_nav_buttons["Manage sources"] = "character-set-sources?id={$character->id}";
 	}
 }
 
@@ -63,7 +49,7 @@ require __DIR__ . "/../header.php";
 ?>
 <main class="main">
 <?php require __DIR__ . "/../notice.php"; ?>
-<?php if (!$character_found): ?>
+<?php if ($character == null): ?>
 <p>Character not found.</p>
 <?php else: ?>
 <h2><?= $character->name ?> <?= empty($character->original_name) ? "" : " ({$character->original_name})" ?></h2>

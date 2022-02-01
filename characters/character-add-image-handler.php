@@ -34,9 +34,8 @@ if ($session_is_admin)
 		$image_path_absolute = $character_images_path_absolute . $new_image_name;
 		move_uploaded_file($temp_file, $image_path_full);
 		
-		$db = db_connect();
 		$sql = "INSERT INTO character_images (character_id, path) VALUES ({$id}, '{$image_path_absolute}');";
-		$result = $db->query($sql);
+		$result = db_query($sql);
 		if ($result === true)
 		{
 			header('Location: ' . action_to_link("character", "id={$id}&uploaded"));
