@@ -22,12 +22,8 @@ $page = 1; // if not set
 $page_count = 1; // default fallback
 $page_size = $listing_page_size;
 
-$db = db_connect();
-$count_result = $db->query("SELECT COUNT(id) as char_count FROM characters;");
-if ($count_result->num_rows > 0)
-{
-	$page_count = ceil($count_result->fetch_assoc()["char_count"] / $page_size);
-}
+$characters_table = new Characters();
+$page_count = ceil($characters_table->count() / $page_size);
 
 if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 {
@@ -36,7 +32,7 @@ if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 
 $offset = ($page - 1) * $page_size;
 
-$result = $db->query("SELECT characters.id AS id, characters.name AS name, characters.original_name AS original_name, characters.gender AS gender, sources.id AS source_id, sources.title AS source_title FROM characters LEFT OUTER JOIN conn_character_source AS conn ON characters.id=conn.character_id LEFT JOIN sources ON conn.source_id=sources.id ORDER BY characters.id ASC LIMIT {$page_size} OFFSET {$offset};");
+$result = db_query("SELECT characters.id AS id, characters.name AS name, characters.original_name AS original_name, characters.gender AS gender, sources.id AS source_id, sources.title AS source_title FROM characters LEFT OUTER JOIN conn_character_source AS conn ON characters.id=conn.character_id LEFT JOIN sources ON conn.source_id=sources.id ORDER BY characters.id ASC LIMIT {$page_size} OFFSET {$offset};");
 
 $characters = array();
 if ($result->num_rows > 0)
