@@ -57,6 +57,7 @@ if ($session_is_admin)
 	if ($source_found)
 	{
 		$context_nav_buttons["Edit"] = "source-edit?id={$id}";
+		$context_nav_buttons["Manage characters"] = "source-set-characters?id={$id}";
 	}
 }
 
@@ -67,6 +68,10 @@ if (isset($_GET["edited"]))
 else if (isset($_GET["created"]))
 {
 	$notice_success = "Source created.";
+}
+else if (isset($_GET["characters_updated"]))
+{
+	$notice_success = "Characters updated.";
 }
 
 ?>
