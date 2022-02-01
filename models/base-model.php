@@ -40,8 +40,13 @@ class DatabaseTable
         
         $result = db_find_multiple("SELECT {$columns} FROM {$table} ORDER BY {$order_by} ASC;");
 
+        return $this->parse_multiple($result);
+    }
+
+    public function parse_multiple($raw_array)
+    {
         $parsed = array();
-        foreach ($result as $raw)
+        foreach ($raw_array as $raw)
         {
             $parsed[] = $this->parse(...$raw);
         }
@@ -73,12 +78,6 @@ class DatabaseTable
 
         $result = db_find_multiple("SELECT {$columns} FROM {$table} WHERE {$column}={$value} ORDER BY {$column} ASC;");
 
-        $parsed = array();
-        foreach ($result as $raw)
-        {
-            $parsed[] = $this->parse(...$raw);
-        }
-
-        return $parsed;
+        return $this->parse_multiple($result);
     }
 }
