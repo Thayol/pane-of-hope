@@ -3,26 +3,27 @@
 }
 
 :root {
-	--void-color: #121719;
-	--background-color: #212a2e;
-	--secondary-background-color: #2e3a40;
-	--text-color: #F7F8F8;
-	--disabled-text-color: #4b5e68;
-	--link-color: #828fff;
-	--link-hover-color: #b3baff;
+	--void: #121719;
+	--background: #212a2e;
+	--secondary-background: #2e3a40;
+	--text: #F7F8F8;
+	--inverted-text: var(--void);
+	--disabled-text: #4b5e68;
+	--link: #828fff;
+	--link-hover: #b3baff;
 	--notification-error-text: #D8000C;
 	--notification-error-background: #FFBABA;
 	--notification-success-text: #155724;
 	--notification-success-background: #D4EDDA;
-	--gender-neutral: var(--text-color);
+	--gender-neutral: var(--text);
 	--gender-male: #00FFFF;
 	--gender-female: #FF00FF;
 }
 
 html, body {
 	font-family: sans-serif;
-	background-color: var(--background-color);
-	color: var(--text-color);
+	background-color: var(--background);
+	color: var(--text);
 	margin: 0;
 	padding: 0;
 }
@@ -32,12 +33,12 @@ table {
 }
 
 a {
-	color: var(--link-color);
+	color: var(--link);
 	text-decoration: none;
 }
 
 a:hover {
-	color: var(--link-hover-color);
+	color: var(--link-hover);
 }
 
 .main {
@@ -46,13 +47,13 @@ a:hover {
 }
 
 .header {
-	background-color: var(--secondary-background-color);
+	background-color: var(--secondary-background);
 	padding: 10px 20px 0 20px;
 }
 
 .sub-header {
 	margin-top: 1px;
-	background-color: var(--secondary-background-color);
+	background-color: var(--secondary-background);
 	padding: 0 20px;
 	height: fit-content;
 }
@@ -69,14 +70,14 @@ a:hover {
 }
 
 .nav-button-current {
-	color: var(--text-color);
+	color: var(--text);
 	user-select: none;
 	font-weight: bold;
 }
 
 .footer-line {
 	border: none;
-	border-top: 1px solid var(--disabled-text-color);
+	border-top: 1px solid var(--disabled-text);
 }
 
 .footer-text {
@@ -88,7 +89,7 @@ a:hover {
 	margin: auto;
 	padding: 20px 10px;
 	border-radius: 5px;
-	background-color: var(--secondary-background-color);
+	background-color: var(--secondary-background);
 	width: fit-content;
 	text-align: center;
 }
@@ -142,11 +143,11 @@ a:hover {
 }
 
 .thead-separator thead td, .thead-separator {
-	border-bottom: 1px solid var(--disabled-text-color);
+	border-bottom: 1px solid var(--disabled-text);
 }
 
 .alternating-rows tbody tr:nth-child(even) td {
-	background-color: var(--secondary-background-color);
+	background-color: var(--secondary-background);
 }
 
 .character-image {
