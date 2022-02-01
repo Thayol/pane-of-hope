@@ -37,8 +37,7 @@ class Character extends DatabaseRecord
     {
         if ($this->images == null)
         {
-            $character_images_table = new CharacterImages();
-            $this->images = $character_images_table->multi_find_by_character_id($this->id);
+            $this->images = character_images_table()->multi_find_by_character_id($this->id);
         }
 
         return $this->images;
@@ -77,9 +76,9 @@ class Characters extends DatabaseTable
         );
     }
 
-    public function find_by_id($id)
+    public function parse(...$raw)
     {
-        return new Character(...parent::find_by_id($id));
+        return new Character(...$raw);
     }
 }
 
@@ -110,19 +109,13 @@ class CharacterImages extends DatabaseTable
         );
     }
 
-    public function find_by_id($id)
+    public function parse(...$raw)
     {
-        return new CharacterImage(...parent::find_by_id($id));
+        return new CharacterImage(...$raw);
     }
 
     public function multi_find_by_character_id($character_id)
     {
-        $character_images = array();
-        foreach($this->multi_find_by("character_id", $character_id) as $raw)
-        {
-            $character_images[] = new CharacterImage(...$raw);
-        }
-
-        return $character_images;
+        return $this->multi_find_by("character_id", $character_id);
     }
 }

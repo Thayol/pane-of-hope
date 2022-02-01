@@ -132,6 +132,18 @@ function conn_character_source_table()
 	return $global_conn_character_source_table;
 }
 
+$global_character_images_table = null;
+function character_images_table()
+{
+	global $global_character_images_table;
+	if ($global_character_images_table == null)
+	{
+		$global_character_images_table = new CharacterImages();
+	}
+
+	return $global_character_images_table;
+}
+
 function load_character_or_null($raw_id_input)
 {
 	$id = intval($raw_id_input);

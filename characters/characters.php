@@ -22,8 +22,7 @@ $page = 1; // if not set
 $page_count = 1; // default fallback
 $page_size = $listing_page_size;
 
-$characters_table = new Characters();
-$page_count = ceil($characters_table->count() / $page_size);
+$page_count = ceil(characters_table()->count() / $page_size);
 
 if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 {
