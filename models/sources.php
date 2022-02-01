@@ -20,8 +20,7 @@ class Source extends DatabaseRecord
     {
         if ($this->aliases == null)
         {
-            $source_aliases_table = new SourceAliases();
-            $this->aliases = $source_aliases_table->multi_find_by_source_id($this->id);
+            $this->aliases = source_aliases_table()->multi_find_by_source_id($this->id);
         }
         
         return $this->aliases;

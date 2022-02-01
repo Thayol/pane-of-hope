@@ -144,6 +144,18 @@ function character_images_table()
 	return $global_character_images_table;
 }
 
+$global_source_aliases_table = null;
+function source_aliases_table()
+{
+	global $global_source_aliases_table;
+	if ($global_source_aliases_table == null)
+	{
+		$global_source_aliases_table = new SourceAliases();
+	}
+
+	return $global_source_aliases_table;
+}
+
 function load_character_or_null($raw_id_input)
 {
 	$id = intval($raw_id_input);
