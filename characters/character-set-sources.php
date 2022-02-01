@@ -88,7 +88,7 @@ if (!$character_found): ?>
 <?php endforeach; ?>
 </div>
 
-<input class="input-submit" type="submit" value="Upload">
+<input class="input-submit" type="submit" value="Save">
 </form>
 <?php endif;
 else: ?>
