@@ -10,16 +10,16 @@
 		{
 			$profile_id = intval($temp_id);
 		}
-	
+
 		if ($profile_id > 0)
 		{
 			$db = Database::connect();
 			$profile_query = $db->query("SELECT id, username, displayname, email, permission_level FROM accounts WHERE id={$profile_id} ORDER BY id ASC;");
-		
+
 			if ($profile_query->num_rows == 1)
 			{
 				$profile_arr = $profile_query->fetch_assoc();
-			
+
 				$profile_found = true;
 				$profile_displayname = $profile_arr["displayname"];
 				$profile_email = $profile_arr["email"];

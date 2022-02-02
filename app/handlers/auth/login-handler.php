@@ -34,10 +34,10 @@ if ($username_valid && $password_valid)
 				header('Location: ' . Routes::get_action_url($action, "invalid=banned"));
 				exit(0);
 			}
-	
+
 			$is_admin = false;
 			if ($perm >= 40) $is_admin = true;
-	
+
 			$session_array = array(
 				"userid" => $reg_arr["id"],
 				"username" => $reg_arr["username"],
@@ -47,9 +47,9 @@ if ($username_valid && $password_valid)
 				"admin" => $is_admin,
 				"authenticated" => true,
 			);
-	
+
 			$_SESSION["paneofhope"] = $session_array;
-	
+
 			header('Location: ' . Routes::get_action_url('profile'));
 		}
 		else

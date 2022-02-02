@@ -13,11 +13,11 @@ if (!empty($_GET["id"]))
 		{
 			$source_found = true;
 			$source_temp = $result->fetch_assoc();
-	
+
 			$source["title"] = $source_temp["title"];
-	
+
 			$source["aliases"] = array();
-	
+
 			$db = Database::connect();
 			$result = $db->query("SELECT * FROM source_aliases WHERE source_id={$id} ORDER BY id ASC;");
 			if ($result->num_rows > 0)
