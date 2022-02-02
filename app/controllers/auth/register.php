@@ -21,7 +21,7 @@ if (!empty($_GET["invalid"]))
 		"password2" => "Passwords do not match.",
 		"registered" => "Username is already taken.",
 	);
-	
+
 	$notice_error = "Unknown error.";
 	if (in_array($_GET["invalid"], array_keys($invalid_messages))) $notice_error = $invalid_messages[$_GET["invalid"]];
 }

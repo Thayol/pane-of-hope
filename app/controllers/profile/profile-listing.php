@@ -46,9 +46,9 @@ foreach ($users as $user)
 	$id = $user["id"];
 	$displayname = $user["displayname"];
 	$username = $user["username"];
-	
+
 	$url = Routes::get_action_url("profile") . "?u={$id}";
-	
+
 	echo '<tr>';
 	echo "<td><a href=\"{$url}\">{$displayname}</a> <small>({$username})</small></td>";
 	echo '</tr>';

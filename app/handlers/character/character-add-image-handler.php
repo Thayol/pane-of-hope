@@ -14,23 +14,23 @@ if ($session_is_admin)
 			header('Location: ' . Routes::get_action_url("character-upload", "id={$id}&invalid=not_image"));
 			exit(0);
 		}
-		
+
 		if (!($size > 0 && $size <= Config_Uploads::$max_file_size))
 		{
 			header('Location: ' . Routes::get_action_url("character-upload", "id={$id}&invalid=size"));
 			exit(0);
 		}
-		
+
 		if (!in_array($file_extension, Config_Uploads::$allowed_image_extensions))
 		{
 			echo "Only .png accepted for now, sorry.";
 		}
-		
+
 		$new_image_name = $id . '-' . md5_file($temp_file) . '.' . $file_extension;
 		$image_path_full = Config_Uploads::$character_images_path . "/" . $new_image_name;
 		$image_path_absolute = Config_Uploads::$character_images_path_absolute . "/" . $new_image_name;
 		move_uploaded_file($temp_file, $image_path_full);
-		
+
 		$sql = "INSERT INTO character_images (character_id, path) VALUES ({$id}, '{$image_path_absolute}');";
 		$result = Database::query($sql);
 		if ($result === true)

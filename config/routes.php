@@ -82,12 +82,12 @@ class Routes
         {
             $absolute .= str_replace("-", "/", $action) . '/';
         }
-        
+
         if (!empty($querystring))
         {
             $absolute .= "?" . $querystring;
         }
-        
+
         return Config::$absolute_prefix . $absolute;
     }
 

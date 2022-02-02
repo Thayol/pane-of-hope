@@ -90,18 +90,18 @@ foreach ($characters as $character)
 		$source_url = Routes::get_action_url("source") . "?id={$source_id}";
 		$formatted_sources .= "<span><a href=\"{$source_url}\">{$source_title}</a></span>";
 	}
-	
+
 	if ($og_name != null)
 	{
 		$name .= " ($og_name)";
 	}
-	
+
 	$gender = '<span class="gender-neutral-icon">?</span>';
 	if ($gender_raw == 1) $gender = '<span class="gender-female-icon">F</span>';
 	if ($gender_raw == 2) $gender = '<span class="gender-male-icon">M</span>';
-	
+
 	$char_url = Routes::get_action_url("character") . "?id={$id}";
-	
+
 	echo '<tr>';
 	echo "<td>{$id}</td>";
 	echo "<td><a href=\"{$char_url}\">{$name}</a></td>";
@@ -122,7 +122,7 @@ for ($i = $page - Config::$max_seek_page_numbers; $i <= $page + Config::$max_see
 		{
 			$class .= " nav-button-current";
 		}
-		
+
 		echo "<a class=\"{$class}\" href=\"{$url}\">{$i}</a> ";
 	}
 }

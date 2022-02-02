@@ -4,7 +4,7 @@ if ($session_is_admin)
 {
 	$id = $_POST["id"];
 	$sources = $_POST["sources"] ?? array();
-	
+
 	$old_sources = array();
 
 	foreach (Database::conn_character_source()->multi_find_by_character_id($id) as $connection)
@@ -14,7 +14,7 @@ if ($session_is_admin)
 
 	$removed_sources = array_diff($old_sources, $sources);
 	$new_sources = array_diff($sources, $old_sources);
-	
+
 	$query = "";
 	foreach ($removed_sources as $source)
 	{
@@ -25,7 +25,7 @@ if ($session_is_admin)
 		$query .= "INSERT INTO conn_character_source (character_id, source_id) VALUES ({$id}, '{$source}');";
 	}
 
-	
+
 	if (!empty($query))
 	{
 		if (Database::multi_query($query) === true)
@@ -40,7 +40,7 @@ if ($session_is_admin)
 	else
 	{
 		header('Location: ' . Routes::get_action_url("character", "id={$id}&sources_updated"));
-	} 
+	}
 }
 else
 {

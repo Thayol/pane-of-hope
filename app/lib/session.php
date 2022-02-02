@@ -20,7 +20,7 @@ if (isset($_SESSION["paneofhope"]))
 	{
 		unset($_SESSION["paneofhope"]);
 	}
-	
+
 	$session_authenticated = true;
 	$session_username = $_SESSION["paneofhope"]["username"];
 	$session_displayname = $_SESSION["paneofhope"]["displayname"];

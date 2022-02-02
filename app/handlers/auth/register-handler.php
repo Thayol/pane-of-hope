@@ -16,7 +16,7 @@ $action = "register";
 if ($username_valid && $password_valid && $displayname_valid && $email_valid && $plain_password === $plain_password2)
 {
 	$password = password_hash($plain_password, PASSWORD_DEFAULT);
-	
+
 	$is_registered = false;
 	$db = Database::connect();
 	$reg_query = $db->query("SELECT id, username FROM accounts WHERE username='{$username}' ORDER BY id ASC;");
@@ -24,18 +24,18 @@ if ($username_valid && $password_valid && $displayname_valid && $email_valid && 
 	{
 		$is_registered = true;
 	}
-	
+
 	if (!$is_registered)
 	{
 		$db->query("INSERT INTO accounts (username, displayname, password, email) VALUES ('{$username}', '{$displayname}', '{$password}', '{$email}')");
-		
+
 		header('Location: ' . Routes::get_action_url('login', "registered"));
 	}
 	else
 	{
 		header('Location: ' . Routes::get_action_url($action, "invalid=registered"));
 	}
-	
+
 }
 else
 {
@@ -44,12 +44,12 @@ else
 	{
 		if (!$value) $invalid_values[] = $key;
 	}
-	
+
 	if ($plain_password !== $plain_password2)
 	{
 		$invalid_values[] = "password2";
 	}
-	
+
 	$invalid_comma_delimited = implode(",", $invalid_values);
 	header('Location: ' . Routes::get_action_url($action, "invalid={$invalid_comma_delimited}"));
 }

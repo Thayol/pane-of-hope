@@ -39,7 +39,7 @@ class DatabaseTable
         $table = $this->table;
         $columns = implode(",", $this->columns);
         $order_by = $this->columns[0];
-        
+
         $result = Database::multi_find("SELECT {$columns} FROM {$table} ORDER BY {$order_by} ASC;");
 
         return $this->parse_multiple($result);
@@ -60,7 +60,7 @@ class DatabaseTable
 
         return $parsed ?? array();
     }
-    
+
     public function find_by_id($id)
     {
         return $this->find_by("id", $id);
@@ -103,5 +103,5 @@ class DatabaseTable
 			}
 		}
         return null;
-	}	
+	}
 }

@@ -51,7 +51,6 @@ if ($result->num_rows > 0)
                 unset($sources[$id]["alias"]);
                 $sources[$id]["aliases"] = array($source["alias"]);
             }
-            
         }
 		else
         {
@@ -86,9 +85,9 @@ foreach ($sources as $source)
 	$title = $source["title"];
     $aliases = $source["aliases"] ?? array();
     $aliases_concat = "<span>" . implode("</span><br><span>", $aliases) . "</span>";
-	
+
 	$url = Routes::get_action_url("source") . "?id={$id}";
-	
+
 	echo '<tr>';
 	echo "<td>{$id}</td>";
 	echo "<td><a href=\"{$url}\">{$title}</a></td>";
@@ -108,7 +107,7 @@ for ($i = $page - Config::$max_seek_page_numbers; $i <= $page + Config::$max_see
 		{
 			$class .= " nav-button-current";
 		}
-		
+
 		echo "<a class=\"{$class}\" href=\"{$url}\">{$i}</a> ";
 	}
 }

@@ -22,7 +22,7 @@ class Source extends DatabaseRecord
         {
             $this->aliases = Database::source_aliases()->multi_find_by_source_id($this->id);
         }
-        
+
         return $this->aliases;
     }
 }

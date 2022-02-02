@@ -10,7 +10,7 @@ if (!empty($_GET["invalid"]))
 		"password" => "Invalid password.",
 		"banned" => "You are banned.",
 	);
-	
+
 	$notice_error = "Unknown error.";
 	if (in_array($_GET["invalid"], array_keys($notice_errors))) $notice_error = $notice_errors[$_GET["invalid"]];
 }

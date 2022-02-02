@@ -21,7 +21,7 @@ if ($session_is_admin)
 	else
 	{
 		header('Location: ' . Routes::get_action_url("characters-edit", "id={$id}&invalid"));
-	}	
+	}
 }
 else
 {
