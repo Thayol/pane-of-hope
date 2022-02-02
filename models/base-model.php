@@ -14,10 +14,12 @@ class DatabaseTable
 {
     protected $table;
     protected $columns;
+    protected $produces;
 
     public function __construct() {
         $this->table = null;
         $this->columns = array("id");
+        $this->produces = "DatabaseRecord";
     }
 
     public function count()
@@ -41,6 +43,12 @@ class DatabaseTable
         $result = db_find_multiple("SELECT {$columns} FROM {$table} ORDER BY {$order_by} ASC;");
 
         return $this->parse_multiple($result);
+    }
+
+    public function parse(...$raw)
+    {
+        $class = $this->produces;
+        return new $class(...$raw);
     }
 
     public function parse_multiple($raw_array)
@@ -80,4 +88,21 @@ class DatabaseTable
 
         return $this->parse_multiple($result);
     }
+
+	public function find_by_raw_id($raw_id_input)
+	{
+		$id = intval($raw_id_input);
+		if ($id > 0)
+		{
+			try
+			{
+				$record = $this->find_by_id($id);
+                return $record;
+			}
+			catch (Exception $e)
+			{
+			}
+		}
+        return null;
+	}	
 }

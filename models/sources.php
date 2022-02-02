@@ -20,7 +20,7 @@ class Source extends DatabaseRecord
     {
         if ($this->aliases == null)
         {
-            $this->aliases = source_aliases_table()->multi_find_by_source_id($this->id);
+            $this->aliases = Database::source_aliases()->multi_find_by_source_id($this->id);
         }
         
         return $this->aliases;
@@ -32,15 +32,11 @@ class Sources extends DatabaseTable
     public function __construct() {
         parent::__construct();
         $this->table = "sources";
+        $this->produces = "Source";
         $this->columns = array(
             "id",
             "title",
         );
-    }
-
-    public function parse(...$raw)
-    {
-        return new Source(...$raw);
     }
 }
 
@@ -64,16 +60,12 @@ class SourceAliases extends DatabaseTable
     public function __construct() {
         parent::__construct();
         $this->table = "source_aliases";
+        $this->produces = "SourceAlias";
         $this->columns = array(
             "id",
             "source_id",
             "alias",
         );
-    }
-
-    public function parse(...$raw)
-    {
-        return new SourceAlias(...$raw);
     }
 
     public function multi_find_by_source_id($source_id)

@@ -37,7 +37,7 @@ class Character extends DatabaseRecord
     {
         if ($this->images == null)
         {
-            $this->images = character_images_table()->multi_find_by_character_id($this->id);
+            $this->images = Database::character_images()->multi_find_by_character_id($this->id);
         }
 
         return $this->images;
@@ -68,17 +68,13 @@ class Characters extends DatabaseTable
     public function __construct() {
         parent::__construct();
         $this->table = "characters";
+        $this->produces = "Character";
         $this->columns = array(
             "id",
             "name",
             "original_name",
             "gender",
         );
-    }
-
-    public function parse(...$raw)
-    {
-        return new Character(...$raw);
     }
 }
 
@@ -102,16 +98,12 @@ class CharacterImages extends DatabaseTable
     public function __construct() {
         parent::__construct();
         $this->table = "character_images";
+        $this->produces = "CharacterImage";
         $this->columns = array(
             "id",
             "character_id",
             "path",
         );
-    }
-
-    public function parse(...$raw)
-    {
-        return new CharacterImage(...$raw);
     }
 
     public function multi_find_by_character_id($character_id)

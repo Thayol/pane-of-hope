@@ -11,7 +11,7 @@ if ($session_is_admin)
 	
 	$old_sources = array();
 
-	foreach (conn_character_source_table()->multi_find_by_character_id($id) as $connection)
+	foreach (Database::conn_character_source()->multi_find_by_character_id($id) as $connection)
 	{
 		$old_sources[] = $connection->source_id;
 	}

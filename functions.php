@@ -23,6 +23,8 @@ function action_to_link($action = "", $querystring = "") : string
 	return $absolute_prefix . $absolute;
 }
 
+
+
 function db_connect()
 {
 	global $mysql_addr, $mysql_user, $mysql_pass, $mysql_db;
@@ -41,13 +43,13 @@ function db_connect()
 function db_query($query)
 {
 	$db = db_connect();
-    return $db->query($query);
+	return $db->query($query);
 }
 
 function db_insert_query($query)
 {
 	$db = db_connect();
-    if ($db->query($query) === true)
+	if ($db->query($query) === true)
 	{
 		return $db->insert_id;
 	}
@@ -93,83 +95,45 @@ function db_find_multiple($query)
 function db_multi_query($queries)
 {
 	$db = db_connect();
-    return $db->multi_query($queries);
+	return $db->multi_query($queries);
 }
 
-$global_characters_table = null;
-function characters_table()
+class Database
 {
-	global $global_characters_table;
-	if ($global_characters_table == null)
+	private static $table_singletons = array();
+
+	public static function get_table_singleton($class)
 	{
-		$global_characters_table = new Characters();
-	}
-
-	return $global_characters_table;
-}
-
-$global_sources_table = null;
-function sources_table()
-{
-	global $global_sources_table;
-	if ($global_sources_table == null)
-	{
-		$global_sources_table = new Sources();
-	}
-
-	return $global_sources_table;
-}
-
-$global_conn_character_source_table = null;
-function conn_character_source_table()
-{
-	global $global_conn_character_source_table;
-	if ($global_conn_character_source_table == null)
-	{
-		$global_conn_character_source_table = new CharacterSourceConnectors();
-	}
-
-	return $global_conn_character_source_table;
-}
-
-$global_character_images_table = null;
-function character_images_table()
-{
-	global $global_character_images_table;
-	if ($global_character_images_table == null)
-	{
-		$global_character_images_table = new CharacterImages();
-	}
-
-	return $global_character_images_table;
-}
-
-$global_source_aliases_table = null;
-function source_aliases_table()
-{
-	global $global_source_aliases_table;
-	if ($global_source_aliases_table == null)
-	{
-		$global_source_aliases_table = new SourceAliases();
-	}
-
-	return $global_source_aliases_table;
-}
-
-function load_character_or_null($raw_id_input)
-{
-	$id = intval($raw_id_input);
-	if ($id > 0)
-	{
-		try
+		if (empty(self::$table_singletons[$class]))
 		{
-			$character = characters_table()->find_by_id($id);
-		}
-		catch (Exception $e)
-		{
-			return null;
+			self::$table_singletons[$class] = new $class();
 		}
 
-		return $character;
+		return self::$table_singletons[$class];
+	}
+
+	public static function characters(): Characters
+	{
+		return self::get_table_singleton("Characters");
+	}
+	
+	public static function sources(): Sources
+	{
+		return self::get_table_singleton("Sources");
+	}
+	
+	public static function conn_character_source(): CharacterSourceConnectors
+	{
+		return self::get_table_singleton("CharacterSourceConnectors");
+	}
+	
+	public static function character_images(): CharacterImages
+	{
+		return self::get_table_singleton("CharacterImages");
+	}
+	
+	public static function source_aliases(): SourceAliases
+	{
+		return self::get_table_singleton("SourceAliases");
 	}
 }

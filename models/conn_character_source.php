@@ -24,7 +24,7 @@ class CharacterSourceConnector extends DatabaseRecord
     {
         if ($this->character == null)
         {
-            $this->character = characters_table()->find_by_id($this->character_id);
+            $this->character = Database::characters()->find_by_id($this->character_id);
         }
 
         return $this->character;
@@ -34,7 +34,7 @@ class CharacterSourceConnector extends DatabaseRecord
     {
         if ($this->source == null)
         {
-            $this->source = sources_table()->find_by_id($this->source_id);
+            $this->source = Database::sources()->find_by_id($this->source_id);
         }
 
         return $this->source;
@@ -46,16 +46,12 @@ class CharacterSourceConnectors extends DatabaseTable
     public function __construct() {
         parent::__construct();
         $this->table = "conn_character_source";
+        $this->produces = "CharacterSourceConnector";
         $this->columns = array(
             "id",
             "character_id",
             "source_id",
         );
-    }
-
-    public function parse(...$raw)
-    {
-        return new CharacterSourceConnector(...$raw);
     }
 
     public function multi_find_by_character_id($character_id)

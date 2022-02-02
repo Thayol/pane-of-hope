@@ -24,7 +24,7 @@ $gender = 0;
 
 if ($action == "character-edit")
 {
-	$character = load_character_or_null($_GET["id"]);
+	$character = Database::characters()->find_by_raw_id($_GET["id"]);
 	$character_found = false;
 	if ($character != null)
 	{
