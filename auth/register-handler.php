@@ -21,7 +21,7 @@ if ($username_valid && $password_valid && $displayname_valid && $email_valid && 
 	
 	$is_registered = false;
 	$db = Database::connect();
-	$reg_query = $db->query("SELECT id, username FROM users WHERE username='{$username}' ORDER BY id ASC;");
+	$reg_query = $db->query("SELECT id, username FROM accounts WHERE username='{$username}' ORDER BY id ASC;");
 	if ($reg_query->num_rows > 0)
 	{
 		$is_registered = true;
@@ -29,7 +29,7 @@ if ($username_valid && $password_valid && $displayname_valid && $email_valid && 
 	
 	if (!$is_registered)
 	{
-		$db->query("INSERT INTO users (username, displayname, password, email) VALUES ('{$username}', '{$displayname}', '{$password}', '{$email}')");
+		$db->query("INSERT INTO accounts (username, displayname, password, email) VALUES ('{$username}', '{$displayname}', '{$password}', '{$email}')");
 		
 		header('Location: ' . action_to_link('login', "registered"));
 	}

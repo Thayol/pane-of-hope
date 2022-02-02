@@ -14,7 +14,7 @@ $action = "login";
 if ($username_valid && $password_valid)
 {
 	$db = Database::connect();
-	$reg_query = $db->query("SELECT id, username, displayname, email, password, permission_level FROM users WHERE username='{$username}' ORDER BY id ASC;");
+	$reg_query = $db->query("SELECT id, username, displayname, email, password, permission_level FROM accounts WHERE username='{$username}' ORDER BY id ASC;");
 	
 	$is_registered = false;
 	if ($reg_query->num_rows > 0)

@@ -9,7 +9,7 @@ Work in progress...
 1. Copy/Rename `settings.php.template` to `settings.php` and edit it for your needs.
 1. Create the tables in your database.
 1. Register a new user.\*
-1. Run the SQL query: `UPDATE users SET permission_level=100 WHERE id=1;`
+1. Run the SQL query: `UPDATE accounts SET permission_level=100 WHERE id=1;`
 1. Add new characters.\*
 1. (optional) Character image uploading:
     1. Create the folder: `data/` (`$ mkdir data`)

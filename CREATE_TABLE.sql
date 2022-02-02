@@ -1,5 +1,5 @@
 
-CREATE TABLE users (
+CREATE TABLE accounts (
 	id int NOT NULL AUTO_INCREMENT,
 	username varchar(128) NOT NULL,
 	displayname varchar(64) NOT NULL,

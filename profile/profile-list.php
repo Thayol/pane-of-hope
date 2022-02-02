@@ -21,7 +21,7 @@ require __DIR__ . "/../header.php";
 $page_size = 10;
 
 $db = Database::connect();
-$result = $db->query("SELECT id, displayname, username FROM users ORDER BY id ASC LIMIT {$page_size};");
+$result = $db->query("SELECT id, displayname, username FROM accounts ORDER BY id ASC LIMIT {$page_size};");
 
 $users = array();
 if ($result->num_rows > 0)

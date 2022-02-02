@@ -14,7 +14,7 @@
 		if ($profile_id > 0)
 		{
 			$db = Database::connect();
-			$profile_query = $db->query("SELECT id, username, displayname, email, permission_level FROM users WHERE id={$profile_id} ORDER BY id ASC;");
+			$profile_query = $db->query("SELECT id, username, displayname, email, permission_level FROM accounts WHERE id={$profile_id} ORDER BY id ASC;");
 			
 			if ($profile_query->num_rows == 1)
 			{
