@@ -2,17 +2,17 @@
 
 if (isset($_GET["error"]))
 {
-	$notice_error = "Database error!";
+    $notice_error = "Database error!";
 }
 
 $character = null;
 
 if (!empty($_GET["id"]))
 {
-	$character = Database::characters()->find_by_raw_id($_GET["id"]);
-	$sources = Database::sources()->all();
+    $character = Database::characters()->find_by_raw_id($_GET["id"]);
+    $sources = Database::sources()->all();
 
-	usort($sources, fn($a, $b) => strnatcmp($a->title, $b->title));
+    usort($sources, fn($a, $b) => strnatcmp($a->title, $b->title));
 }
 
 ?>

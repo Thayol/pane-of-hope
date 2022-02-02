@@ -13,24 +13,24 @@ require _WEBROOT_ . "/app/views/global/header.php";
 <?php
 if (!empty($_GET["invalid"]))
 {
-	$invalid_messages = array(
-		"username" => "Invalid username.",
-		"displayname" => "Invalid displayname.",
-		"password" => "Invalid password.",
-		"email" => "Invalid e-mail address.",
-		"password2" => "Passwords do not match.",
-		"registered" => "Username is already taken.",
-	);
+    $invalid_messages = array(
+        "username" => "Invalid username.",
+        "displayname" => "Invalid displayname.",
+        "password" => "Invalid password.",
+        "email" => "Invalid e-mail address.",
+        "password2" => "Passwords do not match.",
+        "registered" => "Username is already taken.",
+    );
 
-	$notice_error = "Unknown error.";
-	if (in_array($_GET["invalid"], array_keys($invalid_messages))) $notice_error = $invalid_messages[$_GET["invalid"]];
+    $notice_error = "Unknown error.";
+    if (in_array($_GET["invalid"], array_keys($invalid_messages))) $notice_error = $invalid_messages[$_GET["invalid"]];
 }
 
 require _WEBROOT_ . "/app/views/global/notice.php";
 ?>
 
 <?php if ($session_authenticated):
-	require __DIR__ . "/log-out-first.php";
+    require __DIR__ . "/log-out-first.php";
 else: ?>
 <form class="login-form" action="<?= Routes::get_handler_url("register") ?>" method="POST">
 

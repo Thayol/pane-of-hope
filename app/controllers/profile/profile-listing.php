@@ -11,7 +11,7 @@ $context_nav_buttons["Listing"] = "users";
 
 if ($session_authenticated)
 {
-	$context_nav_buttons["My profile"] = "profile";
+    $context_nav_buttons["My profile"] = "profile";
 }
 
 require _WEBROOT_ . "/app/views/global/header.php";
@@ -26,10 +26,10 @@ $result = $db->query("SELECT id, displayname, username FROM accounts ORDER BY id
 $users = array();
 if ($result->num_rows > 0)
 {
-	while ($user = $result->fetch_assoc())
-	{
-		$users[$user["id"]] = $user;
-	}
+    while ($user = $result->fetch_assoc())
+    {
+        $users[$user["id"]] = $user;
+    }
 }
 ?>
 
@@ -38,20 +38,20 @@ if ($result->num_rows > 0)
 <?php else: ?>
 
 <table class="table-wide alternating-rows">
-	<tbody>
+    <tbody>
 
 <?php
 foreach ($users as $user)
 {
-	$id = $user["id"];
-	$displayname = $user["displayname"];
-	$username = $user["username"];
+    $id = $user["id"];
+    $displayname = $user["displayname"];
+    $username = $user["username"];
 
-	$url = Routes::get_action_url("profile") . "?u={$id}";
+    $url = Routes::get_action_url("profile") . "?u={$id}";
 
-	echo '<tr>';
-	echo "<td><a href=\"{$url}\">{$displayname}</a> <small>({$username})</small></td>";
-	echo '</tr>';
+    echo '<tr>';
+    echo "<td><a href=\"{$url}\">{$displayname}</a> <small>({$username})</small></td>";
+    echo '</tr>';
 }
 echo "</tbody></table>";
 endif; ?>

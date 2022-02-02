@@ -11,7 +11,7 @@ $context_nav_buttons["Listing"] = "sources";
 
 if ($session_is_admin)
 {
-	$context_nav_buttons["New"] = "source-new";
+    $context_nav_buttons["New"] = "source-new";
 }
 
 require _WEBROOT_ . "/app/views/global/header.php";
@@ -26,12 +26,12 @@ $db = Database::connect();
 $count_result = $db->query("SELECT COUNT(id) as source_count FROM sources;");
 if ($count_result->num_rows > 0)
 {
-	$page_count = ceil($count_result->fetch_assoc()["source_count"] / $page_size);
+    $page_count = ceil($count_result->fetch_assoc()["source_count"] / $page_size);
 }
 
 if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 {
-	$page = intval($_GET["page"]);
+    $page = intval($_GET["page"]);
 }
 
 $offset = ($page - 1) * $page_size;
@@ -40,8 +40,8 @@ $result = $db->query("SELECT sources.id AS id, sources.title AS title, source_al
 $sources = array();
 if ($result->num_rows > 0)
 {
-	while ($source = $result->fetch_assoc())
-	{
+    while ($source = $result->fetch_assoc())
+    {
         $id = $source["id"];
         if (empty($sources[$id]))
         {
@@ -52,14 +52,14 @@ if ($result->num_rows > 0)
                 $sources[$id]["aliases"] = array($source["alias"]);
             }
         }
-		else
+        else
         {
             if (!empty($source["alias"]))
             {
                 $sources[$id]["aliases"][] = $source["alias"];
             }
         }
-	}
+    }
 }
 
 ?>
@@ -81,35 +81,35 @@ if ($result->num_rows > 0)
 <?php
 foreach ($sources as $source)
 {
-	$id = $source["id"];
-	$title = $source["title"];
+    $id = $source["id"];
+    $title = $source["title"];
     $aliases = $source["aliases"] ?? array();
     $aliases_concat = "<span>" . implode("</span><br><span>", $aliases) . "</span>";
 
-	$url = Routes::get_action_url("source") . "?id={$id}";
+    $url = Routes::get_action_url("source") . "?id={$id}";
 
-	echo '<tr>';
-	echo "<td>{$id}</td>";
-	echo "<td><a href=\"{$url}\">{$title}</a></td>";
-	echo "<td>{$aliases_concat}</td>";
-	echo '</tr>';
+    echo '<tr>';
+    echo "<td>{$id}</td>";
+    echo "<td><a href=\"{$url}\">{$title}</a></td>";
+    echo "<td>{$aliases_concat}</td>";
+    echo '</tr>';
 }
 echo "</tbody></table>";
 
 echo "<nav>Page: ";
 for ($i = $page - Config::$max_seek_page_numbers; $i <= $page + Config::$max_seek_page_numbers; $i++)
 {
-	if ($i > 0 && $i <= $page_count)
-	{
-		$url = Routes::get_action_url($action, "page={$i}");
-		$class = "nav-button";
-		if ($i == $page)
-		{
-			$class .= " nav-button-current";
-		}
+    if ($i > 0 && $i <= $page_count)
+    {
+        $url = Routes::get_action_url($action, "page={$i}");
+        $class = "nav-button";
+        if ($i == $page)
+        {
+            $class .= " nav-button-current";
+        }
 
-		echo "<a class=\"{$class}\" href=\"{$url}\">{$i}</a> ";
-	}
+        echo "<a class=\"{$class}\" href=\"{$url}\">{$i}</a> ";
+    }
 }
 echo "</nav>";
 

@@ -3,37 +3,37 @@ $character = null;
 
 if (!empty($_GET["id"]))
 {
-	$character = Database::characters()->find_by_raw_id($_GET["id"]);
+    $character = Database::characters()->find_by_raw_id($_GET["id"]);
 }
 
 $context_nav_buttons["Listing"] = "characters";
 
 if ($session_is_admin)
 {
-	$context_nav_buttons["New"] = "character-new";
-	if ($character != null)
-	{
-		$context_nav_buttons["Edit"] = "character-edit?id={$character->id}";
-		$context_nav_buttons["Upload image"] = "character-upload?id={$character->id}";
-		$context_nav_buttons["Manage sources"] = "character-set-sources?id={$character->id}";
-	}
+    $context_nav_buttons["New"] = "character-new";
+    if ($character != null)
+    {
+        $context_nav_buttons["Edit"] = "character-edit?id={$character->id}";
+        $context_nav_buttons["Upload image"] = "character-upload?id={$character->id}";
+        $context_nav_buttons["Manage sources"] = "character-set-sources?id={$character->id}";
+    }
 }
 
 if (isset($_GET["edited"]))
 {
-	$notice_success = "Character edited.";
+    $notice_success = "Character edited.";
 }
 else if (isset($_GET["created"]))
 {
-	$notice_success = "Character created.";
+    $notice_success = "Character created.";
 }
 else if (isset($_GET["uploaded"]))
 {
-	$notice_success = "Image uploaded.";
+    $notice_success = "Image uploaded.";
 }
 else if (isset($_GET["sources_updated"]))
 {
-	$notice_success = "Sources updated.";
+    $notice_success = "Sources updated.";
 }
 
 ?>
@@ -61,8 +61,8 @@ require _WEBROOT_ . "/app/views/global/header.php";
 <p><?= $sources_text ?>:</p>
 <ul>
 <?php
-	foreach ($character->sources() as $source):
-	$url = Routes::get_action_url("source") . "?id={$source->id}";
+    foreach ($character->sources() as $source):
+    $url = Routes::get_action_url("source") . "?id={$source->id}";
 ?>
 <li><a href="<?= $url ?>"><?= $source->title ?></a></li>
 <?php endforeach; ?>

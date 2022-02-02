@@ -88,20 +88,20 @@ class DatabaseTable
         return $this->parse_multiple($result);
     }
 
-	public function find_by_raw_id($raw_id_input)
-	{
-		$id = intval($raw_id_input);
-		if ($id > 0)
-		{
-			try
-			{
-				$record = $this->find_by_id($id);
+    public function find_by_raw_id($raw_id_input)
+    {
+        $id = intval($raw_id_input);
+        if ($id > 0)
+        {
+            try
+            {
+                $record = $this->find_by_id($id);
                 return $record;
-			}
-			catch (Exception $e)
-			{
-			}
-		}
+            }
+            catch (Exception $e)
+            {
+            }
+        }
         return null;
-	}
+    }
 }

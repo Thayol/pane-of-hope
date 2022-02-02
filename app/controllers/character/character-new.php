@@ -2,19 +2,19 @@
 
 if (isset($_GET["invalid"]))
 {
-	$notice_error = "Could not add character.";
+    $notice_error = "Could not add character.";
 }
 else if (isset($_GET["error"]))
 {
-	$notice_error = "Database error!";
+    $notice_error = "Database error!";
 }
 
 $context_nav_buttons["Listing"] = "characters";
 
 if ($session_is_admin)
 {
-	$context_nav_buttons["New"] = "character-new";
-	if ($action == "character-edit") $context_nav_buttons["Edit"] = "character-edit";
+    $context_nav_buttons["New"] = "character-new";
+    if ($action == "character-edit") $context_nav_buttons["Edit"] = "character-edit";
 }
 
 $id = "";
@@ -24,28 +24,28 @@ $gender = 0;
 
 if ($action == "character-edit")
 {
-	$character = Database::characters()->find_by_raw_id($_GET["id"]);
-	$character_found = false;
-	if ($character != null)
-	{
-		$id = $character->id;
-		$name = htmlspecialchars_decode($character->name, Config::$htmlspecialchars_flags);
-		$original_name = htmlspecialchars_decode($character->original_name, Config::$htmlspecialchars_flags);
-		$gender = $character->gender;
-	}
+    $character = Database::characters()->find_by_raw_id($_GET["id"]);
+    $character_found = false;
+    if ($character != null)
+    {
+        $id = $character->id;
+        $name = htmlspecialchars_decode($character->name, Config::$htmlspecialchars_flags);
+        $original_name = htmlspecialchars_decode($character->original_name, Config::$htmlspecialchars_flags);
+        $gender = $character->gender;
+    }
 }
 
 if ($action == "character-edit")
 {
-	$form_action = Routes::get_handler_url("character-edit");
-	$title_text = "Edit Character";
-	$submit_text = "Update";
+    $form_action = Routes::get_handler_url("character-edit");
+    $title_text = "Edit Character";
+    $submit_text = "Update";
 }
 else
 {
-	$form_action = Routes::get_handler_url("character-new");
-	$title_text = "New Character";
-	$submit_text = "Create";
+    $form_action = Routes::get_handler_url("character-new");
+    $title_text = "New Character";
+    $submit_text = "Create";
 }
 ?>
 <html>
@@ -74,9 +74,9 @@ require _WEBROOT_ . "/app/views/global/header.php";
 
 <label class="input-label">Gender:</label>
 <select class="input-select" name="gender">
-	<option value="0" <?php if ($gender == 0) echo "selected"; ?>>N/A</option>
-	<option value="1" <?php if ($gender == 1) echo "selected"; ?>>Female</option>
-	<option value="2" <?php if ($gender == 2) echo "selected"; ?>>Male</option>
+    <option value="0" <?php if ($gender == 0) echo "selected"; ?>>N/A</option>
+    <option value="1" <?php if ($gender == 1) echo "selected"; ?>>Female</option>
+    <option value="2" <?php if ($gender == 2) echo "selected"; ?>>Male</option>
 </select><br>
 
 <input type="hidden" name="id" value="<?= $id ?>">

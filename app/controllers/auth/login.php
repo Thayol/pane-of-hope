@@ -2,22 +2,22 @@
 $is_invalid = false;
 if (!empty($_GET["invalid"]))
 {
-	$is_invalid = true;
-	$notice_errors = array(
-		"unregistered" => "Username is not registered.",
-		"wrongpass" => "Wrong password.",
-		"username" => "Invalid username.",
-		"password" => "Invalid password.",
-		"banned" => "You are banned.",
-	);
+    $is_invalid = true;
+    $notice_errors = array(
+        "unregistered" => "Username is not registered.",
+        "wrongpass" => "Wrong password.",
+        "username" => "Invalid username.",
+        "password" => "Invalid password.",
+        "banned" => "You are banned.",
+    );
 
-	$notice_error = "Unknown error.";
-	if (in_array($_GET["invalid"], array_keys($notice_errors))) $notice_error = $notice_errors[$_GET["invalid"]];
+    $notice_error = "Unknown error.";
+    if (in_array($_GET["invalid"], array_keys($notice_errors))) $notice_error = $notice_errors[$_GET["invalid"]];
 }
 
 if (isset($_GET["registered"]))
 {
-	$notice_success = "Successfully registered. Log in.";
+    $notice_success = "Successfully registered. Log in.";
 }
 ?>
 <html>
@@ -34,7 +34,7 @@ require _WEBROOT_ . "/app/views/global/header.php";
 <?php require _WEBROOT_ . "/app/views/global/notice.php"; ?>
 
 <?php if ($session_authenticated):
-	require __DIR__ . "/log-out-first.php";
+    require __DIR__ . "/log-out-first.php";
 else: ?>
 <form class="login-form" action="<?= Routes::get_handler_url("login") ?>" method="POST">
 

@@ -9,7 +9,7 @@ $nav_buttons = array();
 
 if (Config::$show_home_button)
 {
-	$nav_buttons["Home"] = "";
+    $nav_buttons["Home"] = "";
 }
 
 $nav_buttons["Users"] = "users";
@@ -17,32 +17,32 @@ $nav_buttons["Characters"] = "characters";
 $nav_buttons["Sources"] = "sources";
 
 $nav_buttons_unauthenticated = array(
-	"Log in" => "login",
-	"Register" => "register",
+    "Log in" => "login",
+    "Register" => "register",
 );
 
 $nav_buttons_authenticated = array(
-	"Profile" => "profile",
-	"Log out" => "logout",
+    "Profile" => "profile",
+    "Log out" => "logout",
 );
 
 if ($session_authenticated)
 {
-	$nav_buttons = array_merge($nav_buttons, $nav_buttons_authenticated);
+    $nav_buttons = array_merge($nav_buttons, $nav_buttons_authenticated);
 }
 else
 {
-	$nav_buttons = array_merge($nav_buttons, $nav_buttons_unauthenticated);
+    $nav_buttons = array_merge($nav_buttons, $nav_buttons_unauthenticated);
 }
 
 $nav_buttons["More »"] = "sitemap";
 
 foreach ($nav_buttons as $text => $this_action)
 {
-	echo str_replace(
-		[ "[[ TEXT ]]", "[[ LINK ]]" ],
-		[ $text, Routes::get_action_url(str_replace("-", "/", $this_action)) ],
-		(strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
+    echo str_replace(
+        [ "[[ TEXT ]]", "[[ LINK ]]" ],
+        [ $text, Routes::get_action_url(str_replace("-", "/", $this_action)) ],
+        (strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
 }
 ?>
 </nav>
@@ -52,13 +52,13 @@ foreach ($nav_buttons as $text => $this_action)
 <?php
 if (!empty($context_nav_buttons))
 {
-	foreach ($context_nav_buttons as $text => $this_action)
-	{
-		echo str_replace(
-			[ "[[ TEXT ]]", "[[ LINK ]]" ],
-			[ $text, Routes::get_action_url(str_replace("-", "/", $this_action)) ],
-			(strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
-	}
+    foreach ($context_nav_buttons as $text => $this_action)
+    {
+        echo str_replace(
+            [ "[[ TEXT ]]", "[[ LINK ]]" ],
+            [ $text, Routes::get_action_url(str_replace("-", "/", $this_action)) ],
+            (strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
+    }
 }
 ?>
 </nav>

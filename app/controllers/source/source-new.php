@@ -2,20 +2,20 @@
 
 if (isset($_GET["invalid"]))
 {
-	$notice_error = "Could not add source.";
+    $notice_error = "Could not add source.";
 }
 
 if (isset($_GET["error"]))
 {
-	$notice_error = "Database error!";
+    $notice_error = "Database error!";
 }
 
 $context_nav_buttons["Listing"] = "sources";
 
 if ($session_is_admin)
 {
-	$context_nav_buttons["New"] = "source-new";
-	if ($action == "source-edit") $context_nav_buttons["Edit"] = "source-edit";
+    $context_nav_buttons["New"] = "source-new";
+    if ($action == "source-edit") $context_nav_buttons["Edit"] = "source-edit";
 }
 
 $id = "";
@@ -24,47 +24,47 @@ $aliases = array();
 
 if ($action == "source-edit")
 {
-	$source_found = false;
-	if (!empty($_GET["id"]))
-	{
-		$id = intval($_GET["id"]);
-		if ($id > 0)
-		{
-			$db = Database::connect();
-			$result = $db->query("SELECT * FROM sources WHERE id={$id} ORDER BY id ASC;");
-			if ($result->num_rows == 1)
-			{
-				$source_found = true;
-				$source_temp = $result->fetch_assoc();
+    $source_found = false;
+    if (!empty($_GET["id"]))
+    {
+        $id = intval($_GET["id"]);
+        if ($id > 0)
+        {
+            $db = Database::connect();
+            $result = $db->query("SELECT * FROM sources WHERE id={$id} ORDER BY id ASC;");
+            if ($result->num_rows == 1)
+            {
+                $source_found = true;
+                $source_temp = $result->fetch_assoc();
 
-				$id = $source_temp["id"];
-				$title = htmlspecialchars_decode($source_temp["title"], Config::$htmlspecialchars_flags);
+                $id = $source_temp["id"];
+                $title = htmlspecialchars_decode($source_temp["title"], Config::$htmlspecialchars_flags);
 
-				$db = Database::connect();
-				$result = $db->query("SELECT * FROM source_aliases WHERE source_id={$id} ORDER BY id ASC;");
-				if ($result->num_rows > 0)
-				{
-					while ($alias = $result->fetch_assoc())
-					{
-						$aliases[] = $alias["alias"];
-					}
-				}
-			}
-		}
-	}
+                $db = Database::connect();
+                $result = $db->query("SELECT * FROM source_aliases WHERE source_id={$id} ORDER BY id ASC;");
+                if ($result->num_rows > 0)
+                {
+                    while ($alias = $result->fetch_assoc())
+                    {
+                        $aliases[] = $alias["alias"];
+                    }
+                }
+            }
+        }
+    }
 }
 
 if ($action == "source-edit")
 {
-	$form_action = Routes::get_handler_url("source-edit");
-	$title_text = "Edit Source";
-	$submit_text = "Update";
+    $form_action = Routes::get_handler_url("source-edit");
+    $title_text = "Edit Source";
+    $submit_text = "Update";
 }
 else
 {
-	$form_action = Routes::get_handler_url("source-new");
-	$title_text = "New Source";
-	$submit_text = "Create";
+    $form_action = Routes::get_handler_url("source-new");
+    $title_text = "New Source";
+    $submit_text = "Create";
 }
 ?>
 <html>

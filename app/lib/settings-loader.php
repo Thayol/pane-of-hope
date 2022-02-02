@@ -4,34 +4,34 @@ ini_set('display_errors', 1);
 
 class Config
 {
-	public static $absolute_prefix;
-	public static $webroot_subfolder;
-	public static $site_title;
-	public static $error_reporting;
-	public static $show_home_button;
-	public static $max_seek_page_numbers;
-	public static $listing_page_size;
-	public static $htmlspecialchars_flags;
+    public static $absolute_prefix;
+    public static $webroot_subfolder;
+    public static $site_title;
+    public static $error_reporting;
+    public static $show_home_button;
+    public static $max_seek_page_numbers;
+    public static $listing_page_size;
+    public static $htmlspecialchars_flags;
 }
 
 class Config_MySQL
 {
-	public static $address;
-	public static $user;
-	public static $password;
-	public static $database;
+    public static $address;
+    public static $user;
+    public static $password;
+    public static $database;
 }
 
 class Config_Uploads
 {
-	public static $max_file_size;
-	public static $allowed_image_extensions;
+    public static $max_file_size;
+    public static $allowed_image_extensions;
 
-	public static $path;
-	public static $path_absolute;
+    public static $path;
+    public static $path_absolute;
 
-	public static $character_images_path;
-	public static $character_images_path_absolute;
+    public static $character_images_path;
+    public static $character_images_path_absolute;
 }
 
 require_once __DIR__ . "/../../config/settings.php";
@@ -42,6 +42,6 @@ Config_Uploads::$character_images_path = _WEBROOT_ . Config_Uploads::$character_
 
 if (Config::$error_reporting)
 {
-	error_reporting(E_ALL);
-	ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
 }
