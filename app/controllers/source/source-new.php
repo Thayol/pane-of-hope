@@ -38,7 +38,7 @@ if ($action == "source-edit")
 				$source_temp = $result->fetch_assoc();
 
 				$id = $source_temp["id"];
-				$title = htmlspecialchars_decode($source_temp["title"], $htmlspecialchars_flags);
+				$title = htmlspecialchars_decode($source_temp["title"], Config::$htmlspecialchars_flags);
 
 				$db = Database::connect();
 				$result = $db->query("SELECT * FROM source_aliases WHERE source_id={$id} ORDER BY id ASC;");
@@ -56,13 +56,13 @@ if ($action == "source-edit")
 
 if ($action == "source-edit")
 {
-	$form_action = action_to_link("sources") . "source-edit-handler.php";
+	$form_action = Routes::get_handler_url("source-edit");
 	$title_text = "Edit Source";
 	$submit_text = "Update";
 }
 else
 {
-	$form_action = action_to_link("sources") . "source-new-handler.php";
+	$form_action = Routes::get_handler_url("source-new");
 	$title_text = "New Source";
 	$submit_text = "Create";
 }
@@ -70,15 +70,15 @@ else
 <html>
 <head>
 <?php
-require __DIR__ . "/../head.php";
+require _WEBROOT_ . "/app/views/global/head.php";
 ?>
 </head>
 <body>
 <?php
-require __DIR__ . "/../header.php";
+require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
-<?php require __DIR__ . "/../notice.php"; ?>
+<?php require _WEBROOT_ . "/app/views/global/notice.php"; ?>
 
 <?php if ($session_is_admin): ?>
 <form class="login-form" action="<?= $form_action ?>" method="POST">
@@ -101,7 +101,7 @@ require __DIR__ . "/../header.php";
 
 </main>
 <?php
-require __DIR__ . "/../footer.php";
+require _WEBROOT_ . "/app/views/global/footer.php";
 ?>
 </body>
 </html>

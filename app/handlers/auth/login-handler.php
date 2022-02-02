@@ -1,7 +1,4 @@
 <?php
-require __DIR__ . "/../session.php";
-require __DIR__ . "/../settings.php";
-require __DIR__ . "/../functions.php";
 
 $username = $_POST["username"];
 $plain_password = $_POST["password"];
@@ -34,7 +31,7 @@ if ($username_valid && $password_valid)
 			$perm = $reg_arr["permission_level"];
 			if ($perm < 10)
 			{
-				header('Location: ' . action_to_link($action, "invalid=banned"));
+				header('Location: ' . Routes::get_action_url($action, "invalid=banned"));
 				exit(0);
 			}
 			
@@ -53,16 +50,16 @@ if ($username_valid && $password_valid)
 			
 			$_SESSION["paneofhope"] = $session_array;
 			
-			header('Location: ' . action_to_link('profile'));
+			header('Location: ' . Routes::get_action_url('profile'));
 		}
 		else
 		{
-			header('Location: ' . action_to_link($action, "invalid=wrongpass"));
+			header('Location: ' . Routes::get_action_url($action, "invalid=wrongpass"));
 		}
 	}
 	else
 	{
-		header('Location: ' . action_to_link($action, "invalid=unregistered"));
+		header('Location: ' . Routes::get_action_url($action, "invalid=unregistered"));
 	}
 }
 else
@@ -74,5 +71,5 @@ else
 	}
 	
 	$invalid_comma_delimited = implode(",", $invalid_values);
-	header('Location: ' . action_to_link($action, "invalid={$invalid_comma_delimited}"));
+	header('Location: ' . Routes::get_action_url($action, "invalid={$invalid_comma_delimited}"));
 }

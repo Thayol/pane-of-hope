@@ -58,15 +58,15 @@ if (!empty($_GET["id"]))
 <html>
 <head>
 <?php
-require __DIR__ . "/../head.php";
+require _WEBROOT_ . "/app/views/global/head.php";
 ?>
 </head>
 <body>
 <?php
-require __DIR__ . "/../header.php";
+require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
-<?php require __DIR__ . "/../notice.php"; ?>
+<?php require _WEBROOT_ . "/app/views/global/notice.php"; ?>
 
 <?php if ($session_is_admin): ?>
 
@@ -76,7 +76,7 @@ if (!$source_found): ?>
 <p>Source not found.</p>
 <?php else: ?>
 
-<form class="login-form" action="<?= action_to_link("sources") ?>source-set-characters-handler.php" method="POST">
+<form class="login-form" action="<?= Routes::get_handler_url("source-set-characters") ?>" method="POST">
 <h2>Manage characters of <?= $source["title"] ?></h2>
 <input type="hidden" name="id" value="<?= $id ?>">
 
@@ -97,7 +97,7 @@ else: ?>
 
 </main>
 <?php
-require __DIR__ . "/../footer.php";
+require _WEBROOT_ . "/app/views/global/footer.php";
 ?>
 </body>
 </html>

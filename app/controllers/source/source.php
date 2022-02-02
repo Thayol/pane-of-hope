@@ -78,15 +78,15 @@ else if (isset($_GET["characters_updated"]))
 <html>
 <head>
 <?php
-require __DIR__ . "/../head.php";
+require _WEBROOT_ . "/app/views/global/head.php";
 ?>
 </head>
 <body>
 <?php
-require __DIR__ . "/../header.php";
+require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
-<?php require __DIR__ . "/../notice.php"; ?>
+<?php require _WEBROOT_ . "/app/views/global/notice.php"; ?>
 <?php if (!$source_found): ?>
 <p>Source not found.</p>
 <?php else: ?>
@@ -102,7 +102,7 @@ require __DIR__ . "/../header.php";
 <ul>
 <?php
 	foreach ($source["characters"] as $character_id => $character_name):
-	$url = action_to_link("character") . "?id={$character_id}";
+	$url = Routes::get_action_url("character") . "?id={$character_id}";
 ?>
 <li><a href="<?= $url ?>"><?= $character_name ?></a></li>
 <?php endforeach; ?>
@@ -113,7 +113,7 @@ require __DIR__ . "/../header.php";
 <?php endif; ?>
 </main>
 <?php
-require __DIR__ . "/../footer.php";
+require _WEBROOT_ . "/app/views/global/footer.php";
 ?>
 </body>
 </html>

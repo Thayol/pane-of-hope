@@ -41,9 +41,7 @@ class Database
 
 	public static function connect()
 	{
-		global $mysql_addr, $mysql_user, $mysql_pass, $mysql_db;
-
-		$db = new mysqli($mysql_addr, $mysql_user, $mysql_pass, $mysql_db);
+		$db = new mysqli(Config_MySQL::$address, Config_MySQL::$user, Config_MySQL::$password, Config_MySQL::$database);
 
 		if ($db->connect_error)
 		{

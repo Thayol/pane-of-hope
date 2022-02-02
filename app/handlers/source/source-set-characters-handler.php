@@ -1,12 +1,9 @@
 <?php
-require __DIR__ . "/../session.php";
-require __DIR__ . "/../settings.php";
-require __DIR__ . "/../functions.php";
 
 if ($session_is_admin)
 {
 	$id = $_POST["id"];
-	$characters = $_POST["characters"];
+	$characters = $_POST["characters"] ?? array();
 
 	$old_characters = array();
 
@@ -39,16 +36,16 @@ if ($session_is_admin)
 		$db = Database::connect();
 		if ($db->multi_query($query) === true)
 		{
-			header('Location: ' . action_to_link("source", "id={$id}&characters_updated"));
+			header('Location: ' . Routes::get_action_url("source", "id={$id}&characters_updated"));
 		}
 		else
 		{
-			header('Location: ' . action_to_link("source-set-sources", "id={$id}&error"));
+			header('Location: ' . Routes::get_action_url("source-set-sources", "id={$id}&error"));
 		}
 	}
 	else
 	{
-		header('Location: ' . action_to_link("source", "id={$id}&characters_updated"));
+		header('Location: ' . Routes::get_action_url("source", "id={$id}&characters_updated"));
 	}
 }
 else

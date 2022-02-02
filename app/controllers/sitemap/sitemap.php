@@ -1,15 +1,15 @@
 <?php
-require __DIR__ . "/../locations.php";
+require _WEBROOT_ . "/config/locations.php";
 ?>
 <html>
 <head>
 <?php
-require __DIR__ . "/../head.php";
+require _WEBROOT_ . "/app/views/global/head.php";
 ?>
 </head>
 <body>
 <?php
-require __DIR__ . "/../header.php";
+require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
 <?php
@@ -18,7 +18,7 @@ foreach ($locations as $category => $actions)
 	?><p><?= $category ?></p><ul><?php
 	foreach ($actions as $text => $action)
 	{
-		$url = action_to_link(str_replace("-", "/", $action));
+		$url = Routes::get_action_url(str_replace("-", "/", $action));
 		echo "<li><a href=\"{$url}\">{$text}</a></li>";
 	}
 	?></ul><?php
@@ -26,7 +26,7 @@ foreach ($locations as $category => $actions)
 ?>
 </main>
 <?php
-require __DIR__ . "/../footer.php";
+require _WEBROOT_ . "/app/views/global/footer.php";
 ?>
 </body>
 </html>

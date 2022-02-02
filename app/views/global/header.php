@@ -1,5 +1,5 @@
 <header class="header">
-<h1 class="title"><a href="<?= action_to_link() ?>"><?= $site_title ?></a></h1>
+<h1 class="title"><a href="<?= Routes::get_action_url("") ?>"><?= Config::$site_title ?></a></h1>
 <nav class="nav">
 <?php
 $nav_button = '<a class="nav-button" href="[[ LINK ]]">[[ TEXT ]]</a>';
@@ -7,7 +7,7 @@ $nav_button_current = '<a class="nav-button nav-button-current" href="[[ LINK ]]
 
 $nav_buttons = array();
 
-if ($show_home_button)
+if (Config::$show_home_button)
 {
 	$nav_buttons["Home"] = "";
 }
@@ -41,7 +41,7 @@ foreach ($nav_buttons as $text => $this_action)
 {
 	echo str_replace(
 		[ "[[ TEXT ]]", "[[ LINK ]]" ],
-		[ $text, action_to_link(str_replace("-", "/", $this_action)) ],
+		[ $text, Routes::get_action_url(str_replace("-", "/", $this_action)) ],
 		(strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
 }
 ?>
@@ -56,7 +56,7 @@ if (!empty($context_nav_buttons))
 	{
 		echo str_replace(
 			[ "[[ TEXT ]]", "[[ LINK ]]" ],
-			[ $text, action_to_link(str_replace("-", "/", $this_action)) ],
+			[ $text, Routes::get_action_url(str_replace("-", "/", $this_action)) ],
 			(strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
 	}
 }

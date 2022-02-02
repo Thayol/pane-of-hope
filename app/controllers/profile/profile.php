@@ -46,7 +46,7 @@
 	{
 		if (!$custom_request)
 		{
-			header('Location: ' . $absolute_prefix . '/login/');
+			header('Location: ' . Routes::get_action_url("login"));
 			exit(0);
 		}
 	}
@@ -57,12 +57,12 @@ $context_nav_buttons["Listing"] = "users";
 <html>
 <head>
 <?php
-require __DIR__ . "/../head.php";
+require _WEBROOT_ . "/app/views/global/head.php";
 ?>
 </head>
 <body>
 <?php
-require __DIR__ . "/../header.php";
+require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
 <?php if ($profile_found): ?>
@@ -84,7 +84,7 @@ require __DIR__ . "/../header.php";
 <?php endif; ?>
 </main>
 <?php
-require __DIR__ . "/../footer.php";
+require _WEBROOT_ . "/app/views/global/footer.php";
 ?>
 </body>
 </html>

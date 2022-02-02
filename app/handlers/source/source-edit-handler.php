@@ -1,12 +1,9 @@
 <?php
-require __DIR__ . "/../session.php";
-require __DIR__ . "/../settings.php";
-require __DIR__ . "/../functions.php";
 
 if ($session_is_admin)
 {
 	$id = intval($_POST["id"]);
-	$title = htmlspecialchars($_POST["title"], $htmlspecialchars_flags);
+	$title = htmlspecialchars($_POST["title"], Config::$htmlspecialchars_flags);
 	$aliases = array_filter(explode("\n", str_replace(["\r\n", "\r"], "\n", $_POST["aliases"])));
 
 	if (!empty($title))
@@ -38,16 +35,16 @@ if ($session_is_admin)
 		$db = Database::connect();
 		if ($db->multi_query($query) === true)
 		{
-			header('Location: ' . action_to_link("source", "id={$id}&edited"));
+			header('Location: ' . Routes::get_action_url("source", "id={$id}&edited"));
 		}
 		else
 		{
-			header('Location: ' . action_to_link("source-edit", "id={$id}&error"));
+			header('Location: ' . Routes::get_action_url("source-edit", "id={$id}&error"));
 		}
 	}
 	else
 	{
-		header('Location: ' . action_to_link("source-edit", "id={$id}&invalid"));
+		header('Location: ' . Routes::get_action_url("source-edit", "id={$id}&invalid"));
 	}
 }
 else

@@ -1,7 +1,7 @@
 <html>
 <head>
 <?php
-require __DIR__ . "/../head.php";
+require _WEBROOT_ . "/app/views/global/head.php";
 ?>
 </head>
 <body>
@@ -14,13 +14,13 @@ if ($session_is_admin)
 	$context_nav_buttons["New"] = "character-new";
 }
 
-require __DIR__ . "/../header.php";
+require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
 <?php
 $page = 1; // if not set
 $page_count = 1; // default fallback
-$page_size = $listing_page_size;
+$page_size = Config::$listing_page_size;
 
 $page_count = ceil(Database::characters()->count() / $page_size);
 
@@ -87,7 +87,7 @@ foreach ($characters as $character)
 	foreach ($character["sources"] as $source_id => $source_title)
 	{
 		if (!empty($formatted_sources)) $formatted_sources .= "<br>";
-		$source_url = action_to_link("source") . "?id={$source_id}";
+		$source_url = Routes::get_action_url("source") . "?id={$source_id}";
 		$formatted_sources .= "<span><a href=\"{$source_url}\">{$source_title}</a></span>";
 	}
 	
@@ -100,7 +100,7 @@ foreach ($characters as $character)
 	if ($gender_raw == 1) $gender = '<span class="gender-female-icon">F</span>';
 	if ($gender_raw == 2) $gender = '<span class="gender-male-icon">M</span>';
 	
-	$char_url = action_to_link("character") . "?id={$id}";
+	$char_url = Routes::get_action_url("character") . "?id={$id}";
 	
 	echo '<tr>';
 	echo "<td>{$id}</td>";
@@ -112,11 +112,11 @@ foreach ($characters as $character)
 echo "</tbody></table>";
 
 echo "<nav>Page: ";
-for ($i = $page - $max_seek_page_numbers; $i <= $page + $max_seek_page_numbers; $i++)
+for ($i = $page - Config::$max_seek_page_numbers; $i <= $page + Config::$max_seek_page_numbers; $i++)
 {
 	if ($i > 0 && $i <= $page_count)
 	{
-		$url = action_to_link($action, "page={$i}");
+		$url = Routes::get_action_url($action, "page={$i}");
 		$class = "nav-button";
 		if ($i == $page)
 		{
@@ -132,7 +132,7 @@ endif; ?>
 
 </main>
 <?php
-require __DIR__ . "/../footer.php";
+require _WEBROOT_ . "/app/views/global/footer.php";
 ?>
 </body>
 </html>

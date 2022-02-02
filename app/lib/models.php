@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . "/models/base-model.php";
+require_once _WEBROOT_ . "/app/models/base_model.php";
 
-require_once __DIR__ . "/models/conn_character_source.php";
+require_once _WEBROOT_ . "/app/models/conn_character_source.php";
 
-require_once __DIR__ . "/models/characters.php";
-require_once __DIR__ . "/models/sources.php";
+require_once _WEBROOT_ . "/app/models/characters.php";
+require_once _WEBROOT_ . "/app/models/sources.php";

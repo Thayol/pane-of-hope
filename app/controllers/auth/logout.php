@@ -1,4 +1,4 @@
 <?php
 if (isset($_SESSION["paneofhope"])) unset($_SESSION["paneofhope"]);
 
-header('Location: ' . $absolute_prefix . '/login/');
+header('Location: ' . Routes::get_action_url("login"));

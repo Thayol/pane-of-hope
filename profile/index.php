@@ -1,3 +1,3 @@
 <?php
 $action = "profile";
-require __DIR__ . "/../router.php";
+require __DIR__ . "/../app/lib/router.php";

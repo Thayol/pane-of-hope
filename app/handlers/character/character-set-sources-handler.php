@@ -1,13 +1,9 @@
 <?php
-require_once __DIR__ . "/../session.php";
-require_once __DIR__ . "/../settings.php";
-require_once __DIR__ . "/../functions.php";
-require_once __DIR__ . "/../models.php";
 
 if ($session_is_admin)
 {
 	$id = $_POST["id"];
-	$sources = $_POST["sources"];
+	$sources = $_POST["sources"] ?? array();
 	
 	$old_sources = array();
 
@@ -34,16 +30,16 @@ if ($session_is_admin)
 	{
 		if (Database::multi_query($query) === true)
 		{
-			header('Location: ' . action_to_link("character", "id={$id}&sources_updated"));
+			header('Location: ' . Routes::get_action_url("character", "id={$id}&sources_updated"));
 		}
 		else
 		{
-			header('Location: ' . action_to_link("character-set-sources", "id={$id}&error"));
+			header('Location: ' . Routes::get_action_url("character-set-sources", "id={$id}&error"));
 		}
 	}
 	else
 	{
-		header('Location: ' . action_to_link("character", "id={$id}&sources_updated"));
+		header('Location: ' . Routes::get_action_url("character", "id={$id}&sources_updated"));
 	} 
 }
 else

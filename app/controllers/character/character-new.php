@@ -29,21 +29,21 @@ if ($action == "character-edit")
 	if ($character != null)
 	{
 		$id = $character->id;
-		$name = htmlspecialchars_decode($character->name, $htmlspecialchars_flags);
-		$original_name = htmlspecialchars_decode($character->original_name, $htmlspecialchars_flags);
+		$name = htmlspecialchars_decode($character->name, Config::$htmlspecialchars_flags);
+		$original_name = htmlspecialchars_decode($character->original_name, Config::$htmlspecialchars_flags);
 		$gender = $character->gender;
 	}
 }
 
 if ($action == "character-edit")
 {
-	$form_action = action_to_link("characters") . "character-edit-handler.php";
+	$form_action = Routes::get_handler_url("character-edit");
 	$title_text = "Edit Character";
 	$submit_text = "Update";
 }
 else
 {
-	$form_action = action_to_link("characters") . "character-new-handler.php";
+	$form_action = Routes::get_handler_url("character-new");
 	$title_text = "New Character";
 	$submit_text = "Create";
 }
@@ -51,15 +51,15 @@ else
 <html>
 <head>
 <?php
-require __DIR__ . "/../head.php";
+require _WEBROOT_ . "/app/views/global/head.php";
 ?>
 </head>
 <body>
 <?php
-require __DIR__ . "/../header.php";
+require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
-<?php require __DIR__ . "/../notice.php"; ?>
+<?php require _WEBROOT_ . "/app/views/global/notice.php"; ?>
 
 <?php if ($session_is_admin): ?>
 <form class="login-form" action="<?= $form_action ?>" method="POST">
@@ -89,7 +89,7 @@ require __DIR__ . "/../header.php";
 
 </main>
 <?php
-require __DIR__ . "/../footer.php";
+require _WEBROOT_ . "/app/views/global/footer.php";
 ?>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <html>
 <head>
 <?php
-require __DIR__ . "/../head.php";
+require _WEBROOT_ . "/app/views/global/head.php";
 ?>
 </head>
 <body>
@@ -14,13 +14,13 @@ if ($session_is_admin)
 	$context_nav_buttons["New"] = "source-new";
 }
 
-require __DIR__ . "/../header.php";
+require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
 <?php
 $page = 1; // if not set
 $page_count = 1; // default fallback
-$page_size = $listing_page_size;
+$page_size = Config::$listing_page_size;
 
 $db = Database::connect();
 $count_result = $db->query("SELECT COUNT(id) as source_count FROM sources;");
@@ -87,7 +87,7 @@ foreach ($sources as $source)
     $aliases = $source["aliases"] ?? array();
     $aliases_concat = "<span>" . implode("</span><br><span>", $aliases) . "</span>";
 	
-	$url = action_to_link("source") . "?id={$id}";
+	$url = Routes::get_action_url("source") . "?id={$id}";
 	
 	echo '<tr>';
 	echo "<td>{$id}</td>";
@@ -98,11 +98,11 @@ foreach ($sources as $source)
 echo "</tbody></table>";
 
 echo "<nav>Page: ";
-for ($i = $page - $max_seek_page_numbers; $i <= $page + $max_seek_page_numbers; $i++)
+for ($i = $page - Config::$max_seek_page_numbers; $i <= $page + Config::$max_seek_page_numbers; $i++)
 {
 	if ($i > 0 && $i <= $page_count)
 	{
-		$url = action_to_link($action, "page={$i}");
+		$url = Routes::get_action_url($action, "page={$i}");
 		$class = "nav-button";
 		if ($i == $page)
 		{
@@ -118,7 +118,7 @@ endif; ?>
 
 </main>
 <?php
-require __DIR__ . "/../footer.php";
+require _WEBROOT_ . "/app/views/global/footer.php";
 ?>
 </body>
 </html>

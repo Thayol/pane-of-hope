@@ -9,9 +9,7 @@ require _WEBROOT_ . "/app/views/global/head.php";
 require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
-<p style="margin-top:0;">Pane of Hope</p>
-<p>Waifu Mining</p>
-<p></p>
+Admin panel.
 </main>
 <?php
 require _WEBROOT_ . "/app/views/global/footer.php";

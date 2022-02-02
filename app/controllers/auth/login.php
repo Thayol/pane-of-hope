@@ -23,20 +23,20 @@ if (isset($_GET["registered"]))
 <html>
 <head>
 <?php
-require __DIR__ . "/../head.php";
+require _WEBROOT_ . "/app/views/global/head.php";
 ?>
 </head>
 <body>
 <?php
-require __DIR__ . "/../header.php";
+require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
-<?php require __DIR__ . "/../notice.php"; ?>
+<?php require _WEBROOT_ . "/app/views/global/notice.php"; ?>
 
 <?php if ($session_authenticated):
 	require __DIR__ . "/log-out-first.php";
 else: ?>
-<form class="login-form" action="<?= action_to_link("auth") ?>login-handler.php" method="POST">
+<form class="login-form" action="<?= Routes::get_handler_url("login") ?>" method="POST">
 
 <h2>Log in</h2>
 
@@ -51,7 +51,7 @@ else: ?>
 <?php endif; ?>
 </main>
 <?php
-require __DIR__ . "/../footer.php";
+require _WEBROOT_ . "/app/views/global/footer.php";
 ?>
 </body>
 </html>

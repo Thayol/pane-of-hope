@@ -1,7 +1,4 @@
 <?php
-require __DIR__ . "/../session.php";
-require __DIR__ . "/../settings.php";
-require __DIR__ . "/../functions.php";
 
 if ($session_is_admin)
 {
@@ -14,31 +11,31 @@ if ($session_is_admin)
 		$type = $_FILES["uploadfile"]["type"];
 		if (strpos($type, "image") === false)
 		{
-			header('Location: ' . action_to_link("character-upload", "id={$id}&invalid=not_image"));
+			header('Location: ' . Routes::get_action_url("character-upload", "id={$id}&invalid=not_image"));
 			exit(0);
 		}
 		
-		if (!($size > 0 && $size <= $max_file_upload_size))
+		if (!($size > 0 && $size <= Config_Uploads::$max_file_size))
 		{
-			header('Location: ' . action_to_link("character-upload", "id={$id}&invalid=size"));
+			header('Location: ' . Routes::get_action_url("character-upload", "id={$id}&invalid=size"));
 			exit(0);
 		}
 		
-		if (!in_array($file_extension, $allowed_image_extensions))
+		if (!in_array($file_extension, Config_Uploads::$allowed_image_extensions))
 		{
 			echo "Only .png accepted for now, sorry.";
 		}
 		
 		$new_image_name = $id . '-' . md5_file($temp_file) . '.' . $file_extension;
-		$image_path_full = $character_images_path . $new_image_name;
-		$image_path_absolute = $character_images_path_absolute . $new_image_name;
+		$image_path_full = Config_Uploads::$character_images_path . "/" . $new_image_name;
+		$image_path_absolute = Config_Uploads::$character_images_path_absolute . "/" . $new_image_name;
 		move_uploaded_file($temp_file, $image_path_full);
 		
 		$sql = "INSERT INTO character_images (character_id, path) VALUES ({$id}, '{$image_path_absolute}');";
 		$result = Database::query($sql);
 		if ($result === true)
 		{
-			header('Location: ' . action_to_link("character", "id={$id}&uploaded"));
+			header('Location: ' . Routes::get_action_url("character", "id={$id}&uploaded"));
 		}
 		else
 		{

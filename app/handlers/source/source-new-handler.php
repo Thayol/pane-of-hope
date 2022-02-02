@@ -1,11 +1,8 @@
 <?php
-require __DIR__ . "/../session.php";
-require __DIR__ . "/../settings.php";
-require __DIR__ . "/../functions.php";
 
 if ($session_is_admin)
 {
-	$title = htmlspecialchars($_POST["title"], $htmlspecialchars_flags);
+	$title = htmlspecialchars($_POST["title"], Config::$htmlspecialchars_flags);
 	$aliases = array_filter(explode("\n", str_replace(["\r\n", "\r"], "\n", $_POST["aliases"])));
 
 	if (!empty($title))
@@ -20,16 +17,16 @@ if ($session_is_admin)
 		if ($db->multi_query($query) === true)
 		{
 			$id = $db->insert_id;
-			header('Location: ' . action_to_link("source", "id={$id}&created"));
+			header('Location: ' . Routes::get_action_url("source", "id={$id}&created"));
 		}
 		else
 		{
-			header('Location: ' . action_to_link("source-new", "error"));
+			header('Location: ' . Routes::get_action_url("source-new", "error"));
 		}
 	}
 	else
 	{
-		header('Location: ' . action_to_link("source-new", "invalid"));
+		header('Location: ' . Routes::get_action_url("source-new", "invalid"));
 	}
 }
 else

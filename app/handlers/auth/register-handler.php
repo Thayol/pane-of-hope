@@ -1,6 +1,4 @@
 <?php
-require __DIR__ . "/../settings.php";
-require __DIR__ . "/../functions.php";
 
 $displayname = $_POST["displayname"];
 $username = $_POST["username"];
@@ -31,11 +29,11 @@ if ($username_valid && $password_valid && $displayname_valid && $email_valid && 
 	{
 		$db->query("INSERT INTO accounts (username, displayname, password, email) VALUES ('{$username}', '{$displayname}', '{$password}', '{$email}')");
 		
-		header('Location: ' . action_to_link('login', "registered"));
+		header('Location: ' . Routes::get_action_url('login', "registered"));
 	}
 	else
 	{
-		header('Location: ' . action_to_link($action, "invalid=registered"));
+		header('Location: ' . Routes::get_action_url($action, "invalid=registered"));
 	}
 	
 }
@@ -53,5 +51,5 @@ else
 	}
 	
 	$invalid_comma_delimited = implode(",", $invalid_values);
-	header('Location: ' . action_to_link($action, "invalid={$invalid_comma_delimited}"));
+	header('Location: ' . Routes::get_action_url($action, "invalid={$invalid_comma_delimited}"));
 }

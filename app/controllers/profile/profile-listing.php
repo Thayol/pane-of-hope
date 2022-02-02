@@ -1,7 +1,7 @@
 <html>
 <head>
 <?php
-require __DIR__ . "/../head.php";
+require _WEBROOT_ . "/app/views/global/head.php";
 ?>
 </head>
 <body>
@@ -14,7 +14,7 @@ if ($session_authenticated)
 	$context_nav_buttons["My profile"] = "profile";
 }
 
-require __DIR__ . "/../header.php";
+require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
 <?php
@@ -47,7 +47,7 @@ foreach ($users as $user)
 	$displayname = $user["displayname"];
 	$username = $user["username"];
 	
-	$url = action_to_link("profile") . "?u={$id}";
+	$url = Routes::get_action_url("profile") . "?u={$id}";
 	
 	echo '<tr>';
 	echo "<td><a href=\"{$url}\">{$displayname}</a> <small>({$username})</small></td>";
@@ -58,7 +58,7 @@ endif; ?>
 
 </main>
 <?php
-require __DIR__ . "/../footer.php";
+require _WEBROOT_ . "/app/views/global/footer.php";
 ?>
 </body>
 </html>
