@@ -10,7 +10,7 @@ if ($session_is_admin)
 
 	$old_characters = array();
 
-	$db = db_connect();
+	$db = Database::connect();
 	$result = $db->query("SELECT * FROM conn_character_source AS conn WHERE conn.source_id={$id} ORDER BY id ASC;");
 	if ($result->num_rows > 0)
 	{
@@ -36,7 +36,7 @@ if ($session_is_admin)
 
 	if (!empty($query))
 	{
-		$db = db_connect();
+		$db = Database::connect();
 		if ($db->multi_query($query) === true)
 		{
 			header('Location: ' . action_to_link("source", "id={$id}&characters_updated"));

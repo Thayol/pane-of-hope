@@ -31,7 +31,7 @@ if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 
 $offset = ($page - 1) * $page_size;
 
-$result = db_query("SELECT characters.id AS id, characters.name AS name, characters.original_name AS original_name, characters.gender AS gender, sources.id AS source_id, sources.title AS source_title FROM characters LEFT OUTER JOIN conn_character_source AS conn ON characters.id=conn.character_id LEFT JOIN sources ON conn.source_id=sources.id ORDER BY characters.id ASC LIMIT {$page_size} OFFSET {$offset};");
+$result = Database::query("SELECT characters.id AS id, characters.name AS name, characters.original_name AS original_name, characters.gender AS gender, sources.id AS source_id, sources.title AS source_title FROM characters LEFT OUTER JOIN conn_character_source AS conn ON characters.id=conn.character_id LEFT JOIN sources ON conn.source_id=sources.id ORDER BY characters.id ASC LIMIT {$page_size} OFFSET {$offset};");
 
 $characters = array();
 if ($result->num_rows > 0)

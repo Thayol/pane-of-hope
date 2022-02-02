@@ -30,7 +30,7 @@ if ($action == "source-edit")
 		$id = intval($_GET["id"]);
 		if ($id > 0)
 		{
-			$db = db_connect();
+			$db = Database::connect();
 			$result = $db->query("SELECT * FROM sources WHERE id={$id} ORDER BY id ASC;");
 			if ($result->num_rows == 1)
 			{
@@ -40,7 +40,7 @@ if ($action == "source-edit")
 				$id = $source_temp["id"];
 				$title = htmlspecialchars_decode($source_temp["title"], $htmlspecialchars_flags);
 
-				$db = db_connect();
+				$db = Database::connect();
 				$result = $db->query("SELECT * FROM source_aliases WHERE source_id={$id} ORDER BY id ASC;");
 				if ($result->num_rows > 0)
 				{

@@ -11,7 +11,7 @@ if ($session_is_admin)
 
 	if (!empty($name) && $gender >= 0 && $gender < 3)
 	{
-		if (($id = db_insert_query("INSERT INTO characters (name, original_name, gender) VALUES ('{$name}', '{$original_name}', {$gender});")) !== false)
+		if (($id = Database::insert_query("INSERT INTO characters (name, original_name, gender) VALUES ('{$name}', '{$original_name}', {$gender});")) !== false)
 		{
 			header('Location: ' . action_to_link("character", "id={$id}&created"));
 		}

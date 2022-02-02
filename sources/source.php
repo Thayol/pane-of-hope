@@ -7,7 +7,7 @@ if (!empty($_GET["id"]))
 	$id = intval($_GET["id"]);
 	if ($id > 0)
 	{
-		$db = db_connect();
+		$db = Database::connect();
 		$result = $db->query("SELECT * FROM sources WHERE id={$id} ORDER BY id ASC;");
 		if ($result->num_rows == 1)
 		{
@@ -18,7 +18,7 @@ if (!empty($_GET["id"]))
 			
 			$source["aliases"] = array();
 			
-			$db = db_connect();
+			$db = Database::connect();
 			$result = $db->query("SELECT * FROM source_aliases WHERE source_id={$id} ORDER BY id ASC;");
 			if ($result->num_rows > 0)
 			{
@@ -30,7 +30,7 @@ if (!empty($_GET["id"]))
 
 			$source["characters"] = array();
 
-			$db = db_connect();
+			$db = Database::connect();
 			$result = $db->query("SELECT * FROM conn_character_source AS conn INNER JOIN characters AS ch ON conn.character_id=ch.id WHERE conn.source_id={$id} ORDER BY ch.name ASC;");
 			if ($result->num_rows > 0)
 			{

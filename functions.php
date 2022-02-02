@@ -23,81 +23,6 @@ function action_to_link($action = "", $querystring = "") : string
 	return $absolute_prefix . $absolute;
 }
 
-
-
-function db_connect()
-{
-	global $mysql_addr, $mysql_user, $mysql_pass, $mysql_db;
-	
-	$db = new mysqli($mysql_addr, $mysql_user, $mysql_pass, $mysql_db);
-
-	if ($db->connect_error)
-	{
-		echo "There was a problem while contacting the database.";
-		exit(0);
-	}
-	
-	return $db;
-}
-
-function db_query($query)
-{
-	$db = db_connect();
-	return $db->query($query);
-}
-
-function db_insert_query($query)
-{
-	$db = db_connect();
-	if ($db->query($query) === true)
-	{
-		return $db->insert_id;
-	}
-
-	return false;
-}
-
-function db_find($query)
-{
-	$result = db_query($query);
-	if ($result !== false && $result->num_rows == 1)
-	{
-		return $result->fetch_assoc();
-	}
-	else if ($result !== false && $result->num_rows > 1)
-	{
-		throw new Exception("More than one matching record found.");
-	}
-	else
-	{
-		throw new Exception("Record not found in database.");
-	}
-
-	return $result;
-}
-
-function db_find_multiple($query)
-{
-	$result = db_query($query);
-	$result_array = array();
-
-	if ($result !== false && $result->num_rows > 0)
-	{
-		while ($temp = $result->fetch_assoc())
-		{
-			$result_array[] = $temp;
-		}
-	}
-
-	return $result_array;
-}
-
-function db_multi_query($queries)
-{
-	$db = db_connect();
-	return $db->multi_query($queries);
-}
-
 class Database
 {
 	private static $table_singletons = array();
@@ -135,5 +60,77 @@ class Database
 	public static function source_aliases(): SourceAliases
 	{
 		return self::get_table_singleton("SourceAliases");
+	}
+
+	public static function connect()
+	{
+		global $mysql_addr, $mysql_user, $mysql_pass, $mysql_db;
+		
+		$db = new mysqli($mysql_addr, $mysql_user, $mysql_pass, $mysql_db);
+	
+		if ($db->connect_error)
+		{
+			echo "There was a problem while contacting the database.";
+			exit(0);
+		}
+		
+		return $db;
+	}
+	
+	public static function query($query)
+	{
+		$db = self::connect();
+		return $db->query($query);
+	}
+	
+	public static function insert_query($query)
+	{
+		$db = self::connect();
+		if ($db->query($query) === true)
+		{
+			return $db->insert_id;
+		}
+	
+		return false;
+	}
+	
+	public static function find($query)
+	{
+		$result = self::query($query);
+		if ($result !== false && $result->num_rows == 1)
+		{
+			return $result->fetch_assoc();
+		}
+		else if ($result !== false && $result->num_rows > 1)
+		{
+			throw new Exception("More than one matching record found.");
+		}
+		else
+		{
+			throw new Exception("Record not found in database.");
+		}
+	
+		return $result;
+	}
+	
+	public static function multi_find($query)
+	{
+		$result = self::query($query);
+		$result_array = array();
+	
+		if ($result !== false && $result->num_rows > 0)
+		{
+			while ($temp = $result->fetch_assoc())
+			{
+				$result_array[] = $temp;
+			}
+		}
+	
+		return $result_array;
+	}
+	
+	public static function multi_query($queries)
+	{
+		return self::connect()->multi_query($queries);
 	}
 }

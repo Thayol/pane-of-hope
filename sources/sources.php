@@ -22,7 +22,7 @@ $page = 1; // if not set
 $page_count = 1; // default fallback
 $page_size = $listing_page_size;
 
-$db = db_connect();
+$db = Database::connect();
 $count_result = $db->query("SELECT COUNT(id) as source_count FROM sources;");
 if ($count_result->num_rows > 0)
 {

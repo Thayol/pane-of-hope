@@ -16,7 +16,7 @@ if ($session_is_admin)
 			$query .= "INSERT INTO source_aliases (source_id, alias) VALUES (@last_source_insert_id, '{$alias}');";
 		}
 
-		$db = db_connect();
+		$db = Database::connect();
 		if ($db->multi_query($query) === true)
 		{
 			$id = $db->insert_id;

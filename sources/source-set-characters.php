@@ -13,7 +13,7 @@ if (!empty($_GET["id"]))
 	$id = intval($_GET["id"]);
 	if ($id > 0)
 	{
-		$db = db_connect();
+		$db = Database::connect();
 		$result = $db->query("SELECT * FROM sources WHERE id={$id} ORDER BY id ASC;");
 		if ($result->num_rows == 1)
 		{
@@ -25,7 +25,7 @@ if (!empty($_GET["id"]))
 
 		$source_chars = array();
 
-		$db = db_connect();
+		$db = Database::connect();
 		$result = $db->query("SELECT * FROM conn_character_source AS conn WHERE conn.source_id={$id} ORDER BY id ASC;");
 		if ($result->num_rows > 0)
 		{
@@ -37,7 +37,7 @@ if (!empty($_GET["id"]))
 
 		$characters = array();
 
-		$db = db_connect();
+		$db = Database::connect();
 		$result = $db->query("SELECT * FROM characters ORDER BY name ASC;");
 		if ($result->num_rows > 0)
 		{

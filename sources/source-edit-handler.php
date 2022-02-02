@@ -12,7 +12,7 @@ if ($session_is_admin)
 	if (!empty($title))
 	{
 		$old_aliases = array();
-		$db = db_connect();
+		$db = Database::connect();
 		$aliases_result = $db->query("SELECT * FROM source_aliases WHERE source_id={$id} ORDER BY id ASC;");
 		if ($aliases_result->num_rows > 0)
 		{
@@ -35,7 +35,7 @@ if ($session_is_admin)
 				$query .= "INSERT INTO source_aliases (source_id, alias) VALUES ({$id}, '{$alias}');";
 		}
 
-		$db = db_connect();
+		$db = Database::connect();
 		if ($db->multi_query($query) === true)
 		{
 			header('Location: ' . action_to_link("source", "id={$id}&edited"));

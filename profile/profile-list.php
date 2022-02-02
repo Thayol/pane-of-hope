@@ -20,7 +20,7 @@ require __DIR__ . "/../header.php";
 <?php
 $page_size = 10;
 
-$db = db_connect();
+$db = Database::connect();
 $result = $db->query("SELECT id, displayname, username FROM users ORDER BY id ASC LIMIT {$page_size};");
 
 $users = array();

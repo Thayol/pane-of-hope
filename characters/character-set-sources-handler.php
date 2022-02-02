@@ -32,7 +32,7 @@ if ($session_is_admin)
 	
 	if (!empty($query))
 	{
-		if (db_multi_query($query) === true)
+		if (Database::multi_query($query) === true)
 		{
 			header('Location: ' . action_to_link("character", "id={$id}&sources_updated"));
 		}

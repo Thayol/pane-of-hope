@@ -25,7 +25,7 @@ class DatabaseTable
     public function count()
     {
         $table = $this->table;
-        $count_result = db_query("SELECT COUNT(id) as count_result FROM {$table};");
+        $count_result = Database::query("SELECT COUNT(id) as count_result FROM {$table};");
         if ($count_result->num_rows > 0)
         {
             return $count_result->fetch_assoc()["count_result"];
@@ -40,7 +40,7 @@ class DatabaseTable
         $columns = implode(",", $this->columns);
         $order_by = $this->columns[0];
         
-        $result = db_find_multiple("SELECT {$columns} FROM {$table} ORDER BY {$order_by} ASC;");
+        $result = Database::multi_find("SELECT {$columns} FROM {$table} ORDER BY {$order_by} ASC;");
 
         return $this->parse_multiple($result);
     }
@@ -73,7 +73,7 @@ class DatabaseTable
         $columns = implode(",", $this->columns);
         $value = is_string($value) ? "'{$value}'" : strval($value);
 
-        $result = db_find("SELECT {$columns} FROM {$table} WHERE {$column}={$value} ORDER BY {$column} ASC;");
+        $result = Database::find("SELECT {$columns} FROM {$table} WHERE {$column}={$value} ORDER BY {$column} ASC;");
 
         return $this->parse(...$result);
     }
@@ -84,7 +84,7 @@ class DatabaseTable
         $columns = implode(",", $this->columns);
         $value = is_string($value) ? "'{$value}'" : strval($value);
 
-        $result = db_find_multiple("SELECT {$columns} FROM {$table} WHERE {$column}={$value} ORDER BY {$column} ASC;");
+        $result = Database::multi_find("SELECT {$columns} FROM {$table} WHERE {$column}={$value} ORDER BY {$column} ASC;");
 
         return $this->parse_multiple($result);
     }
