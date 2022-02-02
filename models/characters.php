@@ -47,16 +47,12 @@ class Character extends DatabaseRecord
     {
         if ($this->sources == null)
         {
-            $conn_character_source_table = new CharacterSourceConnectors();
-            $connections = $conn_character_source_table->multi_find_by_character_id($this->id);
-
-            $sources = array();
-            foreach ($connections as $connection)
+            foreach (Database::conn_character_source()->multi_find_by("character_id", $this->id) as $connection)
             {
                 $sources[] = $connection->source();
             }
 
-            $this->sources = $sources;
+            $this->sources = $sources ?? array();
         }
 
         return $this->sources;

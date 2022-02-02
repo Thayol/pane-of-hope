@@ -53,13 +53,12 @@ class DatabaseTable
 
     public function parse_multiple($raw_array)
     {
-        $parsed = array();
         foreach ($raw_array as $raw)
         {
             $parsed[] = $this->parse(...$raw);
         }
 
-        return $parsed;
+        return $parsed ?? array();
     }
     
     public function find_by_id($id)
