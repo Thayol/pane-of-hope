@@ -46,27 +46,27 @@ class Routes
 
     public static function error()
     {
-        return self::get_action("error");
+        return static::get_action("error");
     }
 
     public static function action_exists($action)
     {
-        return in_array($action, array_keys(self::$actions));
+        return in_array($action, array_keys(static::$actions));
     }
 
     public static function handler_exists($handler)
     {
-        return in_array($handler, array_keys(self::$handlers));
+        return in_array($handler, array_keys(static::$handlers));
     }
 
     public static function get_action($action)
     {
-        if (self::action_exists($action))
+        if (static::action_exists($action))
         {
-            return self::$actions[$action];
+            return static::$actions[$action];
         }
 
-        return self::error();
+        return static::error();
     }
 
     public static function get_action_url($action = "", $querystring = "") : string
@@ -93,12 +93,12 @@ class Routes
 
     public static function get_handler($handler)
     {
-        if (self::handler_exists($handler))
+        if (static::handler_exists($handler))
         {
-            return self::$handlers[$handler];
+            return static::$handlers[$handler];
         }
 
-        return self::error();
+        return static::error();
     }
 
     public static function get_handler_url($handler)
