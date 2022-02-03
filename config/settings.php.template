@@ -22,8 +22,8 @@ Config_Uploads::$allowed_image_extensions = [ "png", "gif", "jpeg", "jpeg" ]; //
 Config_Uploads::$path = "/data"; // Path to the data folder.
 Config_Uploads::$path_absolute = Config::$absolute_prefix . "/data"; // Path to the data folder from the webroot.
 
-Config_Uploads::$character_images_path = Config_Uploads::$path . "/img/"; // Path to the character images folder.
-Config_Uploads::$character_images_path_absolute = Config_Uploads::$path_absolute . "/img/"; // Path to the character images folder from the webroot.
+Config_Uploads::$character_images_path = Config_Uploads::$path . "/img"; // Path to the character images folder.
+Config_Uploads::$character_images_path_absolute = Config_Uploads::$path_absolute . "/img"; // Path to the character images folder from the webroot.
 
 // Data handling
 Config::$htmlspecialchars_flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401; // See: https://www.php.net/manual/en/function.htmlspecialchars.php
