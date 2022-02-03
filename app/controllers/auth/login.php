@@ -34,7 +34,7 @@ require _WEBROOT_ . "/app/views/global/header.php";
 <?php require _WEBROOT_ . "/app/views/global/notice.php"; ?>
 
 <?php if ($session_authenticated):
-    require __DIR__ . "/log-out-first.php";
+    require _WEBROOT_ . "/app/views/auth/log-out-first.php";
 else: ?>
 <form class="login-form" action="<?= Routes::get_handler_url("login") ?>" method="POST">
 
