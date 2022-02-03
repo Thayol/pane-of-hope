@@ -3,8 +3,8 @@
 $username = $_POST["username"];
 $plain_password = $_POST["password"];
 
-$username_valid = preg_match('/[A-Za-z0-9_\.-]{3,128}/', $username) == 1 ? true : false;
-$password_valid = preg_match('/.{8,4000}/', $plain_password) == 1 ? true : false;
+$username_valid = preg_match(Config_Accounts::$username_regex, $username) == 1 ? true : false;
+$password_valid = preg_match(Config_Accounts::$password_regex, $plain_password) == 1 ? true : false;
 
 $action = "login";
 

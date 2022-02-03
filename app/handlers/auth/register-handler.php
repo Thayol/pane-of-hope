@@ -6,9 +6,9 @@ $plain_password = $_POST["password"];
 $plain_password2 = $_POST["password2"];
 $email = $_POST["email"];
 
-$displayname_valid = preg_match('/[A-Za-z0-9_\. -]{1,16}/', $displayname) == 1 ? true : false;
-$username_valid = preg_match('/[A-Za-z0-9_\.-]{3,128}/', $username) == 1 ? true : false;
-$password_valid = preg_match('/.{8,4000}/', $plain_password) == 1 ? true : false;
+$displayname_valid = preg_match(Config_Accounts::$displayname_regex, $displayname) == 1 ? true : false;
+$username_valid = preg_match(Config_Accounts::$username_regex, $username) == 1 ? true : false;
+$password_valid = preg_match(Config_Accounts::$password_regex, $plain_password) == 1 ? true : false;
 $email_valid = filter_var($email, FILTER_VALIDATE_EMAIL) !== false ? true : false;
 
 $action = "register";

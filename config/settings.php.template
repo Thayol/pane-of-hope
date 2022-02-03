@@ -27,3 +27,8 @@ Config_Uploads::$character_images_path_absolute = Config_Uploads::$path_absolute
 
 // Data handling
 Config::$htmlspecialchars_flags = ENT_QUOTES | ENT_SUBSTITUTE | ENT_HTML401; // See: https://www.php.net/manual/en/function.htmlspecialchars.php
+
+// Accounts
+Config_Accounts::$displayname_regex = '/[A-Za-z0-9_\. -]{1,16}/'; // RegEx that validates display names
+Config_Accounts::$username_regex = '/[A-Za-z0-9_\.-]{3,128}/'; // RegEx that validates usernames
+Config_Accounts::$password_regex = '/.{8,4000}/'; // RegEx that validates passwords

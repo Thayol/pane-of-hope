@@ -34,6 +34,13 @@ class Config_Uploads
     public static $character_images_path_absolute;
 }
 
+class Config_Accounts
+{
+    public static $displayname_regex;
+    public static $username_regex;
+    public static $password_regex;
+}
+
 require_once __DIR__ . "/../../config/settings.php";
 
 define("_WEBROOT_", $_SERVER['DOCUMENT_ROOT'] . Config::$webroot_subfolder);
