@@ -2,6 +2,14 @@
 
 class Character extends DatabaseRecord
 {
+    const fields = [ "id", "name", "original_name", "gender" ];
+    const table = "characters";
+    const gender_map = [
+        0 => "N/A",
+        1 => "Female",
+        2 => "Male",
+    ];
+
     public $name;
     public $original_name;
     public $gender;
@@ -12,7 +20,6 @@ class Character extends DatabaseRecord
     public function __construct($id, $name, $original_name, $gender)
     {
         parent::__construct($id);
-        $this->table = "characters";
 
         $this->name = $name;
         $this->original_name = $original_name;
@@ -22,22 +29,16 @@ class Character extends DatabaseRecord
         $this->sources = null;
     }
 
-    public static $gender_map = array(
-        0 => "N/A",
-        1 => "Female",
-        2 => "Male",
-    );
-
     public function pretty_gender()
     {
-        return self::$gender_map[$this->gender];
+        return static::gender_map[$this->gender];
     }
 
     public function images()
     {
         if ($this->images == null)
         {
-            $this->images = Database::character_images()->multi_find_by_character_id($this->id);
+            $this->images = Query::new(CharacterImage::class)->where("character_id = ?", $this->id)->all();
         }
 
         return $this->images;
@@ -47,63 +48,31 @@ class Character extends DatabaseRecord
     {
         if ($this->sources == null)
         {
-            foreach (Database::conn_character_source()->multi_find_by("character_id", $this->id) as $connection)
-            {
-                $sources[] = $connection->source();
-            }
-
-            $this->sources = $sources ?? array();
+            $this->sources = array_map(
+                fn($conn) => $conn->source(),
+                Query::new(CharacterSourceConnector::class)
+                     ->where("character_id = ?", $this->id)
+                     ->all()
+            ) ?? array();
         }
 
         return $this->sources;
     }
 }
 
-class Characters extends DatabaseTable
-{
-    public function __construct() {
-        parent::__construct();
-        $this->table = "characters";
-        $this->produces = "Character";
-        $this->columns = array(
-            "id",
-            "name",
-            "original_name",
-            "gender",
-        );
-    }
-}
-
 class CharacterImage extends DatabaseRecord
 {
+    const fields = [ "id", "character_id", "path" ];
+    const table = "character_images";
+    
     public $character_id;
     public $path;
 
     public function __construct($id, $character_id, $path)
     {
         parent::__construct($id);
-        $this->table = "character_images";
 
         $this->character_id = $character_id;
         $this->path = $path;
-    }
-}
-
-class CharacterImages extends DatabaseTable
-{
-    public function __construct() {
-        parent::__construct();
-        $this->table = "character_images";
-        $this->produces = "CharacterImage";
-        $this->columns = array(
-            "id",
-            "character_id",
-            "path",
-        );
-    }
-
-    public function multi_find_by_character_id($character_id)
-    {
-        return $this->multi_find_by("character_id", $character_id);
     }
 }
