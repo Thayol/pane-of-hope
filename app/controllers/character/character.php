@@ -3,7 +3,7 @@ $character = null;
 
 if (!empty($_GET["id"]))
 {
-    $character = Database::characters()->find_by_raw_id($_GET["id"]);
+    $character = Query::new(Character::class)->find(Sanitize::id($_GET["id"]));
 }
 
 $context_nav_buttons["Listing"] = "characters";

@@ -38,7 +38,11 @@ class Database
             }
         }
 
-        $prepared->bind_param($types, ...$substitutions);
+        if (!empty($substitutions))
+        {
+            $prepared->bind_param($types, ...$substitutions);
+        }
+        
         $prepared->execute();
         $result = $prepared->get_result();
         $assoc = mysqli_fetch_all($result, MYSQLI_ASSOC);

@@ -9,8 +9,8 @@ $character = null;
 
 if (!empty($_GET["id"]))
 {
-    $character = Database::characters()->find_by_raw_id($_GET["id"]);
-    $sources = Database::sources()->all();
+    $character = Query::new(Character::class)->find(Sanitize::id($_GET["id"]));
+    $sources = Query::new(Source::class)->all();
 
     usort($sources, fn($a, $b) => strnatcmp($a->title, $b->title));
 }

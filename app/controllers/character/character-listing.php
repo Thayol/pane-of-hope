@@ -22,7 +22,8 @@ $page = 1; // if not set
 $page_count = 1; // default fallback
 $page_size = Config::$listing_page_size;
 
-$page_count = ceil(Database::characters()->count() / $page_size);
+$characters = Query::new(Character::class);
+$page_count = ceil($characters->count() / $page_size);
 
 if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 {
@@ -31,32 +32,28 @@ if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 
 $offset = ($page - 1) * $page_size;
 
-$result = Database::query("SELECT characters.id AS id, characters.name AS name, characters.original_name AS original_name, characters.gender AS gender, sources.id AS source_id, sources.title AS source_title FROM characters LEFT OUTER JOIN conn_character_source AS conn ON characters.id=conn.character_id LEFT JOIN sources ON conn.source_id=sources.id ORDER BY characters.id ASC LIMIT {$page_size} OFFSET {$offset};");
+$character_query = Query::new(Character::class)->limit($page_size)->offset($offset);
+$connector_query = Query::new(CharacterSourceConnector::class)->in("character_id", $character_query->pluck("id"));
+$source_query = Query::new(Source::class)->in("id", $connector_query->pluck("source_id"));
 
 $characters = array();
-if ($result->num_rows > 0)
+foreach ($character_query->all() as $character)
 {
-    while ($character = $result->fetch_assoc())
-    {
-        if (empty($characters[$character["id"]]))
-        {
-            $characters[$character["id"]] = $character;
-            $characters[$character["id"]]["sources"] = array();
-            if (!empty($character["source_id"]) && !empty($character["source_title"]))
-            {
-                $characters[$character["id"]]["sources"][$character["source_id"]] = $character["source_title"];
-                unset($characters[$character["id"]]["source_id"]);
-                unset($characters[$character["id"]]["source_title"]);
-            }
-        }
-        else
-        {
-            if (!empty($character["source_id"]) && !empty($character["source_title"]))
-            {
-                $characters[$character["id"]]["sources"][$character["source_id"]] = $character["source_title"];
-            }
-        }
-    }
+    $characters[$character->id] = $character;
+}
+$sources = array();
+foreach ($source_query->all() as $source)
+{
+    $sources[$source->id] = $source;
+}
+$sources_by_character_id = array();
+foreach ($connector_query->all() as $conn)
+{
+    $sources_by_character_id[$conn->character_id][] = $sources[$conn->source_id];
+}
+foreach ($sources_by_character_id as $character_id => $sources)
+{
+    $characters[$character_id]->set_sources($sources);
 }
 ?>
 
@@ -76,36 +73,45 @@ if ($result->num_rows > 0)
     <tbody>
 
 <?php
+function character_list_gender_tag($raw_gender)
+{
+    if ($raw_gender == 1) 
+    {
+        return '<span class="gender-female-icon">F</span>';
+    }
+    
+    if ($raw_gender == 2)
+    {
+        return '<span class="gender-male-icon">M</span>';
+    }
+
+    return '<span class="gender-neutral-icon">?</span>';
+}
+
 foreach ($characters as $character)
 {
-    $id = $character["id"];
-    $name = $character["name"];
-    $og_name = $character["original_name"];
-    $gender_raw = $character["gender"];
     $formatted_sources = "";
+    $name = $character->name;
 
-    foreach ($character["sources"] as $source_id => $source_title)
+    $source_links = array_map(
+        fn($source) => "<span><a href=\"" . Routes::get_action_url("source", "id={$source->id}") . "\">{$source->title}</a></span>",
+        $character->sources()
+    );
+    $source_links = implode("<br>", $source_links);
+
+    if ($character->original_name != null)
     {
-        if (!empty($formatted_sources)) $formatted_sources .= "<br>";
-        $source_url = Routes::get_action_url("source") . "?id={$source_id}";
-        $formatted_sources .= "<span><a href=\"{$source_url}\">{$source_title}</a></span>";
+        $name .= " ($character->original_name)";
     }
 
-    if ($og_name != null)
-    {
-        $name .= " ($og_name)";
-    }
+    $gender = character_list_gender_tag($character->gender);
 
-    $gender = '<span class="gender-neutral-icon">?</span>';
-    if ($gender_raw == 1) $gender = '<span class="gender-female-icon">F</span>';
-    if ($gender_raw == 2) $gender = '<span class="gender-male-icon">M</span>';
-
-    $char_url = Routes::get_action_url("character") . "?id={$id}";
+    $character_url = Routes::get_action_url("character") . "?id={$character->id}";
 
     echo '<tr>';
-    echo "<td>{$id}</td>";
-    echo "<td><a href=\"{$char_url}\">{$name}</a></td>";
-    echo "<td>$formatted_sources</td>";
+    echo "<td>{$character->id}</td>";
+    echo "<td><a href=\"{$character_url}\">{$character->name}</a></td>";
+    echo "<td>{$source_links}</td>";
     echo "<td>{$gender}</td>";
     echo '</tr>';
 }

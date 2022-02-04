@@ -29,6 +29,11 @@ class Character extends DatabaseRecord
         $this->sources = null;
     }
 
+    public function set_sources($sources)
+    {
+        $this->sources = $sources;
+    }
+
     public function pretty_gender()
     {
         return static::gender_map[$this->gender];

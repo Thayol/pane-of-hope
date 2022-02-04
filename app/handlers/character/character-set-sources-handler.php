@@ -5,12 +5,10 @@ if ($session_is_admin)
     $id = $_POST["id"];
     $sources = $_POST["sources"] ?? array();
 
-    $old_sources = array();
-
-    foreach (Database::conn_character_source()->multi_find_by_character_id($id) as $connection)
-    {
-        $old_sources[] = $connection->source_id;
-    }
+    $old_sources = array_map(
+        fn($conn) => $conn->source_id,
+        Query::new(CharacterSourceConnector::class)->where("character_id = ?", $id)->all()
+    ) ?? array();
 
     $removed_sources = array_diff($old_sources, $sources);
     $new_sources = array_diff($sources, $old_sources);
