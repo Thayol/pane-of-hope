@@ -3,12 +3,12 @@
 if ($session_is_admin)
 {
     $id = $_POST["id"];
-    $sources = $_POST["sources"] ?? array();
+    $sources = array_map(
+        "Sanitize::id",
+        $_POST["sources"] ?? array()
+    );
 
-    $old_sources = array_map(
-        fn($conn) => $conn->source_id,
-        Query::new(CharacterSourceConnector::class)->where("character_id = ?", $id)->all()
-    ) ?? array();
+    $old_sources = Query::new(CharacterSourceConnector::class)->where("character_id = ?", Sanitize::id($id))->pluck("source_id");
 
     $removed_sources = array_diff($old_sources, $sources);
     $new_sources = array_diff($sources, $old_sources);
