@@ -20,6 +20,16 @@ class Source extends DatabaseRecord
         $this->characters = null;
     }
 
+    public function set_aliases($aliases)
+    {
+        $this->aliases = $aliases;
+    }
+
+    public function set_characters($characters)
+    {
+        $this->characters = $characters;
+    }
+
     public function aliases()
     {
         if ($this->aliases == null)
