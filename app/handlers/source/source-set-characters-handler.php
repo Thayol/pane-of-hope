@@ -3,19 +3,12 @@
 if ($session_is_admin)
 {
     $id = $_POST["id"];
-    $characters = $_POST["characters"] ?? array();
+    $characters = array_map(
+        "Sanitize::id",
+        $_POST["characters"] ?? array()
+    );
 
-    $old_characters = array();
-
-    $db = Database::connect();
-    $result = $db->query("SELECT * FROM conn_character_source AS conn WHERE conn.source_id={$id} ORDER BY id ASC;");
-    if ($result->num_rows > 0)
-    {
-        while ($conn = $result->fetch_assoc())
-        {
-            $old_characters[] = $conn["character_id"];
-        }
-    }
+    $old_characters = Query::new(CharacterSourceConnector::class)->where("source_id = ?", Sanitize::id($id))->pluck("character_id");
 
     $removed_characters = array_diff($old_characters, $characters);
     $new_characters = array_diff($characters, $old_characters);
@@ -27,14 +20,13 @@ if ($session_is_admin)
     }
     foreach ($new_characters as $character)
     {
-        $query .= "INSERT INTO conn_character_source (character_id, source_id) VALUES ({$character}, '{$id}');";
+        $query .= "INSERT INTO conn_character_source (character_id, source_id) VALUES ({$character}, {$id});";
     }
 
 
     if (!empty($query))
     {
-        $db = Database::connect();
-        if ($db->multi_query($query) === true)
+        if (Database::multi_query($query) === true)
         {
             header('Location: ' . Routes::get_action_url("source", "id={$id}&characters_updated"));
         }
