@@ -22,8 +22,8 @@ $page = 1; // if not set
 $page_count = 1; // default fallback
 $page_size = Config::$listing_page_size;
 
-$characters = Query::new(Character::class);
-$page_count = ceil($characters->count() / $page_size);
+$character_query = Query::new(Character::class);
+$page_count = ceil($character_query->count() / $page_size);
 
 if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 {
@@ -32,7 +32,7 @@ if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 
 $offset = ($page - 1) * $page_size;
 
-$character_query = Query::new(Character::class)->limit($page_size)->offset($offset);
+$character_query = $character_query->limit($page_size)->offset($offset);
 $connector_query = Query::new(CharacterSourceConnector::class)->in("character_id", $character_query->pluck("id"));
 $source_query = Query::new(Source::class)->in("id", $connector_query->pluck("source_id"));
 
