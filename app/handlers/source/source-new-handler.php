@@ -13,8 +13,7 @@ if ($session_is_admin)
             $query .= "INSERT INTO source_aliases (source_id, alias) VALUES (@last_source_insert_id, '{$alias}');";
         }
 
-        $db = Database::connect();
-        if ($db->multi_query($query) === true)
+        if (Database::multi_query($query) === true)
         {
             $id = $db->insert_id;
             header('Location: ' . Routes::get_action_url("source", "id={$id}&created"));
