@@ -45,7 +45,7 @@ class Source extends DatabaseRecord
         if ($this->characters == null)
         {
             $this->characters = array_map(
-                fn($conn) => $conn->source(),
+                fn($conn) => $conn->character(),
                 Query::new(CharacterSourceConnector::class)
                      ->where("source_id = ?", $this->id)
                      ->all()
