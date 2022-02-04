@@ -22,12 +22,9 @@ $page = 1; // if not set
 $page_count = 1; // default fallback
 $page_size = Config::$listing_page_size;
 
-$db = Database::connect();
-$count_result = $db->query("SELECT COUNT(id) as source_count FROM sources;");
-if ($count_result->num_rows > 0)
-{
-    $page_count = ceil($count_result->fetch_assoc()["source_count"] / $page_size);
-}
+$source_query = Query::new(Source::class);
+
+$page_count = ceil($source_query->count() / $page_size);
 
 if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 {
@@ -35,31 +32,25 @@ if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 }
 
 $offset = ($page - 1) * $page_size;
-$result = $db->query("SELECT sources.id AS id, sources.title AS title, source_aliases.alias AS alias FROM sources LEFT JOIN source_aliases ON sources.id=source_aliases.source_id ORDER BY sources.id ASC LIMIT {$page_size} OFFSET {$offset};");
+
+$source_query = $source_query->limit($page_size)->offset($offset);
+$source_alias_query = Query::new(SourceAlias::class)->in("source_id", $source_query->pluck("id"));
 
 $sources = array();
-if ($result->num_rows > 0)
+foreach ($source_query->all() as $source)
 {
-    while ($source = $result->fetch_assoc())
-    {
-        $id = $source["id"];
-        if (empty($sources[$id]))
-        {
-            $sources[$id] = $source;
-            if (!empty($source["alias"]))
-            {
-                unset($sources[$id]["alias"]);
-                $sources[$id]["aliases"] = array($source["alias"]);
-            }
-        }
-        else
-        {
-            if (!empty($source["alias"]))
-            {
-                $sources[$id]["aliases"][] = $source["alias"];
-            }
-        }
-    }
+    $sources[$source->id] = $source;
+}
+
+$source_aliases = array();
+foreach ($source_alias_query->all() as $alias)
+{
+    $source_aliases[$alias->source_id][] = $alias;
+}
+
+foreach ($source_aliases as $source_id => $aliases)
+{
+    $sources[$source_id]->set_aliases($aliases);
 }
 
 ?>
@@ -81,16 +72,15 @@ if ($result->num_rows > 0)
 <?php
 foreach ($sources as $source)
 {
-    $id = $source["id"];
-    $title = $source["title"];
-    $aliases = $source["aliases"] ?? array();
+    $aliases = array_map(
+        fn($alias) => $alias->alias,
+        $source->aliases()
+    );
     $aliases_concat = "<span>" . implode("</span><br><span>", $aliases) . "</span>";
 
-    $url = Routes::get_action_url("source") . "?id={$id}";
-
     echo '<tr>';
-    echo "<td>{$id}</td>";
-    echo "<td><a href=\"{$url}\">{$title}</a></td>";
+    echo "<td>{$source->id}</td>";
+    echo "<td><a href=\"" . Routes::get_action_url("source", "id={$source->id}") . "\">{$source->title}</a></td>";
     echo "<td>{$aliases_concat}</td>";
     echo '</tr>';
 }
