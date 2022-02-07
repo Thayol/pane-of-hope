@@ -25,7 +25,7 @@ require _WEBROOT_ . "/app/views/global/header.php";
     <?php else: ?>
 
     <form class="login-form" action="<?= Routes::get_handler_url("character-add-image") ?>" method="POST" enctype="multipart/form-data">
-    <h2>Add image for <?= $character->name ?> <?= empty($character->original_name) ? "" : "({$character->original_name})" ?></h2>
+    <h2>Add image for <?= $character->pretty_name() ?></h2>
     <input type="hidden" name="id" value="<?= $character->id ?>">
     <input class="input-file" type="file" name="uploadfile" value=""><br>
 

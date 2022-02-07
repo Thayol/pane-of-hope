@@ -43,7 +43,7 @@ if ($source == null): ?>
 <div class="left-align">
 <?php foreach ($characters as $character): ?>
 <input type="checkbox" name="characters[]" id="character<?= $character->id ?>" value="<?= $character->id ?>" <?php if (in_array($character, $source->characters())) echo "checked"; ?>>
-<label for="character<?= $character->id ?>"><?= $character->name ?><?= empty($character->original_name) ? "" : " ({$character->original_name})" ?></label>
+<label for="character<?= $character->id ?>"><?= $character->pretty_name() ?></label>
 <br>
 <?php endforeach; ?>
 </div>

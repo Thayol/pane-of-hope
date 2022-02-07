@@ -39,6 +39,18 @@ class Character extends DatabaseRecord
         return static::gender_map[$this->gender];
     }
 
+    public function pretty_name()
+    {
+        if (empty($this->original_name))
+        {
+            return $this->name;
+        }
+        else
+        {
+            return "$this->name ($this->original_name)";
+        }
+    }
+
     public function images()
     {
         if ($this->images == null)

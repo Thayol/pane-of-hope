@@ -91,7 +91,6 @@ function character_list_gender_tag($raw_gender)
 foreach ($characters as $character)
 {
     $formatted_sources = "";
-    $name = $character->name;
 
     $source_links = array_map(
         fn($source) => "<span><a href=\"" . Routes::get_action_url("source", "id={$source->id}") . "\">{$source->title}</a></span>",
@@ -99,18 +98,13 @@ foreach ($characters as $character)
     );
     $source_links = implode("<br>", $source_links);
 
-    if ($character->original_name != null)
-    {
-        $name .= " ($character->original_name)";
-    }
-
     $gender = character_list_gender_tag($character->gender);
 
     $character_url = Routes::get_action_url("character") . "?id={$character->id}";
 
     echo '<tr>';
     echo "<td>{$character->id}</td>";
-    echo "<td><a href=\"{$character_url}\">{$character->name}</a></td>";
+    echo "<td><a href=\"{$character_url}\">{$character->pretty_name()}</a></td>";
     echo "<td>{$source_links}</td>";
     echo "<td>{$gender}</td>";
     echo '</tr>';

@@ -38,7 +38,7 @@ if ($character == null): ?>
 <?php else: ?>
 
 <form class="login-form" action="<?= Routes::get_handler_url("character-set-sources") ?>" method="POST">
-<h2>Manage sources of <?= $character->name ?> <?= empty($character->original_name) ? "" : "({$character->original_name})" ?></h2>
+<h2>Manage sources of <?= $character->pretty_name() ?></h2>
 <input type="hidden" name="id" value="<?= $character->id ?>">
 
 <div class="left-align">
