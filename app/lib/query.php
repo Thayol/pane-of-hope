@@ -20,6 +20,7 @@ class Query
 
     private $query_result;
     private $executed_queries;
+    private $excluded_fields_for_insert;
 
     public function __construct()
     {
@@ -31,6 +32,7 @@ class Query
         $this->and_mode = false;
 
         $this->select_fields = array();
+        $this->excluded_fields_for_insert = [ "id" ];
         $this->count_field = "";
 
         $this->where_conditions = array();
@@ -94,35 +96,54 @@ class Query
         return $this;
     }
 
+    public function into($table)
+    {
+        $this->from($table);
+
+        return $this;
+    }
+
     public function select($fields = null)
     {
         $this->type(null);
         $this->query_type = "SELECT";
 
-        if (is_string($fields))
+        $this->set_select_fields($fields);
+
+        return $this;
+    }
+
+    public function insert($fields = null)
+    {
+        $this->query_type = "INSERT";
+
+        $this->set_select_fields($fields);
+
+        return $this;
+    }
+
+    public function values($values)
+    {
+        if (gettype($values) == "object" && get_class($values) == static::class)
         {
-            $fields = explode(",", str_replace(" ", "", $fields));
+            $subquery = substr($values->explain(), 0, -1);
+            $values = "({$subquery})";
+
+            $this->insert_subquery[] = $value;
+            $this->insert_value_types[] = null;
+            $this->insert_values[] = null;
+
+            return $this;
         }
 
-        if (is_array($fields))
+        $values = static::wrap_if_single_value($values);
+
+        foreach ($values as $value)
         {
-            if ($this->and_mode)
-            {
-                $this->and_mode = false;
-                $this->select_fields = array_merge($this->select_fields, $fields);
-            }
-            else
-            {
-                $this->select_fields = $fields;
-            }
-        }
-        else if ($fields == null)
-        {
-            $this->select_fields = "*";
-        }
-        else
-        {
-            throw new Exception("Unknown select field variable types passed.");
+            list($type, $value) = static::convert_value($value);
+            $this->insert_subquery[] = null;
+            $this->insert_value_types[] = $type;
+            $this->insert_values[] = $value;
         }
 
         return $this;
@@ -174,27 +195,10 @@ class Query
 
             $values = array();
         }
-        else if ($in)
-        {
-            $in_values = array();
-            foreach ($values as $value)
-            {
-                list($type, $value) = static::convert_value($value);
-                $in_values[] = $value;
-            }
-
-            $in_values = implode(", ", $in_values);
-
-            $clause = str_replace("?", "({$in_values})", $clause);
-            $values = array();
-        }
 
         $this->where_conditions[] = $clause;
 
-        if (!is_array($values))
-        {
-            $values = array($values);
-        }
+        $values = static::wrap_if_single_value($values);
 
         foreach ($values as $value)
         {
@@ -208,7 +212,18 @@ class Query
 
     public function in($field, $values)
     {
-        $this->where("{$field} IN ?", $values, true);
+        $in_values = array();
+        foreach ($values as $value)
+        {
+            list($type, $value) = static::convert_value($value);
+            $in_values[] = $value;
+        }
+
+        $in_values = implode(", ", $in_values);
+
+        $clause = "{$field} IN ({$in_values})";
+
+        $this->where_conditions[] = $clause;
 
         return $this;
     }
@@ -239,8 +254,16 @@ class Query
         return $this->fake_substitute();
     }
 
+    public function commit()
+    {
+        $this->execute();
+
+        return $this->query_result;
+    }
+
     public function find($id)
     {
+        $this->query_type = "SELECT";
         $field = $this->select_fields[0];
         $this->where("{$field} = ?", $id);
 
@@ -249,6 +272,7 @@ class Query
 
     public function all()
     {
+        $this->query_type = "SELECT";
         $this->lazy_execute();
         
         return $this->query_result ?? null;
@@ -256,6 +280,7 @@ class Query
 
     public function first($amount = null)
     {
+        $this->query_type = "SELECT";
         $this->lazy_execute();
 
         if ($amount == null)
@@ -271,32 +296,75 @@ class Query
         return array_slice($this->query_result, 0, $amount) ?? null;
     }
 
+    private function set_select_fields($fields)
+    {
+        if ($fields == null)
+        {
+            return $this->select_fields;
+        }
+
+        $fields = $this->parse_fields($fields);
+
+        if ($this->and_mode)
+        {
+            $this->and_mode = false;
+            $this->select_fields = array_merge($this->select_fields, $fields);
+        }
+        else
+        {
+            $this->select_fields = $fields;
+        }
+
+        return $this->select_fields;
+    }
+
+    private function parse_fields($fields)
+    {
+        if (is_string($fields))
+        {
+            $fields = explode(",", str_replace(" ", "", $fields));
+        }
+
+        if (is_array($fields))
+        {
+            return $fields;
+        }
+        else
+        {
+            throw new Exception("Unknown select field variable type passed.");
+        }
+    }
+
     private function execute()
     {
         $query = $this->build_query();
 
         $this->query_result = Database::prepared_query($query, $this->build_values());
 
-        if ($this->count_mode)
+        if ($this->query_type == "SELECT")
         {
-            $this->query_result = $this->query_result[0]["count"] ?? 0;
-        }
-        else if ($this->parse_as !== null)
-        {
-            $class = $this->parse_as;
-            $parsed = array();
-
-            foreach ($this->query_result as $record)
+            if ($this->count_mode)
             {
-                $parsed[] = new $class(...$record);
+                $this->query_result = $this->query_result[0]["count"] ?? 0;
+            }
+            else if ($this->parse_as !== null)
+            {
+                $class = $this->parse_as;
+                $parsed = array();
+
+                foreach ($this->query_result as $record)
+                {
+                    $parsed[] = new $class(...$record);
+                }
+
+                $this->query_result = $parsed;
             }
 
-            $this->query_result = $parsed;
+            $this->executed_queries[$query] = $this->query_result;
+            return $this->query_result;
         }
 
-        $this->executed_queries[$query] = $this->query_result;
-
-        return $this;
+        return null;
     }
 
     private function lazy_execute()
@@ -347,6 +415,23 @@ class Query
         
         $main_table = $this->main_table;
         return "SELECT {$fields} FROM {$main_table}";
+    }
+
+    private function build_insert()
+    {
+        $insert_fields = array_diff($this->select_fields, $this->excluded_fields_for_insert);
+        $fields = implode(", ", $insert_fields);
+
+        $field_placeholders = array();
+        for ($i = 0; $i < count($insert_fields); $i++)
+        {
+            $field_placeholders[] = "?";
+        }
+
+        $field_placeholders = implode(", ", $field_placeholders);
+
+        $main_table = $this->main_table;
+        return "INSERT INTO {$main_table} ({$fields}) VALUES ({$field_placeholders})";
     }
 
     private function build_where()
@@ -409,11 +494,15 @@ class Query
                 }
             }
         }
+        else if ($this->query_type == "INSERT")
+        {
+            $query_clauses[] = $this->build_insert();
+        }
 
         $query = implode(" ", $query_clauses);
         $query .= ";";
 
-        if ($this->parse_as !== null)
+        if ($this->query_type == "SELECT" && $this->parse_as !== null)
         {
             $class = $this->parse_as;
             $query .= " /* {$class}::class */";
@@ -426,11 +515,31 @@ class Query
     {
         $values = array();
 
-        if (!empty($this->where_values))
+        if ($this->query_type == "SELECT")
         {
-            $values = array_merge($values, $this->where_values);
+            if (!empty($this->where_values))
+            {
+                $values = array_merge($values, $this->where_values);
+            }
+        }
+        else if ($this->query_type == "INSERT")
+        {
+            if (!empty($this->insert_values))
+            {
+                $values = array_merge($values, $this->insert_values);
+            }
         }
 
         return $values;
+    }
+
+    private static function wrap_if_single_value($values)
+    {
+        if (is_array($values))
+        {
+            return $values;
+        }
+
+        return array($values);
     }
 }

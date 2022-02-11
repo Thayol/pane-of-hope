@@ -44,10 +44,19 @@ class Database
         }
         
         $prepared->execute();
-        $result = $prepared->get_result();
-        $assoc = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-        return $assoc;
+        if (strtoupper(explode(" ", $statement)[0]) == "SELECT")
+        {
+            $result = $prepared->get_result();
+            $assoc = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            return $assoc;
+        }
+        else if (strtoupper(explode(" ", $statement)[0]) == "INSERT")
+        {
+            return $prepared->insert_id;
+        }
+
+        return null;
     }
 
     public static function query($query)
