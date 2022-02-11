@@ -10,6 +10,7 @@ $displayname_valid = preg_match(Config_Accounts::$displayname_regex, $displaynam
 $username_valid = preg_match(Config_Accounts::$username_regex, $username) == 1 ? true : false;
 $password_valid = preg_match(Config_Accounts::$password_regex, $plain_password) == 1 ? true : false;
 $email_valid = filter_var($email, FILTER_VALIDATE_EMAIL) !== false ? true : false;
+$permission_level = Config::$default_permission_level;
 
 $action = "register";
 
