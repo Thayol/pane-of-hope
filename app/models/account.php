@@ -3,7 +3,7 @@
 class Account extends DatabaseRecord
 {
     const fields = [ "id", "username", "displayname", "password", "email", "permission_level" ];
-    const table = "conn_character_source";
+    const table = "accounts";
 
     public $username;
     public $displayname;
