@@ -19,6 +19,11 @@ class Database
         $db = static::connect();
         $prepared = $db->prepare($statement);
 
+        if ($prepared === false)
+        {
+            throw new Exception("Malformed prepared statement: {$statement}");
+        }
+
         $types = "";
         foreach ($substitutions as $key => $substitution)
         {
