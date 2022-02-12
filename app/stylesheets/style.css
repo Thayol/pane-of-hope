@@ -138,6 +138,12 @@ a:hover {
     color: var(--notification-success-text);
 }
 
+.notice-dismiss {
+    float: right;
+    color: var(--inverted-text);
+    cursor: pointer;
+}
+
 .table-wide {
     width: 100%;
 }

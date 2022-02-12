@@ -1,11 +1,25 @@
-<?php if (!empty($notice_error)): ?>
-<div class="notice notice-error"><?= $notice_error ?></div>
-<?php endif; ?>
+<script>
+    function dismissNotification(element)
+    {
+        element.parentElement.style.display = 'none';
+    }
+</script>
+<?php
 
-<?php if (!empty($notice_success)): ?>
-<div class="notice notice-success"><?= $notice_success ?></div>
-<?php endif; ?>
+function render_notice($type, $message)
+{
+    echo "<div class=\"notice notice-{$type}\">{$message}<a href=\"#\" onclick=\"dismissNotification(this)\" class=\"notice-dismiss\">x</a></div>";
+}
 
-<?php if (!empty($notice_neutral)): ?>
-<div class="notice notice-neutral"><?= $notice_neutral ?></div>
-<?php endif; ?>
+if (!empty($notice_error))
+{
+    render_notice("error", $notice_error);
+}
+if (!empty($notice_success))
+{
+    render_notice("success", $notice_success);
+}
+if (!empty($notice_neutral))
+{
+    render_notice("neutral", $notice_neutral);
+}
