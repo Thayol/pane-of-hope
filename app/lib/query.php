@@ -113,9 +113,26 @@ class Query
         return $this;
     }
 
-    public function delete()
+    public function delete($pk = null)
     {
         $this->query_type = "DELETE";
+
+        if ($pk !== null)
+        {
+            $this->scope_primary_key($pk);
+        }
+
+        return $this;
+    }
+
+    public function update($pk = null)
+    {
+        $this->query_type = "UPDATE";
+
+        if ($pk !== null)
+        {
+            $this->scope_primary_key($pk);
+        }
 
         return $this;
     }
@@ -303,6 +320,11 @@ class Query
         return array_slice($this->query_result, 0, $amount) ?? null;
     }
 
+    private function scope_primary_key($pk)
+    {
+        $this->where("{$this->primary_key} = ?", $pk);
+    }
+
     private function set_select_fields($fields)
     {
         if ($fields == null)
@@ -447,6 +469,22 @@ class Query
         return "DELETE FROM {$main_table}";
     }
 
+    private function build_update()
+    {
+        $main_table = $this->main_table;
+
+        $fields = array_diff($this->select_fields, $this->excluded_fields_for_insert);
+
+        $fields = array_map(
+            fn($field) => "{$field} = ?",
+            $fields
+        );
+
+        $fields = implode(", ", $fields);
+
+        return "UPDATE {$main_table} SET {$fields}";
+    }
+
     private function build_where()
     {
         $clause = implode(" AND ", $this->where_conditions);
@@ -495,16 +533,20 @@ class Query
         {
             $query_clauses[] = $this->build_delete();
         }
+        else if ($this->query_type == "UPDATE")
+        {
+            $query_clauses[] = $this->build_update();
+        }
 
-        if ($this->query_type == "SELECT" || $this->query_type == "DELETE")
+        if ($this->query_type == "SELECT" || $this->query_type == "DELETE" || $this->query_type == "UPDATE")
         {
             if (!empty($this->where_conditions))
             {
                 $query_clauses[] = $this->build_where();
             }
-            else if ($this->query_type == "DELETE")
+            else if ($this->query_type == "DELETE" || $this->query_type == "UPDATE")
             {
-                throw new Exception("DELETE queries without WHERE conditions are not allowed.");
+                throw new Exception("{$this->query_type} queries without WHERE conditions are not allowed.");
             }
         }
 
@@ -539,18 +581,19 @@ class Query
     {
         $values = array();
 
-        if ($this->query_type == "SELECT" || $this->query_type == "DELETE")
-        {
-            if (!empty($this->where_values))
-            {
-                $values = array_merge($values, $this->where_values);
-            }
-        }
-        else if ($this->query_type == "INSERT")
+        if ($this->query_type == "INSERT" || $this->query_type == "UPDATE")
         {
             if (!empty($this->insert_values))
             {
                 $values = array_merge($values, $this->insert_values);
+            }
+        }
+
+        if ($this->query_type == "SELECT" || $this->query_type == "DELETE" || $this->query_type == "UPDATE")
+        {
+            if (!empty($this->where_values))
+            {
+                $values = array_merge($values, $this->where_values);
             }
         }
 
@@ -627,7 +670,12 @@ class Query
             $prepared->bind_param($types, ...$substitutions);
         }
         
-        $prepared->execute();
+        $success = $prepared->execute();
+
+        if (!$success)
+        {
+            throw new Exception("Query error: " . print_r($prepared->error_list, true));
+        }
 
         if (strtoupper(explode(" ", $statement)[0]) == "SELECT")
         {
@@ -640,6 +688,10 @@ class Query
             return $prepared->insert_id;
         }
         else if (strtoupper(explode(" ", $statement)[0]) == "DELETE")
+        {
+            return $prepared->affected_rows;
+        }
+        else if (strtoupper(explode(" ", $statement)[0]) == "UPDATE")
         {
             return $prepared->affected_rows;
         }
