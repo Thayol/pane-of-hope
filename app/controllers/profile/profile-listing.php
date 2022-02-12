@@ -18,42 +18,74 @@ require _WEBROOT_ . "/app/views/global/header.php";
 ?>
 <main class="main">
 <?php
-$page_size = 10;
+$page = 1; // if not set
+$page_count = 1; // default fallback
+$page_size = Config::$listing_page_size;
 
-$db = Database::connect();
-$result = $db->query("SELECT id, displayname, username FROM accounts ORDER BY id ASC LIMIT {$page_size};");
+$account_query = Query::new(Account::class);
+$page_count = ceil($account_query->count() / $page_size);
 
-$users = array();
-if ($result->num_rows > 0)
+if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 {
-    while ($user = $result->fetch_assoc())
-    {
-        $users[$user["id"]] = $user;
-    }
+    $page = intval($_GET["page"]);
 }
+
+$offset = ($page - 1) * $page_size;
+
+$account_query = $account_query->limit($page_size)->offset($offset);
+
+$accounts = $account_query->all()
 ?>
 
-<?php if (empty($users)): ?>
-<p>There are no characters in the database. (Or there is a database error.)</p>
+<?php if (empty($accounts)): ?>
+<p>There are no profiles in the database. (Or there is a database error.)</p>
 <?php else: ?>
 
-<table class="table-wide alternating-rows">
+<table class="table-wide thead-separator alternating-rows">
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Displayname</td>
+            <?php if ($session_is_admin): ?>
+            <td>Username</td>
+            <?php endif; ?>
+        </tr>
+    </thead>
     <tbody>
 
 <?php
-foreach ($users as $user)
+foreach ($accounts as $account)
 {
-    $id = $user["id"];
-    $displayname = $user["displayname"];
-    $username = $user["username"];
-
-    $url = Routes::get_action_url("profile") . "?u={$id}";
+    $account_url = Routes::get_action_url("profile", "id={$account->id}");
 
     echo '<tr>';
-    echo "<td><a href=\"{$url}\">{$displayname}</a> <small>({$username})</small></td>";
+    echo "<td>{$account->id}</td>";
+    echo "<td><a href=\"{$account_url}\">{$account->displayname}</a></td>";
+    if ($session_is_admin)
+    {
+        echo "<td>#{$account->username}</td>";
+    }
     echo '</tr>';
 }
 echo "</tbody></table>";
+
+echo "<nav>Page: ";
+for ($i = $page - Config::$max_seek_page_numbers; $i <= $page + Config::$max_seek_page_numbers; $i++)
+{
+    if ($i > 0 && $i <= $page_count)
+    {
+        $url = Routes::get_action_url($action, "page={$i}");
+        $class = "nav-button";
+        if ($i == $page)
+        {
+            $class .= " nav-button-current";
+        }
+
+        echo "<a class=\"{$class}\" href=\"{$url}\">{$i}</a> ";
+    }
+}
+echo "</nav>";
+
 endif; ?>
 
 </main>
