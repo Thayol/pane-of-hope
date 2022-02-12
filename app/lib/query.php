@@ -113,6 +113,13 @@ class Query
         return $this;
     }
 
+    public function delete()
+    {
+        $this->query_type = "DELETE";
+
+        return $this;
+    }
+
     public function values($values)
     {
         if (gettype($values) == "object" && get_class($values) == static::class)
@@ -339,7 +346,7 @@ class Query
     {
         $query = $this->build_query();
 
-        $this->query_result = Database::prepared_query($query, $this->build_values());
+        $this->query_result = static::prepared_query($query, $this->build_values());
 
         if ($this->query_type == "SELECT")
         {
@@ -434,6 +441,12 @@ class Query
         return "INSERT INTO {$main_table} ({$fields}) VALUES ({$field_placeholders})";
     }
 
+    private function build_delete()
+    {
+        $main_table = $this->main_table;
+        return "DELETE FROM {$main_table}";
+    }
+
     private function build_where()
     {
         $clause = implode(" AND ", $this->where_conditions);
@@ -473,30 +486,41 @@ class Query
         if ($this->query_type == "SELECT")
         {
             $query_clauses[] = $this->build_select();
-
-            if (!empty($this->where_conditions))
-            {
-                $query_clauses[] = $this->build_where();
-            }
-
-            if (!$this->count_mode)
-            {
-                $query_clauses[] = $this->build_order_by();
-
-                if ($this->limit_clause !== null)
-                {
-                    $query_clauses[] = $this->build_limit();
-                }
-
-                if ($this->offset_clause !== null)
-                {
-                    $query_clauses[] = $this->build_offset();
-                }
-            }
         }
         else if ($this->query_type == "INSERT")
         {
             $query_clauses[] = $this->build_insert();
+        }
+        else if ($this->query_type == "DELETE")
+        {
+            $query_clauses[] = $this->build_delete();
+        }
+
+        if ($this->query_type == "SELECT" || $this->query_type == "DELETE")
+        {
+            if (!empty($this->where_conditions))
+            {
+                $query_clauses[] = $this->build_where();
+            }
+            else if ($this->query_type == "DELETE")
+            {
+                throw new Exception("DELETE queries without WHERE conditions are not allowed.");
+            }
+        }
+
+        if ($this->query_type == "SELECT" && !$this->count_mode)
+        {
+            $query_clauses[] = $this->build_order_by();
+
+            if ($this->limit_clause !== null)
+            {
+                $query_clauses[] = $this->build_limit();
+            }
+
+            if ($this->offset_clause !== null)
+            {
+                $query_clauses[] = $this->build_offset();
+            }
         }
 
         $query = implode(" ", $query_clauses);
@@ -515,7 +539,7 @@ class Query
     {
         $values = array();
 
-        if ($this->query_type == "SELECT")
+        if ($this->query_type == "SELECT" || $this->query_type == "DELETE")
         {
             if (!empty($this->where_values))
             {
@@ -567,5 +591,59 @@ class Query
             default:
                 return "'{$value}'";
         }
+    }
+
+    private static function prepared_query($statement, $substitutions)
+    {
+        $db = Database::connect();
+        $prepared = $db->prepare($statement);
+
+        if ($prepared === false)
+        {
+            throw new Exception("Malformed prepared statement: {$statement}");
+        }
+
+        $types = "";
+        foreach ($substitutions as $key => $substitution)
+        {
+            switch (gettype($substitution))
+            {
+                case "integer":
+                    $types .= "i";
+                    break;
+                case "double":
+                    $types .= "d";
+                    break;
+                case "string":
+                default:
+                    $types .= "s";
+                    $substitutions[$key] = strval($substitution);
+                    break;
+            }
+        }
+
+        if (!empty($substitutions))
+        {
+            $prepared->bind_param($types, ...$substitutions);
+        }
+        
+        $prepared->execute();
+
+        if (strtoupper(explode(" ", $statement)[0]) == "SELECT")
+        {
+            $result = $prepared->get_result();
+            $assoc = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            return $assoc;
+        }
+        else if (strtoupper(explode(" ", $statement)[0]) == "INSERT")
+        {
+            return $prepared->insert_id;
+        }
+        else if (strtoupper(explode(" ", $statement)[0]) == "DELETE")
+        {
+            return $prepared->affected_rows;
+        }
+
+        return null;
     }
 }

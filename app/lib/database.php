@@ -14,56 +14,6 @@ class Database
         return $db;
     }
 
-    public static function prepared_query($statement, $substitutions)
-    {
-        $db = static::connect();
-        $prepared = $db->prepare($statement);
-
-        if ($prepared === false)
-        {
-            throw new Exception("Malformed prepared statement: {$statement}");
-        }
-
-        $types = "";
-        foreach ($substitutions as $key => $substitution)
-        {
-            switch (gettype($substitution))
-            {
-                case "integer":
-                    $types .= "i";
-                    break;
-                case "double":
-                    $types .= "d";
-                    break;
-                case "string":
-                default:
-                    $types .= "s";
-                    $substitutions[$key] = strval($substitution);
-                    break;
-            }
-        }
-
-        if (!empty($substitutions))
-        {
-            $prepared->bind_param($types, ...$substitutions);
-        }
-        
-        $prepared->execute();
-
-        if (strtoupper(explode(" ", $statement)[0]) == "SELECT")
-        {
-            $result = $prepared->get_result();
-            $assoc = mysqli_fetch_all($result, MYSQLI_ASSOC);
-            return $assoc;
-        }
-        else if (strtoupper(explode(" ", $statement)[0]) == "INSERT")
-        {
-            return $prepared->insert_id;
-        }
-
-        return null;
-    }
-
     public static function query($query)
     {
         $db = static::connect();

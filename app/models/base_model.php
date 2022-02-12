@@ -2,7 +2,7 @@
 
 class DatabaseRecord
 {
-    const fields = "id";
+    const fields = [ "id" ];
     const table = "";
 
     public $id;
@@ -13,6 +13,6 @@ class DatabaseRecord
 
     public function destroy() {
         $table = static::table;
-        Database::query("DELETE FROM {$table} WHERE id={$this->id};");
+        Query::new(static::class)->delete()->where("id = ?", $this->id)->commit();
     }
 }
