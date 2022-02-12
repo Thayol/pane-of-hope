@@ -43,7 +43,7 @@ class Config_Accounts
     public static $password_regex;
 }
 
-require_once __DIR__ . "/../../config/settings.php";
+require_once __DIR__ . "/config/settings.php";
 
 define("_WEBROOT_", $_SERVER['DOCUMENT_ROOT'] . Config::$webroot_subfolder);
 Config_Uploads::$path = _WEBROOT_ . Config_Uploads::$path;
@@ -54,3 +54,5 @@ if (Config::$error_reporting)
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 }
+
+require_once _WEBROOT_ . "/config/routes.php";

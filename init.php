@@ -1,10 +1,22 @@
 <?php
+session_start();
 
-require_once __DIR__ . "/app/lib/settings-loader.php";
+require_once __DIR__ . "/settings-loader.php";
 
-require_once _WEBROOT_ . "/app/lib/session.php";
-require_once _WEBROOT_ . "/app/lib/query.php";
-require_once _WEBROOT_ . "/app/lib/database.php";
-require_once _WEBROOT_ . "/app/lib/models.php";
-require_once _WEBROOT_ . "/app/lib/sanitize.php";
-require_once _WEBROOT_ . "/config/routes.php";
+spl_autoload_register(function ($class_name) {
+    foreach ([
+        _WEBROOT_ . "/app/lib/{$class_name}.php",
+        _WEBROOT_ . "/app/models/{$class_name}.php",
+    ] as $file)
+    {
+        if (file_exists($file))
+        {
+            require $file;
+            return null;
+        }
+    }
+    
+    throw new Exception("Couldn't load class: {$class_name}");
+});
+
+require_once _WEBROOT_ . "/app/lib/Session.php"; // TODO: refactor session to a class
