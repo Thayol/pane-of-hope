@@ -1,10 +1,5 @@
 <?php
 
-class Record
-{
-    const new = null;
-}
-
 class DatabaseRecord
 {
     const fields = [ "id" ];

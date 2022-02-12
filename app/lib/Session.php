@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 $session_authenticated = false;
 $session_username = "Guest";
