@@ -13,6 +13,7 @@ class Config
     public static $listing_page_size;
     public static $htmlspecialchars_flags;
     public static $default_permission_level;
+    public static $admin_permission_level;
 }
 
 class Config_MySQL

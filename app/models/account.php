@@ -28,4 +28,9 @@ class Account extends DatabaseRecord
     {
         return password_verify($password, $this->password_hash);
     }
+
+    public function is_admin()
+    {
+        return $this->permission_level >= Config::$admin_permission_level;
+    }
 }

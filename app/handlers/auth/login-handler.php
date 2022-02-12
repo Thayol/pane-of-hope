@@ -22,15 +22,13 @@ if ($username_valid && $password_valid)
                 exit(0);
             }
 
-            $is_admin = !!($account->permission_level >= 40);
-
             $session_array = array(
                 "userid" => $account->id,
                 "username" => $account->username,
                 "displayname" => $account->displayname,
                 "email" => $account->email,
                 "permission_level" => $account->permission_level,
-                "admin" => $is_admin,
+                "admin" => $account->is_admin(),
                 "authenticated" => true,
             );
 
