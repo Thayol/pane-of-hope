@@ -100,7 +100,7 @@ foreach ($characters as $character)
 
     $gender = character_list_gender_tag($character->gender);
 
-    $character_url = Routes::get_action_url("character") . "?id={$character->id}";
+    $character_url = Routes::get_action_url("character", "id={$character->id}");
 
     echo '<tr>';
     echo "<td>{$character->id}</td>";
