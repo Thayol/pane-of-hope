@@ -7,19 +7,18 @@ if ($session_is_admin)
 
     if (!empty($title))
     {
-        $source_id = Source::insert()->values($title)->commit();
+        $source = new Source(Record::new, $title);
 
-        if (!empty($aliases))
+        if ($source->save() > 0)
         {
-            foreach ($aliases as $alias)
+            if (!empty($aliases))
             {
-                echo SourceAlias::insert()->values([ $source_id, $alias ])->commit();
+                foreach ($aliases as $alias)
+                {
+                    (new SourceAlias(Record::new, $source->id, $alias))->save();
+                }
             }
-        }
-
-        if ($source_id !== false)
-        {
-            header('Location: ' . Routes::get_action_url("source", "id={$source_id}&created"));
+            header('Location: ' . Routes::get_action_url("source", "id={$source->id}&created"));
         }
         else
         {

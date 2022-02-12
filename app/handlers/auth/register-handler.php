@@ -21,14 +21,7 @@ if ($username_valid && $password_valid && $displayname_valid && $email_valid && 
 
     if ($account == null)
     {
-        $columns = implode(",", array(
-            "username",
-            "displayname",
-            "password",
-            "email",
-        ));
-
-        Account::insert()->values([ $username, $displayname, $password, $email, $permission_level ])->commit();
+        (new Account(Record::new, $username, $displayname, $password, $email, $permission_level))->save();
 
         header('Location: ' . Routes::get_action_url('login', "registered"));
     }

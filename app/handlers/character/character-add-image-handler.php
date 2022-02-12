@@ -31,16 +31,15 @@ if ($session_is_admin)
         $image_path_absolute = Config_Uploads::$character_images_path_absolute . "/" . $new_image_name;
         move_uploaded_file($temp_file, $image_path_full);
 
-        if (CharacterImage::insert()->values([ $character_id, $image_path_absolute ])->commit() !== false)
+        $character_image = new CharacterImage(Record::new, $character_id, $image_path_absolute);
+
+        if ($character_image->save() > 0)
         {
             header('Location: ' . Routes::get_action_url("character", "id={$character_id}&uploaded"));
         }
         else
         {
-            echo "DATABASE ERROR<pre>";
-            echo $sql . "\n";
-            print_r($db);
-            var_dump($result);
+            header('Location: ' . Routes::get_action_url("character", "id={$character_id}&error"));
         }
     }
     else

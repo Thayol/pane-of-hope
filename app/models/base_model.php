@@ -1,14 +1,28 @@
 <?php
 
+class Record
+{
+    const new = null;
+}
+
 class DatabaseRecord
 {
     const fields = [ "id" ];
     const table = "";
 
     public $id;
+    private $new_record;
 
-    public function __construct($id) {
-        $this->id = $id;
+    public function __construct($id = null) {
+        if (empty($id) || $id === Record::new)
+        {
+            $this->new_record = true;
+        }
+        else
+        {
+            $this->new_record = false;
+            $this->id = $id;
+        }
     }
 
     public function destroy() {
@@ -25,11 +39,15 @@ class DatabaseRecord
 
         $values = array_slice($values, 1);
 
-        return static::update($this->id)->values($values)->commit() > -1;
-    }
+        if ($this->new_record)
+        {
+            $this->id = static::insert()->values($values)->commit();
+            $this->new_record = false;
+            return 1; // "rows affected"
+        }
 
-    public static function query() {
-        return Query::new(static::class);
+        return static::update($this->id)->values($values)->commit() > -1;
+        
     }
 
     public static function insert() {
@@ -63,5 +81,9 @@ class DatabaseRecord
 
     public static function all() {
         return static::query()->all();
+    }
+
+    private static function query() {
+        return Query::new(static::class);
     }
 }

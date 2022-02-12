@@ -35,6 +35,10 @@ else if (isset($_GET["sources_updated"]))
 {
     $notice_success = "Sources updated.";
 }
+else if (isset($_GET["error"]))
+{
+    $notice_error = "Database error.";
+}
 
 ?>
 <html>

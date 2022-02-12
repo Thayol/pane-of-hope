@@ -8,9 +8,11 @@ if ($session_is_admin)
 
     if (!empty($name) && $gender >= 0 && $gender < 3)
     {
-        if (($id = Character::insert()->values([ $name, $original_name, $gender ])->commit()) !== false)
+        $character = new Character(Record::new, $name, $original_name, $gender);
+
+        if ($character->save() > 0)
         {
-            header('Location: ' . Routes::get_action_url("character", "id={$id}&created"));
+            header('Location: ' . Routes::get_action_url("character", "id={$character->id}&created"));
         }
         else
         {

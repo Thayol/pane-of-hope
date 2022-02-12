@@ -26,7 +26,7 @@ if ($session_is_admin)
         }
         foreach ($new_aliases as $alias)
         {
-            SourceAlias::insert()->values([ $source_id, $alias ])->commit();
+            (new SourceAlias(Record::new, $source_id, $alias))->save();
         }
 
         if ($saved)
