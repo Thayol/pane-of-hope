@@ -26,6 +26,6 @@ class Account extends DatabaseRecord
 
     public function password_verify($password)
     {
-        
+        return password_verify($password, $this->password_hash);
     }
 }

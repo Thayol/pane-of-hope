@@ -10,40 +10,26 @@ $action = "login";
 
 if ($username_valid && $password_valid)
 {
-    $db = Database::connect();
-    $reg_query = $db->query("SELECT id, username, displayname, email, password, permission_level FROM accounts WHERE username='{$username}' ORDER BY id ASC;");
+    $account = Query::new(Account::class)->find_by("username", $username);
 
-    $is_registered = false;
-    if ($reg_query->num_rows > 0)
+    if ($account != null)
     {
-        $is_registered = true;
-    }
-
-    if ($is_registered)
-    {
-        $reg_arr = $reg_query->fetch_assoc();
-        $password_hash = $reg_arr["password"];
-
-        $password_matches = password_verify($plain_password, $password_hash);
-
-        if ($password_matches)
+        if ($account->password_verify($plain_password))
         {
-            $perm = $reg_arr["permission_level"];
-            if ($perm < 10)
+            if ($account->permission_level < 10)
             {
                 header('Location: ' . Routes::get_action_url($action, "invalid=banned"));
                 exit(0);
             }
 
-            $is_admin = false;
-            if ($perm >= 40) $is_admin = true;
+            $is_admin = !!($account->permission_level >= 40);
 
             $session_array = array(
-                "userid" => $reg_arr["id"],
-                "username" => $reg_arr["username"],
-                "displayname" => $reg_arr["displayname"],
-                "email" => $reg_arr["email"],
-                "permission_level" => $perm,
+                "userid" => $account->id,
+                "username" => $account->username,
+                "displayname" => $account->displayname,
+                "email" => $account->email,
+                "permission_level" => $account->permission_level,
                 "admin" => $is_admin,
                 "authenticated" => true,
             );
