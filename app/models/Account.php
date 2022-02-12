@@ -1,6 +1,6 @@
 <?php
 
-class Account extends DatabaseRecord
+class Account extends Record
 {
     const fields = [ "id", "username", "displayname", "password", "email", "permission_level" ];
     const table = "accounts";

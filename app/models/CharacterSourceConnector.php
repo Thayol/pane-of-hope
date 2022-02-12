@@ -1,6 +1,6 @@
 <?php
 
-class CharacterSourceConnector extends DatabaseRecord
+class CharacterSourceConnector extends Record
 {
     const fields = [ "id", "character_id", "source_id" ];
     const table = "conn_character_source";

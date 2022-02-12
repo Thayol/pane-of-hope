@@ -22,8 +22,7 @@ $page = 1; // if not set
 $page_count = 1; // default fallback
 $page_size = Config::$listing_page_size;
 
-$character_query = Character::select();
-$page_count = ceil($character_query->count() / $page_size);
+$page_count = ceil(Character::select()->count() / $page_size);
 
 if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 {
@@ -32,34 +31,36 @@ if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 
 $offset = ($page - 1) * $page_size;
 
-$character_query = $character_query->limit($page_size)->offset($offset);
-$connector_query = CharacterSourceConnector::select()->in("character_id", $character_query->pluck("id"));
+$subquery = Character::select()->limit($page_size)->offset($offset)->select(["id"]);
+$connector_query = CharacterSourceConnector::select()->where("character_id IN ?", $subquery);
 
 $characters = array();
 $sources = array();
 
-foreach ($character_query->all() as $character)
+foreach (Character::select()->limit($page_size)->offset($offset)->list() as $character)
 {
     $characters[$character->id] = $character;
 }
 
-$source_ids_to_query = $connector_query->pluck("source_id");
 if (!empty($source_ids_to_query))
 {
-    $source_query = Source::select()->in("id", $source_ids_to_query);
+    $source_query = Source::select()->where("id IN ?", $connector_query->select(["source_id"]));
 
-    foreach ($source_query->all() as $source)
+    foreach ($source_query->list() as $source)
     {
         $sources[$source->id] = $source;
     }
     $sources_by_character_id = array();
-    foreach ($connector_query->all() as $conn)
+    foreach ($connector_query->list() as $conn)
     {
         $sources_by_character_id[$conn->character_id][] = $sources[$conn->source_id];
     }
     foreach ($sources_by_character_id as $character_id => $sources)
     {
-        $characters[$character_id]->set_sources($sources);
+        if (in_array($character_id, array_keys($characters)))
+        {
+            $characters[$character_id]->set_sources($sources);
+        }
     }
 }
 

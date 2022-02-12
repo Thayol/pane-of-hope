@@ -1,6 +1,6 @@
 <?php
 
-class Character extends DatabaseRecord
+class Character extends Record
 {
     const fields = [ "id", "name", "original_name", "gender" ];
     const table = "characters";
@@ -55,7 +55,7 @@ class Character extends DatabaseRecord
     {
         if ($this->images == null)
         {
-            $this->images = CharacterImage::select()->where("character_id = ?", $this->id)->all();
+            $this->images = CharacterImage::select()->where("character_id = ?", $this->id)->list();
         }
 
         return $this->images;
@@ -69,7 +69,7 @@ class Character extends DatabaseRecord
                 fn($conn) => $conn->source(),
                 CharacterSourceConnector::select()
                     ->where("character_id = ?", $this->id)
-                    ->all()
+                    ->list()
             ) ?? array();
         }
 
@@ -77,7 +77,7 @@ class Character extends DatabaseRecord
     }
 }
 
-class CharacterImage extends DatabaseRecord
+class CharacterImage extends Record
 {
     const fields = [ "id", "character_id", "path" ];
     const table = "character_images";

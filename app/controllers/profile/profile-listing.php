@@ -34,7 +34,7 @@ $offset = ($page - 1) * $page_size;
 
 $account_query = $account_query->limit($page_size)->offset($offset);
 
-$accounts = $account_query->all()
+$accounts = $account_query->list()
 ?>
 
 <?php if (empty($accounts)): ?>

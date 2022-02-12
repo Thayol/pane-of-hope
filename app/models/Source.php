@@ -1,6 +1,6 @@
 <?php
 
-class Source extends DatabaseRecord
+class Source extends Record
 {
     const fields = [ "id", "title" ];
     const table = "sources";
@@ -34,7 +34,7 @@ class Source extends DatabaseRecord
     {
         if ($this->aliases == null)
         {
-            $this->aliases = SourceAlias::select()->where("source_id = ?", $this->id)->all();
+            $this->aliases = SourceAlias::select()->where("source_id = ?", $this->id)->list();
         }
 
         return $this->aliases;
@@ -48,7 +48,7 @@ class Source extends DatabaseRecord
                 fn($conn) => $conn->character(),
                 CharacterSourceConnector::select()
                     ->where("source_id = ?", $this->id)
-                    ->all()
+                    ->list()
             ) ?? array();
         }
 
@@ -56,7 +56,7 @@ class Source extends DatabaseRecord
     }
 }
 
-class SourceAlias extends DatabaseRecord
+class SourceAlias extends Record
 {
     const fields = [ "id", "source_id", "alias" ];
     const table = "source_aliases";

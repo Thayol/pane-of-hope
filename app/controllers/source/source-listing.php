@@ -22,9 +22,7 @@ $page = 1; // if not set
 $page_count = 1; // default fallback
 $page_size = Config::$listing_page_size;
 
-$source_query = Source::select();
-
-$page_count = ceil($source_query->count() / $page_size);
+$page_count = ceil(Source::select()->count() / $page_size);
 
 if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 {
@@ -33,24 +31,27 @@ if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 
 $offset = ($page - 1) * $page_size;
 
-$source_query = $source_query->limit($page_size)->offset($offset);
-$source_alias_query = SourceAlias::select()->in("source_id", $source_query->pluck("id"));
+$subquery = Source::select()->limit($page_size)->offset($offset)->select(["id"]);
+$source_alias_query = SourceAlias::select()->where("source_id IN ?", $subquery);
 
 $sources = array();
-foreach ($source_query->all() as $source)
+foreach (Source::select()->limit($page_size)->offset($offset)->list() as $source)
 {
     $sources[$source->id] = $source;
 }
 
 $source_aliases = array();
-foreach ($source_alias_query->all() as $alias)
+foreach ($source_alias_query->list() as $alias)
 {
     $source_aliases[$alias->source_id][] = $alias;
 }
 
 foreach ($source_aliases as $source_id => $aliases)
 {
-    $sources[$source_id]->set_aliases($aliases);
+    if (in_array($source_id, array_keys($sources)))
+    {
+        $sources[$source_id]->set_aliases($aliases);
+    }
 }
 
 ?>
