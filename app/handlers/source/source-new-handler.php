@@ -7,16 +7,19 @@ if ($session_is_admin)
 
     if (!empty($title))
     {
-        $query = "INSERT INTO sources (title) VALUES ('{$title}');SET @last_source_insert_id = LAST_INSERT_ID();";
-        foreach ($aliases as $alias)
+        $source_id = Query::new(Source::class)->insert()->values($title)->commit();
+
+        if (!empty($aliases))
         {
-            $query .= "INSERT INTO source_aliases (source_id, alias) VALUES (@last_source_insert_id, '{$alias}');";
+            foreach ($aliases as $alias)
+            {
+                echo Query::new(SourceAlias::class)->insert()->values([ $source_id, $alias ])->commit();
+            }
         }
 
-        if (Database::multi_query($query) === true)
+        if ($source_id !== false)
         {
-            $id = $db->insert_id;
-            header('Location: ' . Routes::get_action_url("source", "id={$id}&created"));
+            header('Location: ' . Routes::get_action_url("source", "id={$source_id}&created"));
         }
         else
         {

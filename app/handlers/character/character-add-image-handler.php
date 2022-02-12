@@ -4,7 +4,7 @@ if ($session_is_admin)
 {
     if ($_FILES["uploadfile"]["error"] === 0)
     {
-        $id = $_POST["id"];
+        $character_id = $_POST["id"];
         $file_extension = strtolower(pathinfo($_FILES["uploadfile"]["name"], PATHINFO_EXTENSION));
         $temp_file = $_FILES["uploadfile"]["tmp_name"];
         $size = $_FILES["uploadfile"]["size"];
@@ -26,16 +26,14 @@ if ($session_is_admin)
             echo "Only .png accepted for now, sorry.";
         }
 
-        $new_image_name = $id . '-' . md5_file($temp_file) . '.' . $file_extension;
+        $new_image_name = $character_id . '-' . md5_file($temp_file) . '.' . $file_extension;
         $image_path_full = Config_Uploads::$character_images_path . "/" . $new_image_name;
         $image_path_absolute = Config_Uploads::$character_images_path_absolute . "/" . $new_image_name;
         move_uploaded_file($temp_file, $image_path_full);
 
-        $sql = "INSERT INTO character_images (character_id, path) VALUES ({$id}, '{$image_path_absolute}');";
-        $result = Database::query($sql);
-        if ($result === true)
+        if (Query::new(CharacterImage::class)->insert()->values([ $character_id, $image_path_absolute ])->commit() !== false)
         {
-            header('Location: ' . Routes::get_action_url("character", "id={$id}&uploaded"));
+            header('Location: ' . Routes::get_action_url("character", "id={$character_id}&uploaded"));
         }
         else
         {

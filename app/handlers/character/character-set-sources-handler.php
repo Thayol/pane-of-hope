@@ -2,43 +2,30 @@
 
 if ($session_is_admin)
 {
-    $id = $_POST["id"];
+    $character_id = $_POST["id"];
     $sources = array_map(
         "Sanitize::id",
         $_POST["sources"] ?? array()
     );
 
-    $old_sources = Query::new(CharacterSourceConnector::class)->where("character_id = ?", Sanitize::id($id))->pluck("source_id");
+    $old_sources = Query::new(CharacterSourceConnector::class)->where("character_id = ?", Sanitize::id($character_id))->pluck("source_id");
 
     $removed_sources = array_diff($old_sources, $sources);
     $new_sources = array_diff($sources, $old_sources);
 
-    $query = "";
-    foreach ($removed_sources as $source)
+    if (!empty($removed_sources))
     {
-        $query .= "DELETE FROM conn_character_source WHERE character_id={$id} AND source_id={$source};";
-    }
-    foreach ($new_sources as $source)
-    {
-        $query .= "INSERT INTO conn_character_source (character_id, source_id) VALUES ({$id}, '{$source}');";
-    }
-
-
-    if (!empty($query))
-    {
-        if (Database::multi_query($query) === true)
+        foreach (Query::new(CharacterSourceConnector::class)->where("character_id = ?", $character_id)->in("source_id", $removed_sources)->all() as $conn)
         {
-            header('Location: ' . Routes::get_action_url("character", "id={$id}&sources_updated"));
-        }
-        else
-        {
-            header('Location: ' . Routes::get_action_url("character-set-sources", "id={$id}&error"));
+            $conn->destroy();
         }
     }
-    else
+    foreach ($new_sources as $source_id)
     {
-        header('Location: ' . Routes::get_action_url("character", "id={$id}&sources_updated"));
+        Query::new(CharacterSourceConnector::class)->insert()->values([ $character_id, $source_id ])->commit();
     }
+
+    header('Location: ' . Routes::get_action_url("character", "id={$character_id}&sources_updated"));
 }
 else
 {

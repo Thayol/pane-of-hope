@@ -216,6 +216,7 @@ class Query
         foreach ($values as $value)
         {
             list($type, $value) = static::convert_value($value);
+            $value = static::quote_strval($value);
             $in_values[] = $value;
         }
 
@@ -541,5 +542,18 @@ class Query
         }
 
         return array($values);
+    }
+
+    private static function quote_strval($value)
+    {
+        switch (gettype($value))
+        {
+            case "integer":
+                return $value;
+            case "double":
+                return $value;
+            default:
+                return "'{$value}'";
+        }
     }
 }

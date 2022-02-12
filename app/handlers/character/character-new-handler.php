@@ -8,7 +8,7 @@ if ($session_is_admin)
 
     if (!empty($name) && $gender >= 0 && $gender < 3)
     {
-        if (($id = Database::insert_query("INSERT INTO characters (name, original_name, gender) VALUES ('{$name}', '{$original_name}', {$gender});")) !== false)
+        if (($id = Query::new(Character::class)->insert()->values([ $name, $original_name, $gender ])->commit()) !== false)
         {
             header('Location: ' . Routes::get_action_url("character", "id={$id}&created"));
         }

@@ -17,18 +17,18 @@ $action = "register";
 if ($username_valid && $password_valid && $displayname_valid && $email_valid && $plain_password === $plain_password2)
 {
     $password = password_hash($plain_password, PASSWORD_DEFAULT);
+    $account = Query::new(Account::class)->where("username = ?", $username)->first();
 
-    $is_registered = false;
-    $db = Database::connect();
-    $reg_query = $db->query("SELECT id, username FROM accounts WHERE username='{$username}' ORDER BY id ASC;");
-    if ($reg_query->num_rows > 0)
+    if ($account == null)
     {
-        $is_registered = true;
-    }
+        $columns = implode(",", array(
+            "username",
+            "displayname",
+            "password",
+            "email",
+        ));
 
-    if (!$is_registered)
-    {
-        $db->query("INSERT INTO accounts (username, displayname, password, email) VALUES ('{$username}', '{$displayname}', '{$password}', '{$email}')");
+        Query::new(Account::class)->insert()->values([ $username, $displayname, $password, $email, $permission_level ])->commit();
 
         header('Location: ' . Routes::get_action_url('login', "registered"));
     }

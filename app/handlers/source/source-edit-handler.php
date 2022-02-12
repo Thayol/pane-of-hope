@@ -2,49 +2,43 @@
 
 if ($session_is_admin)
 {
-    $id = intval($_POST["id"]);
+    $source_id = intval($_POST["id"]);
     $title = htmlspecialchars($_POST["title"], Config::$htmlspecialchars_flags);
     $aliases = array_filter(explode("\n", str_replace(["\r\n", "\r"], "\n", $_POST["aliases"])));
 
     if (!empty($title))
     {
-        $old_aliases = array();
-        $db = Database::connect();
-        $aliases_result = $db->query("SELECT * FROM source_aliases WHERE source_id={$id} ORDER BY id ASC;");
-        if ($aliases_result->num_rows > 0)
-        {
-            while ($row = $aliases_result->fetch_assoc())
-            {
-                $old_aliases[$row["id"]] = $row["alias"];
-            }
-        }
+        $old_aliases = Query::new(SourceAlias::class)->where("source_id = ?", Sanitize::id($source_id))->pluck("alias");
 
         $removed_aliases = array_diff($old_aliases, $aliases);
         $new_aliases = array_diff($aliases, $old_aliases);
 
-        $query = "UPDATE sources SET title = '{$title}' WHERE id={$id};";
-        foreach ($removed_aliases as $alias_id => $alias)
+        Database::query("UPDATE sources SET title = '{$title}' WHERE id={$source_id};");
+
+        if (!empty($removed_aliases))
         {
-                $query .= "DELETE FROM source_aliases WHERE source_id={$id} AND id={$alias_id};";
+            foreach (Query::new(SourceAlias::class)->where("source_id = ?", $source_id)->in("alias", $removed_aliases)->all() as $conn)
+            {
+                $conn->destroy();
+            }
         }
         foreach ($new_aliases as $alias)
         {
-                $query .= "INSERT INTO source_aliases (source_id, alias) VALUES ({$id}, '{$alias}');";
+            Query::new(SourceAlias::class)->insert()->values([ $source_id, $alias ])->commit();
         }
 
-        $db = Database::connect();
-        if ($db->multi_query($query) === true)
+        if (true) // TODO: condition after UPDATE is done
         {
-            header('Location: ' . Routes::get_action_url("source", "id={$id}&edited"));
+            header('Location: ' . Routes::get_action_url("source", "id={$source_id}&edited"));
         }
         else
         {
-            header('Location: ' . Routes::get_action_url("source-edit", "id={$id}&error"));
+            header('Location: ' . Routes::get_action_url("source-edit", "id={$source_id}&error"));
         }
     }
     else
     {
-        header('Location: ' . Routes::get_action_url("source-edit", "id={$id}&invalid"));
+        header('Location: ' . Routes::get_action_url("source-edit", "id={$source_id}&invalid"));
     }
 }
 else
