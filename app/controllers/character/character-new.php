@@ -2,7 +2,7 @@
 
 if (isset($_GET["invalid"]))
 {
-    $notice_error = "Could not add character.";
+    $notice_error = "Could not add/edit character.";
 }
 else if (isset($_GET["error"]))
 {

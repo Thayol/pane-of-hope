@@ -2,7 +2,7 @@
 
 if (isset($_GET["invalid"]))
 {
-    $notice_error = "Could not add source.";
+    $notice_error = "Could not add/edit source.";
 }
 
 if (isset($_GET["error"]))
