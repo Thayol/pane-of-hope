@@ -9,7 +9,13 @@ if ($session_is_admin)
 
     if (!empty($name) && $gender >= 0 && $gender < 3)
     {
-        if (Database::query("UPDATE characters SET name = '{$name}', original_name = '{$original_name}', gender = {$gender} WHERE id={$id};") === true)
+        $character = Character::query()->find($id);
+
+        $character->name = $name;
+        $character->original_name = $original_name;
+        $character->gender = $gender;
+
+        if ($character->save())
         {
             header('Location: ' . Routes::get_action_url("character", "id={$id}&edited"));
         }

@@ -3,7 +3,7 @@
 if ($session_is_admin)
 {
     $source_id = intval($_POST["id"]);
-    $title = htmlspecialchars($_POST["title"], Config::$htmlspecialchars_flags);
+    $title = Sanitize::str($_POST["title"]);
     $aliases = array_filter(explode("\n", str_replace(["\r\n", "\r"], "\n", $_POST["aliases"])));
 
     if (!empty($title))
@@ -13,7 +13,9 @@ if ($session_is_admin)
         $removed_aliases = array_diff($old_aliases, $aliases);
         $new_aliases = array_diff($aliases, $old_aliases);
 
-        Database::query("UPDATE sources SET title = '{$title}' WHERE id={$source_id};");
+        $source = Source::find($source_id);
+        $source->title = $title;
+        $saved = $source->save();
 
         if (!empty($removed_aliases))
         {
@@ -27,7 +29,7 @@ if ($session_is_admin)
             Query::new(SourceAlias::class)->insert()->values([ $source_id, $alias ])->commit();
         }
 
-        if (true) // TODO: condition after UPDATE is done
+        if ($saved)
         {
             header('Location: ' . Routes::get_action_url("source", "id={$source_id}&edited"));
         }
