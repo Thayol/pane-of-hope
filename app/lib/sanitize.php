@@ -14,8 +14,8 @@ class Sanitize
         return null;
     }
 
-    public static function string($raw)
+    public static function str($raw)
     {
-        return htmlspecialchars_decode($raw, Config::$htmlspecialchars_flags);
+        return trim(htmlspecialchars_decode($raw, Config::$htmlspecialchars_flags));
     }
 }
