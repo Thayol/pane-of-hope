@@ -9,6 +9,8 @@ class Query
     private $count_mode;
     private $and_mode;
 
+    private $primary_key;
+
     private $select_fields;
     private $count_field;
 
@@ -22,8 +24,10 @@ class Query
     private $executed_queries;
     private $excluded_fields_for_insert;
 
-    public function __construct()
+    public function __construct($primary_key = "id")
     {
+        $this->primary_key = $primary_key;
+
         $this->parse_as = null;
         $this->main_table = "";
         $this->query_type = "";
@@ -32,7 +36,7 @@ class Query
         $this->and_mode = false;
 
         $this->select_fields = array();
-        $this->excluded_fields_for_insert = [ "id" ];
+        $this->excluded_fields_for_insert = [ $this->primary_key ];
         $this->count_field = "";
 
         $this->where_conditions = array();
@@ -252,7 +256,15 @@ class Query
     public function find($id)
     {
         $this->query_type = "SELECT";
-        $field = $this->select_fields[0];
+        $field = $this->primary_key;
+        $this->where("{$field} = ?", $id);
+
+        return $this->first();
+    }
+
+    public function find_by($field, $id)
+    {
+        $this->query_type = "SELECT";
         $this->where("{$field} = ?", $id);
 
         return $this->first();
