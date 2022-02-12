@@ -17,7 +17,7 @@ require _WEBROOT_ . "/app/views/global/header.php";
 
     if (!empty($_GET["id"]))
     {
-        $character = Query::new(Character::class)->find(Sanitize::id($_GET["id"]));
+        $character = Character::find(Sanitize::id($_GET["id"]));
     }
 
     if ($character == null): ?>

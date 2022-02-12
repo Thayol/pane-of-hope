@@ -22,7 +22,7 @@ $page = 1; // if not set
 $page_count = 1; // default fallback
 $page_size = Config::$listing_page_size;
 
-$character_query = Query::new(Character::class);
+$character_query = Character::query();
 $page_count = ceil($character_query->count() / $page_size);
 
 if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
@@ -34,27 +34,35 @@ $offset = ($page - 1) * $page_size;
 
 $character_query = $character_query->limit($page_size)->offset($offset);
 $connector_query = Query::new(CharacterSourceConnector::class)->in("character_id", $character_query->pluck("id"));
-$source_query = Query::new(Source::class)->in("id", $connector_query->pluck("source_id"));
 
 $characters = array();
+$sources = array();
+
 foreach ($character_query->all() as $character)
 {
     $characters[$character->id] = $character;
 }
-$sources = array();
-foreach ($source_query->all() as $source)
+
+$source_ids_to_query = $connector_query->pluck("source_id");
+if (!empty($source_ids_to_query))
 {
-    $sources[$source->id] = $source;
+    $source_query = Query::new(Source::class)->in("id", $source_ids_to_query);
+
+    foreach ($source_query->all() as $source)
+    {
+        $sources[$source->id] = $source;
+    }
+    $sources_by_character_id = array();
+    foreach ($connector_query->all() as $conn)
+    {
+        $sources_by_character_id[$conn->character_id][] = $sources[$conn->source_id];
+    }
+    foreach ($sources_by_character_id as $character_id => $sources)
+    {
+        $characters[$character_id]->set_sources($sources);
+    }
 }
-$sources_by_character_id = array();
-foreach ($connector_query->all() as $conn)
-{
-    $sources_by_character_id[$conn->character_id][] = $sources[$conn->source_id];
-}
-foreach ($sources_by_character_id as $character_id => $sources)
-{
-    $characters[$character_id]->set_sources($sources);
-}
+
 ?>
 
 <?php if (empty($characters)): ?>
