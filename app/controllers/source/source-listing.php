@@ -22,7 +22,7 @@ $page = 1; // if not set
 $page_count = 1; // default fallback
 $page_size = Config::$listing_page_size;
 
-$source_query = Query::new(Source::class);
+$source_query = Source::select();
 
 $page_count = ceil($source_query->count() / $page_size);
 
@@ -34,7 +34,7 @@ if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 $offset = ($page - 1) * $page_size;
 
 $source_query = $source_query->limit($page_size)->offset($offset);
-$source_alias_query = Query::new(SourceAlias::class)->in("source_id", $source_query->pluck("id"));
+$source_alias_query = SourceAlias::select()->in("source_id", $source_query->pluck("id"));
 
 $sources = array();
 foreach ($source_query->all() as $source)

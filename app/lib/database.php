@@ -13,26 +13,4 @@ class Database
 
         return $db;
     }
-
-    public static function query($query)
-    {
-        $db = static::connect();
-        return $db->query($query);
-    }
-
-    public static function insert_query($query)
-    {
-        $db = static::connect();
-        if ($db->query($query) === true)
-        {
-            return $db->insert_id;
-        }
-
-        return false;
-    }
-
-    public static function multi_query($queries)
-    {
-        return static::connect()->multi_query($queries);
-    }
 }

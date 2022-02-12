@@ -10,8 +10,8 @@ $characters = null;
 
 if (!empty($_GET["id"]))
 {
-    $source = Query::new(Source::class)->find(Sanitize::id($_GET["id"]));
-    $characters = Query::new(Character::class)->all();
+    $source = Source::find(Sanitize::id($_GET["id"]));
+    $characters = Character::all();
 }
 
 ?>

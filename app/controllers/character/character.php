@@ -3,7 +3,7 @@ $character = null;
 
 if (!empty($_GET["id"]))
 {
-    $character = Query::new(Character::class)->find(Sanitize::id($_GET["id"]));
+    $character = Character::find(Sanitize::id($_GET["id"]));
 }
 
 $context_nav_buttons["Listing"] = "characters";
@@ -62,7 +62,7 @@ require _WEBROOT_ . "/app/views/global/header.php";
 <ul>
 <?php
     foreach ($character->sources() as $source):
-    $url = Routes::get_action_url("source") . "?id={$source->id}";
+    $url = Routes::get_action_url("source", "id={$source->id}");
 ?>
 <li><a href="<?= $url ?>"><?= $source->title ?></a></li>
 <?php endforeach; ?>

@@ -36,7 +36,7 @@ class CharacterSourceConnector extends DatabaseRecord
     {
         if ($this->character == null)
         {
-            $this->character = Query::new(Character::class)->find($this->character_id);
+            $this->character = Character::find($this->character_id);
         }
 
         return $this->character;
@@ -46,7 +46,7 @@ class CharacterSourceConnector extends DatabaseRecord
     {
         if ($this->source == null)
         {
-            $this->source = Query::new(Source::class)->find($this->source_id);
+            $this->source = Source::find($this->source_id);
         }
 
         return $this->source;

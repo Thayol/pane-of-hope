@@ -17,7 +17,7 @@ $action = "register";
 if ($username_valid && $password_valid && $displayname_valid && $email_valid && $plain_password === $plain_password2)
 {
     $password = password_hash($plain_password, PASSWORD_DEFAULT);
-    $account = Query::new(Account::class)->where("username = ?", $username)->first();
+    $account = Account::find_by("username", $username);
 
     if ($account == null)
     {
@@ -28,7 +28,7 @@ if ($username_valid && $password_valid && $displayname_valid && $email_valid && 
             "email",
         ));
 
-        Query::new(Account::class)->insert()->values([ $username, $displayname, $password, $email, $permission_level ])->commit();
+        Account::insert()->values([ $username, $displayname, $password, $email, $permission_level ])->commit();
 
         header('Location: ' . Routes::get_action_url('login', "registered"));
     }

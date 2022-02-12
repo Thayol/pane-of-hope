@@ -55,7 +55,7 @@ class Character extends DatabaseRecord
     {
         if ($this->images == null)
         {
-            $this->images = Query::new(CharacterImage::class)->where("character_id = ?", $this->id)->all();
+            $this->images = CharacterImage::select()->where("character_id = ?", $this->id)->all();
         }
 
         return $this->images;
@@ -67,9 +67,9 @@ class Character extends DatabaseRecord
         {
             $this->sources = array_map(
                 fn($conn) => $conn->source(),
-                Query::new(CharacterSourceConnector::class)
-                     ->where("character_id = ?", $this->id)
-                     ->all()
+                CharacterSourceConnector::select()
+                    ->where("character_id = ?", $this->id)
+                    ->all()
             ) ?? array();
         }
 

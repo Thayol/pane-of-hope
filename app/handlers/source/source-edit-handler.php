@@ -8,7 +8,7 @@ if ($session_is_admin)
 
     if (!empty($title))
     {
-        $old_aliases = Query::new(SourceAlias::class)->where("source_id = ?", Sanitize::id($source_id))->pluck("alias");
+        $old_aliases = SourceAlias::select()->where("source_id = ?", Sanitize::id($source_id))->pluck("alias");
 
         $removed_aliases = array_diff($old_aliases, $aliases);
         $new_aliases = array_diff($aliases, $old_aliases);
@@ -19,14 +19,14 @@ if ($session_is_admin)
 
         if (!empty($removed_aliases))
         {
-            foreach (Query::new(SourceAlias::class)->where("source_id = ?", $source_id)->in("alias", $removed_aliases)->all() as $conn)
+            foreach (SourceAlias::select()->where("source_id = ?", $source_id)->in("alias", $removed_aliases)->all() as $conn)
             {
                 $conn->destroy();
             }
         }
         foreach ($new_aliases as $alias)
         {
-            Query::new(SourceAlias::class)->insert()->values([ $source_id, $alias ])->commit();
+            SourceAlias::insert()->values([ $source_id, $alias ])->commit();
         }
 
         if ($saved)

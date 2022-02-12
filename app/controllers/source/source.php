@@ -3,7 +3,7 @@ $source = null;
 
 if (!empty($_GET["id"]))
 {
-    $source = Query::new(Source::class)->find(Sanitize::id($_GET["id"]));
+    $source = Source::find(Sanitize::id($_GET["id"]));
 }
 
 $context_nav_buttons["Listing"] = "sources";

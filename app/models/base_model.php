@@ -13,7 +13,7 @@ class DatabaseRecord
 
     public function destroy() {
         $table = static::table;
-        return Query::new(static::class)->delete($this->id)->commit() > 0;
+        return static::delete($this->id)->commit() > 0;
     }
 
     public function save() {
@@ -25,7 +25,7 @@ class DatabaseRecord
 
         $values = array_slice($values, 1);
 
-        return Query::new(static::class)->update($this->id)->values($values)->commit() > -1;
+        return static::update($this->id)->values($values)->commit() > -1;
     }
 
     public static function query() {
@@ -55,6 +55,10 @@ class DatabaseRecord
 
     public static function find($id) {
         return static::query()->find($id);
+    }
+
+    public static function find_by($field, $value) {
+        return static::query()->find_by($field, $value);
     }
 
     public static function all() {

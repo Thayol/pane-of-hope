@@ -26,7 +26,7 @@ $source = null;
 
 if ($action == "source-edit")
 {
-    $source = Query::new(Source::class)->find(Sanitize::id($_GET["id"]));
+    $source = Source::find(Sanitize::id($_GET["id"]));
 
     if ($source != null)
     {

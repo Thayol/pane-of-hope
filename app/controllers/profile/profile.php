@@ -14,13 +14,13 @@
     if (!empty($userid))
     {
         $custom_request = true;
-        $account = Query::new(Account::class)->find(Sanitize::id($userid));
+        $account = Account::find(Sanitize::id($userid));
     }
     else
     {
         if ($session_authenticated)
         {
-            $account = Query::new(Account::class)->find(Sanitize::id($session_userid));
+            $account = Account::find(Sanitize::id($session_userid));
         }
     }
 

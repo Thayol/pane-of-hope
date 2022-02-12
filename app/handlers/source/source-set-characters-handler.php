@@ -8,21 +8,21 @@ if ($session_is_admin)
         $_POST["characters"] ?? array()
     );
 
-    $old_characters = Query::new(CharacterSourceConnector::class)->where("source_id = ?", Sanitize::id($source_id))->pluck("character_id");
+    $old_characters = CharacterSourceConnector::select()->where("source_id = ?", Sanitize::id($source_id))->pluck("character_id");
 
     $removed_characters = array_diff($old_characters, $characters);
     $new_characters = array_diff($characters, $old_characters);
 
     if (!empty($removed_characters))
     {
-        foreach (Query::new(CharacterSourceConnector::class)->where("source_id = ?", $source_id)->in("character_id", $removed_characters)->all() as $conn)
+        foreach (CharacterSourceConnector::select()->where("source_id = ?", $source_id)->in("character_id", $removed_characters)->all() as $conn)
         {
             $conn->destroy();
         }
     }
     foreach ($new_characters as $character_id)
     {
-        Query::new(CharacterSourceConnector::class)->insert()->values([ $character_id, $source_id ])->commit();
+        CharacterSourceConnector::insert()->values([ $character_id, $source_id ])->commit();
     }
     
     header('Location: ' . Routes::get_action_url("source", "id={$source_id}&characters_updated"));

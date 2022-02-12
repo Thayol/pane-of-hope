@@ -9,7 +9,7 @@ if ($session_is_admin)
 
     if (!empty($name) && $gender >= 0 && $gender < 3)
     {
-        $character = Character::query()->find($id);
+        $character = Character::find($id);
 
         $character->name = $name;
         $character->original_name = $original_name;

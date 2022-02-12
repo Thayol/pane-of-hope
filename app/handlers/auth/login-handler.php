@@ -10,7 +10,7 @@ $action = "login";
 
 if ($username_valid && $password_valid)
 {
-    $account = Query::new(Account::class)->find_by("username", $username);
+    $account = Account::find_by("username", $username);
 
     if ($account != null)
     {

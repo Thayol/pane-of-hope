@@ -7,13 +7,13 @@ if ($session_is_admin)
 
     if (!empty($title))
     {
-        $source_id = Query::new(Source::class)->insert()->values($title)->commit();
+        $source_id = Source::insert()->values($title)->commit();
 
         if (!empty($aliases))
         {
             foreach ($aliases as $alias)
             {
-                echo Query::new(SourceAlias::class)->insert()->values([ $source_id, $alias ])->commit();
+                echo SourceAlias::insert()->values([ $source_id, $alias ])->commit();
             }
         }
 

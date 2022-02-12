@@ -24,7 +24,7 @@ $gender = 0;
 
 if ($action == "character-edit")
 {
-    $character = Query::new(Character::class)->find(Sanitize::id($_GET["id"]));
+    $character = Character::find(Sanitize::id($_GET["id"]));
     $character_found = false;
     if ($character != null)
     {
