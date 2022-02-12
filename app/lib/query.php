@@ -96,10 +96,13 @@ class Query
 
     public function select($fields = null)
     {
-        $this->type(null);
         $this->query_type = "SELECT";
 
-        $this->set_select_fields($fields);
+        if (!empty($fields))
+        {
+            $this->set_select_fields($fields);
+            $this->type(null);
+        }
 
         return $this;
     }
@@ -320,6 +323,11 @@ class Query
         return array_slice($this->query_result, 0, $amount) ?? null;
     }
 
+    public function history()
+    {
+        return array_keys($this->executed_queries);
+    }
+
     private function scope_primary_key($pk)
     {
         $this->where("{$this->primary_key} = ?", $pk);
@@ -370,6 +378,13 @@ class Query
 
         $this->query_result = static::prepared_query($query, $this->build_values());
 
+        $this->executed_queries[$query] = $this->query_result;
+
+        return $this->process_query_result();
+    }
+
+    private function process_query_result()
+    {
         if ($this->query_type == "SELECT")
         {
             if ($this->count_mode)
@@ -388,12 +403,9 @@ class Query
 
                 $this->query_result = $parsed;
             }
-
-            $this->executed_queries[$query] = $this->query_result;
-            return $this->query_result;
         }
 
-        return null;
+        return $this->query_result;
     }
 
     private function lazy_execute()
@@ -402,11 +414,10 @@ class Query
         if (in_array($query, $this->executed_queries))
         {
             $this->query_result = $this->executed_queries[$query];
+            return $this->process_query_result();
         }
-        else
-        {
-            $this->execute();
-        }
+
+        return $this->execute();
     }
 
     private function fake_substitute()

@@ -56,4 +56,8 @@ class DatabaseRecord
     public static function find($id) {
         return static::query()->find($id);
     }
+
+    public static function all() {
+        return static::query()->all();
+    }
 }
