@@ -62,19 +62,6 @@ class Query
         return $instance;
     }
 
-    public static function convert_value($value)
-    {
-        switch (gettype($value))
-        {
-            case "integer":
-                return [ "i", intval($value) ];
-            case "double":
-                return [ "d", doubelval($value) ];
-            default:
-                return [ "s", strval($value) ];
-        }
-    }
-
     public function and()
     {
         $this->and_mode = true;
@@ -542,6 +529,19 @@ class Query
         }
 
         return array($values);
+    }
+
+    private static function convert_value($value)
+    {
+        switch (gettype($value))
+        {
+            case "integer":
+                return [ "i", intval($value) ];
+            case "double":
+                return [ "d", doubelval($value) ];
+            default:
+                return [ "s", strval($value) ];
+        }
     }
 
     private static function quote_strval($value)
