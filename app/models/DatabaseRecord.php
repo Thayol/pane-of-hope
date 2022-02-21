@@ -45,7 +45,7 @@ class DatabaseRecord
             $fields = static::fields;
         }
 
-        return static::old_query()->select();
+        return static::query()->select(...$fields)->from(static::table);
     }
 
     public static function update($id) {
@@ -65,14 +65,15 @@ class DatabaseRecord
     }
 
     public static function all() {
-        return static::old_query()->all();
+        return static::select()->result()->class(static::class);
     }
 
     private static function old_query() {
         return OldQuery::new(static::class);
     }
 
-    private static function query() {
-        return Query::new(static::class);
+    // TODO: make private
+    public static function query(...$args) {
+        return new Query(...$args);
     }
 }

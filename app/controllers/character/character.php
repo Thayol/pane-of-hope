@@ -1,6 +1,29 @@
 <?php
 $character = null;
 
+
+
+
+echo "<pre>";
+
+
+$character = Character::all();
+// WHERE grab='1' AND age=2;
+// $character = $character->explain();
+
+// $character->explain(true);
+// var_dump($character);
+// var_dump($character->result());
+print_r($character);
+
+
+exit(0);
+
+
+
+
+
+
 if (!empty($_GET["id"]))
 {
     $character = Character::find(Sanitize::id($_GET["id"]));
