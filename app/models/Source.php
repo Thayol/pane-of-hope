@@ -34,7 +34,7 @@ class Source extends DatabaseRecord
     {
         if ($this->aliases == null)
         {
-            $this->aliases = SourceAlias::select()->where("source_id = ?", $this->id)->all();
+            $this->aliases = SourceAlias::select()->where("source_id = ?", $this->id)->each();
         }
 
         return $this->aliases;
@@ -48,7 +48,7 @@ class Source extends DatabaseRecord
                 fn($conn) => $conn->character(),
                 CharacterSourceConnector::select()
                     ->where("source_id = ?", $this->id)
-                    ->all()
+                    ->each()
             ) ?? array();
         }
 

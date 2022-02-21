@@ -8,6 +8,9 @@ $password_valid = preg_match(Config_Accounts::$password_regex, $plain_password) 
 
 $action = "login";
 
+echo "<pre>";
+// exit(0);
+
 if ($username_valid && $password_valid)
 {
     $account = Account::find_by("username", $username);

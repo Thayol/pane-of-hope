@@ -14,8 +14,38 @@ class WhereClause extends QueryClause
         $this->subclause = null;
         $this->is_subclause = false;
 
+        if ($direct_params = static::get_direct_params($params) !== null)
+        {
+            $condition = preg_replace('/\?/', $direct_params, $condition, 1);
+            $params = array();
+        }
+        
+
         $this->condition = $condition;
         $this->params = $params;
+    }
+
+    private static function get_direct_params($params) : ?string
+    {
+        if (!empty($params[0]))
+        {
+            if (is_subclass_of($params[0], QueryBuilder::class, false))
+            {
+                return $params[0]->explanation();
+            }
+
+            if (is_array($params[0]))
+            {
+                $direct_params = array_map(
+                    fn($value) => QueryBuilder::quote_strval($value),
+                    $params[0]
+                );
+
+                return implode(", ", $direct_params);
+            }
+        }
+
+        return null;
     }
 
     public function make_subclause()

@@ -22,8 +22,7 @@ $page = 1; // if not set
 $page_count = 1; // default fallback
 $page_size = Config::$listing_page_size;
 
-$account_query = Account::select();
-$page_count = ceil($account_query->count() / $page_size);
+$page_count = ceil(Account::count() / $page_size);
 
 if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 {
@@ -32,9 +31,9 @@ if (!empty($_GET["page"]) && $_GET["page"] > 0 && $_GET["page"] <= $page_count)
 
 $offset = ($page - 1) * $page_size;
 
-$account_query = $account_query->limit($page_size)->offset($offset);
+$account_query = Account::select()->limit($page_size)->offset($offset);
 
-$accounts = $account_query->all()
+$accounts = $account_query->each()
 ?>
 
 <?php if (empty($accounts)): ?>

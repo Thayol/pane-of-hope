@@ -19,7 +19,7 @@ if ($session_is_admin)
 
         if (!empty($removed_aliases))
         {
-            foreach (SourceAlias::select()->where("source_id = ?", $source_id)->in("alias", $removed_aliases)->all() as $conn)
+            foreach (SourceAlias::select()->where("source_id = ?", $source_id)->where("alias IN (?)", $removed_aliases)->each() as $conn)
             {
                 $conn->destroy();
             }

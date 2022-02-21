@@ -27,7 +27,6 @@ class QueryBuilder
 
         if (!$class::stack)
         {
-            // TODO: cleaner find first
             foreach ($this->clauses as $key => $clause)
             {
                 if ($clause::class == $class)
@@ -92,6 +91,16 @@ class QueryBuilder
 
         return array_merge(...$params_array);
     }
+    
+    public static function quote_strval($value)
+    {
+        if (gettype($value) == "string")
+        {
+            return "'{$value}'";
+        }
+
+        return strval($value);
+    }
 
     protected function order_clauses()
     {
@@ -101,16 +110,6 @@ class QueryBuilder
             $this->clauses,
             fn($a, $b) => $order[$a::class] <=> $order[$b::class]
         );
-    }
-
-    protected static function quote_strval($value)
-    {
-        if (gettype($value) == "string")
-        {
-            return "'{$value}'";
-        }
-
-        return strval($value);
     }
 
     protected function execute()

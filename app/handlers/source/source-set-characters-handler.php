@@ -15,7 +15,7 @@ if ($session_is_admin)
 
     if (!empty($removed_characters))
     {
-        foreach (CharacterSourceConnector::select()->where("source_id = ?", $source_id)->in("character_id", $removed_characters)->all() as $conn)
+        foreach (CharacterSourceConnector::select()->where("source_id = ?", $source_id)->where("character_id IN (?)", $removed_characters)->each() as $conn)
         {
             $conn->destroy();
         }

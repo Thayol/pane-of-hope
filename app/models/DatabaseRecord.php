@@ -43,7 +43,7 @@ class DatabaseRecord
         return static::old_query()->insert();
     }
 
-    public static function select($fields = null)
+    public static function select(...$fields)
     {
         if (empty($fields))
         {
@@ -65,12 +65,17 @@ class DatabaseRecord
 
     public static function find($id)
     {
-        return static::old_query()->find($id);
+        return static::select()->where("id = ?", $id)->result()->class(static::class)[0];
     }
 
     public static function find_by($field, $value)
     {
-        return static::old_query()->find_by($field, $value);
+        return static::select()->where("{$field} = ?", $value)->result()->class(static::class)[0];
+    }
+
+    public static function count()
+    {
+        return static::select("COUNT(id) AS count")->result()->assoc()[0]["count"];
     }
 
     public static function all()
@@ -85,6 +90,6 @@ class DatabaseRecord
 
     private static function query(...$args)
     {
-        return new Query(...$args);
+        return new ClassQuery(static::class, ...$args);
     }
 }

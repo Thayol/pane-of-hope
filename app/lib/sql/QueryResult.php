@@ -18,6 +18,14 @@ class QueryResult
         return $this->assoc;
     }
 
+    public function pluck($field)
+    {
+        return array_map(
+            fn($element) => $element[$field],
+            $this->assoc
+        );
+    }
+
     public function class($class)
     {
         return $this->map_to_class($this->assoc, $class);

@@ -70,4 +70,9 @@ class Query
     {
         return $this->add_clause("OFFSET", ...$args);
     }
+
+    public function pluck($field)
+    {
+        return $this->result()->pluck($field);
+    }
 }
