@@ -1,6 +1,6 @@
 <?php
 
-class Query
+class OldQuery
 {
     private $parse_as;
     private $main_table;
@@ -54,7 +54,7 @@ class Query
 
     public static function new($class = null)
     {
-        $instance = new Query();
+        $instance = new static();
 
         if ($class !== null)
         {

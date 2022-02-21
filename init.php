@@ -6,6 +6,7 @@ require_once __DIR__ . "/settings-loader.php";
 spl_autoload_register(function ($class_name) {
     foreach ([
         _WEBROOT_ . "/app/lib/{$class_name}.php",
+        _WEBROOT_ . "/app/lib/sql/{$class_name}.php",
         _WEBROOT_ . "/app/models/{$class_name}.php",
     ] as $file)
     {

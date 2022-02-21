@@ -46,7 +46,7 @@ class DatabaseRecord
     }
 
     public static function insert() {
-        return static::query()->insert();
+        return static::old_query()->insert();
     }
 
     public static function select($fields = null) {
@@ -55,27 +55,31 @@ class DatabaseRecord
             $fields = static::fields;
         }
 
-        return static::query()->select();
+        return static::old_query()->select();
     }
 
     public static function update($id) {
-        return static::query()->update($id);
+        return static::old_query()->update($id);
     }
 
     public static function delete($id) {
-        return static::query()->delete($id);
+        return static::old_query()->delete($id);
     }
 
     public static function find($id) {
-        return static::query()->find($id);
+        return static::old_query()->find($id);
     }
 
     public static function find_by($field, $value) {
-        return static::query()->find_by($field, $value);
+        return static::old_query()->find_by($field, $value);
     }
 
     public static function all() {
-        return static::query()->all();
+        return static::old_query()->all();
+    }
+
+    private static function old_query() {
+        return OldQuery::new(static::class);
     }
 
     private static function query() {
