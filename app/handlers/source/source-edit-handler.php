@@ -26,7 +26,7 @@ if ($session_is_admin)
         }
         foreach ($new_aliases as $alias)
         {
-            (new SourceAlias(Record::new, $source_id, $alias))->save();
+            (new SourceAlias(null, $source_id, $alias))->save();
         }
 
         if ($saved)

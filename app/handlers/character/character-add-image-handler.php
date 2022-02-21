@@ -31,7 +31,7 @@ if ($session_is_admin)
         $image_path_absolute = Config_Uploads::$character_images_path_absolute . "/" . $new_image_name;
         move_uploaded_file($temp_file, $image_path_full);
 
-        $character_image = new CharacterImage(Record::new, $character_id, $image_path_absolute);
+        $character_image = new CharacterImage(null, $character_id, $image_path_absolute);
 
         if ($character_image->save() > 0)
         {

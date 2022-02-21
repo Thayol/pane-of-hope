@@ -8,7 +8,7 @@ if ($session_is_admin)
 
     if (!empty($name) && $gender >= 0 && $gender < 3)
     {
-        $character = new Character(Record::new, $name, $original_name, $gender);
+        $character = new Character(null, $name, $original_name, $gender);
 
         if ($character->save() > 0)
         {

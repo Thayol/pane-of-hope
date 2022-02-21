@@ -22,7 +22,7 @@ if ($session_is_admin)
     }
     foreach ($new_characters as $character_id)
     {
-        (new CharacterSourceConnector(Record::new, $character_id, $source_id))->save();
+        (new CharacterSourceConnector(null, $character_id, $source_id))->save();
     }
     
     header('Location: ' . Routes::get_action_url("source", "id={$source_id}&characters_updated"));

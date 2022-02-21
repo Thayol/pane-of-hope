@@ -7,7 +7,7 @@ if ($session_is_admin)
 
     if (!empty($title))
     {
-        $source = new Source(Record::new, $title);
+        $source = new Source(null, $title);
 
         if ($source->save() > 0)
         {
@@ -15,7 +15,7 @@ if ($session_is_admin)
             {
                 foreach ($aliases as $alias)
                 {
-                    (new SourceAlias(Record::new, $source->id, $alias))->save();
+                    (new SourceAlias(null, $source->id, $alias))->save();
                 }
             }
             header('Location: ' . Routes::get_action_url("source", "id={$source->id}&created"));
