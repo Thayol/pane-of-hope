@@ -5,19 +5,10 @@ class DatabaseRecord
     const fields = [ "id" ];
     const table = "";
 
-    public $id;
-    private $new_record;
+    public int $id;
 
     public function __construct($id = null) {
-        if (empty($id) || $id === Record::new)
-        {
-            $this->new_record = true;
-        }
-        else
-        {
-            $this->new_record = false;
-            $this->id = $id;
-        }
+        $this->id = $id;
     }
 
     public function destroy() {
@@ -34,10 +25,9 @@ class DatabaseRecord
 
         $values = array_slice($values, 1);
 
-        if ($this->new_record)
+        if ($this->id === null)
         {
             $this->id = static::insert()->values($values)->commit();
-            $this->new_record = false;
             return 1; // "rows affected"
         }
 
