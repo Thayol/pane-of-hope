@@ -7,16 +7,19 @@ class DatabaseRecord
 
     public int $id;
 
-    public function __construct($id = null) {
+    public function __construct($id = null)
+    {
         $this->id = $id;
     }
 
-    public function destroy() {
+    public function destroy()
+    {
         $table = static::table;
         return static::delete($this->id)->commit() > 0;
     }
 
-    public function save() {
+    public function save()
+    {
         $values = array();
         foreach (static::fields as $field)
         {
@@ -35,11 +38,13 @@ class DatabaseRecord
         
     }
 
-    public static function insert() {
+    public static function insert()
+    {
         return static::old_query()->insert();
     }
 
-    public static function select($fields = null) {
+    public static function select($fields = null)
+    {
         if (empty($fields))
         {
             $fields = static::fields;
@@ -48,32 +53,38 @@ class DatabaseRecord
         return static::query()->select(...$fields)->from(static::table);
     }
 
-    public static function update($id) {
+    public static function update($id)
+    {
         return static::old_query()->update($id);
     }
 
-    public static function delete($id) {
+    public static function delete($id)
+    {
         return static::old_query()->delete($id);
     }
 
-    public static function find($id) {
+    public static function find($id)
+    {
         return static::old_query()->find($id);
     }
 
-    public static function find_by($field, $value) {
+    public static function find_by($field, $value)
+    {
         return static::old_query()->find_by($field, $value);
     }
 
-    public static function all() {
+    public static function all()
+    {
         return static::select()->result()->class(static::class);
     }
 
-    private static function old_query() {
+    private static function old_query()
+    {
         return OldQuery::new(static::class);
     }
 
-    // TODO: make private
-    public static function query(...$args) {
+    private static function query(...$args)
+    {
         return new Query(...$args);
     }
 }
