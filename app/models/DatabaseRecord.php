@@ -5,7 +5,7 @@ class DatabaseRecord
     const fields = [ "id" ];
     const table = "";
 
-    public int $id;
+    public ?int $id;
 
     public function __construct($id = null)
     {
