@@ -48,7 +48,10 @@ foreach ($source_alias_query->each() as $alias)
 
 foreach ($source_aliases as $source_id => $aliases)
 {
-    $sources[$source_id]->set_aliases($aliases);
+    if (in_array($source_id, array_keys($sources)))
+    {
+        $sources[$source_id]->set_aliases($aliases);
+    }
 }
 
 ?>
