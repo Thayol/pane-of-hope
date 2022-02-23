@@ -1,7 +1,9 @@
-title.txt
-description.txt
-created.txt
+# All TXT files for personal/dev notes
+*.txt
+
+# For custom Favicon (subject to change)
 favicon.png
-settings.php
+
+# For security
+config/settings.php
 data/*
-todo.txt
