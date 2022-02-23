@@ -41,7 +41,7 @@ foreach ($nav_buttons as $text => $this_action)
 {
     echo str_replace(
         [ "[[ TEXT ]]", "[[ LINK ]]" ],
-        [ $text, Router::get_url(str_replace("-", "/", $this_action)) ],
+        [ $text, Router::get_url($this_action) ],
         (strtolower($this_action) == strtolower(Router::current_route())) ? $nav_button_current : $nav_button);
 }
 ?>
