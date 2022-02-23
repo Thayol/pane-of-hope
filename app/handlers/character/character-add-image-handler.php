@@ -11,13 +11,13 @@ if ($session_is_admin)
         $type = $_FILES["uploadfile"]["type"];
         if (strpos($type, "image") === false)
         {
-            header('Location: ' . Routes::get_action_url("character-upload", "id={$id}&invalid=not_image"));
+            header('Location: ' . Router::get_url("character/upload", "id={$id}&invalid=not_image"));
             exit(0);
         }
 
         if (!($size > 0 && $size <= Config_Uploads::$max_file_size))
         {
-            header('Location: ' . Routes::get_action_url("character-upload", "id={$id}&invalid=size"));
+            header('Location: ' . Router::get_url("character/upload", "id={$id}&invalid=size"));
             exit(0);
         }
 
@@ -35,11 +35,11 @@ if ($session_is_admin)
 
         if ($character_image->save() > 0)
         {
-            header('Location: ' . Routes::get_action_url("character", "id={$character_id}&uploaded"));
+            header('Location: ' . Router::get_url("character", "id={$character_id}&uploaded"));
         }
         else
         {
-            header('Location: ' . Routes::get_action_url("character", "id={$character_id}&error"));
+            header('Location: ' . Router::get_url("character", "id={$character_id}&error"));
         }
     }
     else

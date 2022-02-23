@@ -32,7 +32,7 @@ require _WEBROOT_ . "/app/views/global/notice.php";
 <?php if ($session_authenticated):
     require _WEBROOT_ . "/app/views/auth/log-out-first.php";
 else: ?>
-<form class="login-form" action="<?= Routes::get_handler_url("register") ?>" method="POST">
+<form class="login-form" action="<?= Router::get_url("handler/register") ?>" method="POST">
 
 <h2>Register</h2>
 

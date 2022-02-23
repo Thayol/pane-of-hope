@@ -25,7 +25,7 @@ if ($session_is_admin)
         (new CharacterSourceConnector(null, $character_id, $source_id))->save();
     }
     
-    header('Location: ' . Routes::get_action_url("source", "id={$source_id}&characters_updated"));
+    header('Location: ' . Router::get_url("source", "id={$source_id}&characters_updated"));
 }
 else
 {

@@ -24,7 +24,7 @@ require _WEBROOT_ . "/app/views/global/header.php";
     <p>Character not found.</p>
     <?php else: ?>
 
-    <form class="login-form" action="<?= Routes::get_handler_url("character-add-image") ?>" method="POST" enctype="multipart/form-data">
+    <form class="login-form" action="<?= Router::get_url("handler/character/add-image") ?>" method="POST" enctype="multipart/form-data">
     <h2>Add image for <?= $character->pretty_name() ?></h2>
     <input type="hidden" name="id" value="<?= $character->id ?>">
     <input class="input-file" type="file" name="uploadfile" value=""><br>

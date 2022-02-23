@@ -1,5 +1,5 @@
 <header class="header">
-<h1 class="title"><a href="<?= Routes::get_action_url("") ?>"><?= Config::$site_title ?></a></h1>
+<h1 class="title"><a href="<?= Router::get_url("") ?>"><?= Config::$site_title ?></a></h1>
 <nav class="nav">
 <?php
 $nav_button = '<a class="nav-button" href="[[ LINK ]]">[[ TEXT ]]</a>';
@@ -41,8 +41,8 @@ foreach ($nav_buttons as $text => $this_action)
 {
     echo str_replace(
         [ "[[ TEXT ]]", "[[ LINK ]]" ],
-        [ $text, Routes::get_action_url(str_replace("-", "/", $this_action)) ],
-        (strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
+        [ $text, Router::get_url(str_replace("-", "/", $this_action)) ],
+        (strtolower($this_action) == strtolower(Router::current_route())) ? $nav_button_current : $nav_button);
 }
 ?>
 </nav>
@@ -56,8 +56,8 @@ if (!empty($context_nav_buttons))
     {
         echo str_replace(
             [ "[[ TEXT ]]", "[[ LINK ]]" ],
-            [ $text, Routes::get_action_url(str_replace("-", "/", $this_action)) ],
-            (strtolower($this_action) == strtolower($action)) ? $nav_button_current : $nav_button);
+            [ $text, Router::get_url($this_action) ],
+            (strtolower($this_action) == strtolower(Router::current_route())) ? $nav_button_current : $nav_button);
     }
 }
 ?>

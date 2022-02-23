@@ -18,7 +18,7 @@ foreach ($locations as $category => $actions)
     ?><p><?= $category ?></p><ul><?php
     foreach ($actions as $text => $action)
     {
-        $url = Routes::get_action_url(str_replace("-", "/", $action));
+        $url = Router::get_url(str_replace("-", "/", $action));
         echo "<li><a href=\"{$url}\">{$text}</a></li>";
     }
     ?></ul><?php

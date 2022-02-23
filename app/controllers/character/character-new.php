@@ -13,8 +13,8 @@ $context_nav_buttons["Listing"] = "characters";
 
 if ($session_is_admin)
 {
-    $context_nav_buttons["New"] = "character-new";
-    if ($action == "character-edit") $context_nav_buttons["Edit"] = "character-edit";
+    $context_nav_buttons["New"] = "character/new";
+    if (Router::current_route() == "character/edit") $context_nav_buttons["Edit"] = "character/edit";
 }
 
 $id = "";
@@ -22,7 +22,7 @@ $name = "";
 $original_name = "";
 $gender = 0;
 
-if ($action == "character-edit")
+if (Router::current_route() == "character/edit")
 {
     $character = Character::find(Sanitize::id($_GET["id"]));
     $character_found = false;
@@ -35,15 +35,15 @@ if ($action == "character-edit")
     }
 }
 
-if ($action == "character-edit")
+if (Router::current_route() == "character/edit")
 {
-    $form_action = Routes::get_handler_url("character-edit");
+    $form_action = Router::get_url("handler/character/edit");
     $title_text = "Edit Character";
     $submit_text = "Update";
 }
 else
 {
-    $form_action = Routes::get_handler_url("character-new");
+    $form_action = Router::get_url("handler/character/new");
     $title_text = "New Character";
     $submit_text = "Create";
 }

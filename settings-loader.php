@@ -54,5 +54,3 @@ if (Config::$error_reporting)
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 }
-
-require_once _WEBROOT_ . "/config/routes.php";

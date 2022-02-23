@@ -8,9 +8,6 @@ $password_valid = preg_match(Config_Accounts::$password_regex, $plain_password) 
 
 $action = "login";
 
-echo "<pre>";
-// exit(0);
-
 if ($username_valid && $password_valid)
 {
     $account = Account::find_by("username", $username);
@@ -21,7 +18,7 @@ if ($username_valid && $password_valid)
         {
             if ($account->permission_level < 10)
             {
-                header('Location: ' . Routes::get_action_url($action, "invalid=banned"));
+                header('Location: ' . Router::get_url($action, "invalid=banned"));
                 exit(0);
             }
 
@@ -37,16 +34,16 @@ if ($username_valid && $password_valid)
 
             $_SESSION["paneofhope"] = $session_array;
 
-            header('Location: ' . Routes::get_action_url('profile'));
+            header('Location: ' . Router::get_url('profile'));
         }
         else
         {
-            header('Location: ' . Routes::get_action_url($action, "invalid=wrongpass"));
+            header('Location: ' . Router::get_url($action, "invalid=wrongpass"));
         }
     }
     else
     {
-        header('Location: ' . Routes::get_action_url($action, "invalid=unregistered"));
+        header('Location: ' . Router::get_url($action, "invalid=unregistered"));
     }
 }
 else
@@ -58,5 +55,5 @@ else
     }
 
     $invalid_comma_delimited = implode(",", $invalid_values);
-    header('Location: ' . Routes::get_action_url($action, "invalid={$invalid_comma_delimited}"));
+    header('Location: ' . Router::get_url($action, "invalid={$invalid_comma_delimited}"));
 }

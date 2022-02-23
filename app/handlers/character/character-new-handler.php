@@ -12,16 +12,16 @@ if ($session_is_admin)
 
         if ($character->save() > 0)
         {
-            header('Location: ' . Routes::get_action_url("character", "id={$character->id}&created"));
+            header('Location: ' . Router::get_url("character", "id={$character->id}&created"));
         }
         else
         {
-            header('Location: ' . Routes::get_action_url("character-new", "error"));
+            header('Location: ' . Router::get_url("character/new", "error"));
         }
     }
     else
     {
-        header('Location: ' . Routes::get_action_url("character-new", "invalid"));
+        header('Location: ' . Router::get_url("character/new", "invalid"));
     }
 }
 else

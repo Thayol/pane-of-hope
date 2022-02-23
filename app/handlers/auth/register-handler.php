@@ -23,11 +23,11 @@ if ($username_valid && $password_valid && $displayname_valid && $email_valid && 
     {
         (new Account(null, $username, $displayname, $password, $email, $permission_level))->save();
 
-        header('Location: ' . Routes::get_action_url('login', "registered"));
+        header('Location: ' . Router::get_url('login', "registered"));
     }
     else
     {
-        header('Location: ' . Routes::get_action_url($action, "invalid=registered"));
+        header('Location: ' . Router::get_url($action, "invalid=registered"));
     }
 
 }
@@ -45,5 +45,5 @@ else
     }
 
     $invalid_comma_delimited = implode(",", $invalid_values);
-    header('Location: ' . Routes::get_action_url($action, "invalid={$invalid_comma_delimited}"));
+    header('Location: ' . Router::get_url($action, "invalid={$invalid_comma_delimited}"));
 }

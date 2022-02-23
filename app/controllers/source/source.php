@@ -10,11 +10,11 @@ $context_nav_buttons["Listing"] = "sources";
 
 if ($session_is_admin)
 {
-    $context_nav_buttons["New"] = "source-new";
+    $context_nav_buttons["New"] = "source/new";
     if ($source != null)
     {
-        $context_nav_buttons["Edit"] = "source-edit?id={$source->id}";
-        $context_nav_buttons["Manage characters"] = "source-set-characters?id={$source->id}";
+        $context_nav_buttons["Edit"] = "source/edit?id={$source->id}";
+        $context_nav_buttons["Manage characters"] = "source/set-characters?id={$source->id}";
     }
 }
 
@@ -59,7 +59,7 @@ require _WEBROOT_ . "/app/views/global/header.php";
 <ul>
 <?php
     foreach ($source->characters() as $character):
-    $url = Routes::get_action_url("character", "id={$character->id}");
+    $url = Router::get_url("character", "id={$character->id}");
 ?>
 <li><a href="<?= $url ?>"><?= $character->name ?></a></li>
 <?php endforeach; ?>

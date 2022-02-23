@@ -36,7 +36,7 @@ if ($source == null): ?>
     <p>Source not found.</p>
 <?php else: ?>
 
-<form class="login-form" action="<?= Routes::get_handler_url("source-set-characters") ?>" method="POST">
+<form class="login-form" action="<?= Router::get_url("handler/source/set-characters") ?>" method="POST">
 <h2>Manage characters of <?= $source->title ?></h2>
 <input type="hidden" name="id" value="<?= $source->id ?>">
 

@@ -11,7 +11,7 @@ $context_nav_buttons["Listing"] = "sources";
 
 if ($session_is_admin)
 {
-    $context_nav_buttons["New"] = "source-new";
+    $context_nav_buttons["New"] = "source/new";
 }
 
 require _WEBROOT_ . "/app/views/global/header.php";
@@ -78,7 +78,7 @@ foreach ($sources as $source)
 
     echo '<tr>';
     echo "<td>{$source->id}</td>";
-    echo "<td><a href=\"" . Routes::get_action_url("source", "id={$source->id}") . "\">{$source->title}</a></td>";
+    echo "<td><a href=\"" . Router::get_url("source", "id={$source->id}") . "\">{$source->title}</a></td>";
     echo "<td>{$aliases_concat}</td>";
     echo '</tr>';
 }
@@ -89,7 +89,7 @@ for ($i = $page - Config::$max_seek_page_numbers; $i <= $page + Config::$max_see
 {
     if ($i > 0 && $i <= $page_count)
     {
-        $url = Routes::get_action_url($action, "page={$i}");
+        $url = Router::get_url(Router::current_route(), "page={$i}");
         $class = "nav-button";
         if ($i == $page)
         {

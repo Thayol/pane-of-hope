@@ -10,12 +10,12 @@ $context_nav_buttons["Listing"] = "characters";
 
 if ($session_is_admin)
 {
-    $context_nav_buttons["New"] = "character-new";
+    $context_nav_buttons["New"] = "character/new";
     if ($character != null)
     {
-        $context_nav_buttons["Edit"] = "character-edit?id={$character->id}";
-        $context_nav_buttons["Upload image"] = "character-upload?id={$character->id}";
-        $context_nav_buttons["Manage sources"] = "character-set-sources?id={$character->id}";
+        $context_nav_buttons["Edit"] = "character/edit?id={$character->id}";
+        $context_nav_buttons["Upload image"] = "character/add-image?id={$character->id}";
+        $context_nav_buttons["Manage sources"] = "character/set-sources?id={$character->id}";
     }
 }
 
@@ -66,7 +66,7 @@ require _WEBROOT_ . "/app/views/global/header.php";
 <ul>
 <?php
     foreach ($character->sources() as $source):
-    $url = Routes::get_action_url("source", "id={$source->id}");
+    $url = Router::get_url("source", "id={$source->id}");
 ?>
 <li><a href="<?= $url ?>"><?= $source->title ?></a></li>
 <?php endforeach; ?>

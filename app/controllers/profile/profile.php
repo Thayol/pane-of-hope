@@ -28,7 +28,7 @@
     {
         if (!$custom_request)
         {
-            header('Location: ' . Routes::get_action_url("login"));
+            header('Location: ' . Router::get_url("login"));
             exit(0);
         }
     }

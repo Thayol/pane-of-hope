@@ -55,7 +55,7 @@ $accounts = $account_query->each()
 <?php
 foreach ($accounts as $account)
 {
-    $account_url = Routes::get_action_url("profile", "id={$account->id}");
+    $account_url = Router::get_url("profile", "id={$account->id}");
 
     echo '<tr>';
     echo "<td>{$account->id}</td>";
@@ -73,7 +73,7 @@ for ($i = $page - Config::$max_seek_page_numbers; $i <= $page + Config::$max_see
 {
     if ($i > 0 && $i <= $page_count)
     {
-        $url = Routes::get_action_url($action, "page={$i}");
+        $url = Router::get_url(Router::current_route(), "page={$i}");
         $class = "nav-button";
         if ($i == $page)
         {

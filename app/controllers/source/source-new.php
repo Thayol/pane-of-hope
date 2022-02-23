@@ -14,8 +14,8 @@ $context_nav_buttons["Listing"] = "sources";
 
 if ($session_is_admin)
 {
-    $context_nav_buttons["New"] = "source-new";
-    if ($action == "source-edit") $context_nav_buttons["Edit"] = "source-edit";
+    $context_nav_buttons["New"] = "source/new";
+    if (Router::current_route() == "source/edit") $context_nav_buttons["Edit"] = "source/edit";
 }
 
 $id = "";
@@ -24,7 +24,7 @@ $aliases = array();
 
 $source = null;
 
-if ($action == "source-edit")
+if (Router::current_route() == "source/edit")
 {
     $source = Source::find(Sanitize::id($_GET["id"]));
 
@@ -39,15 +39,15 @@ if ($action == "source-edit")
     }
 }
 
-if ($action == "source-edit")
+if (Router::current_route() == "source/edit")
 {
-    $form_action = Routes::get_handler_url("source-edit");
+    $form_action = Router::get_url("handler/source/edit");
     $title_text = "Edit Source";
     $submit_text = "Update";
 }
 else
 {
-    $form_action = Routes::get_handler_url("source-new");
+    $form_action = Router::get_url("handler/source/new");
     $title_text = "New Source";
     $submit_text = "Create";
 }

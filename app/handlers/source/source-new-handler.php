@@ -18,16 +18,16 @@ if ($session_is_admin)
                     (new SourceAlias(null, $source->id, $alias))->save();
                 }
             }
-            header('Location: ' . Routes::get_action_url("source", "id={$source->id}&created"));
+            header('Location: ' . Router::get_url("source", "id={$source->id}&created"));
         }
         else
         {
-            header('Location: ' . Routes::get_action_url("source-new", "error"));
+            header('Location: ' . Router::get_url("source/new", "error"));
         }
     }
     else
     {
-        header('Location: ' . Routes::get_action_url("source-new", "invalid"));
+        header('Location: ' . Router::get_url("source/new", "invalid"));
     }
 }
 else

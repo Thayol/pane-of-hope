@@ -11,7 +11,7 @@ $context_nav_buttons["Listing"] = "characters";
 
 if ($session_is_admin)
 {
-    $context_nav_buttons["New"] = "character-new";
+    $context_nav_buttons["New"] = "character/new";
 }
 
 require _WEBROOT_ . "/app/views/global/header.php";
@@ -103,14 +103,14 @@ foreach ($characters as $character)
     $formatted_sources = "";
 
     $source_links = array_map(
-        fn($source) => "<span><a href=\"" . Routes::get_action_url("source", "id={$source->id}") . "\">{$source->title}</a></span>",
+        fn($source) => "<span><a href=\"" . Router::get_url("source", "id={$source->id}") . "\">{$source->title}</a></span>",
         $character->sources()
     );
     $source_links = implode("<br>", $source_links);
 
     $gender = character_list_gender_tag($character->gender);
 
-    $character_url = Routes::get_action_url("character", "id={$character->id}");
+    $character_url = Router::get_url("character", "id={$character->id}");
 
     echo '<tr>';
     echo "<td>{$character->id}</td>";
@@ -126,7 +126,7 @@ for ($i = $page - Config::$max_seek_page_numbers; $i <= $page + Config::$max_see
 {
     if ($i > 0 && $i <= $page_count)
     {
-        $url = Routes::get_action_url($action, "page={$i}");
+        $url = Router::get_url(Router::current_route(), "page={$i}");
         $class = "nav-button";
         if ($i == $page)
         {

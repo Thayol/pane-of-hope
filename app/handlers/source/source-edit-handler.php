@@ -31,16 +31,16 @@ if ($session_is_admin)
 
         if ($saved)
         {
-            header('Location: ' . Routes::get_action_url("source", "id={$source_id}&edited"));
+            header('Location: ' . Router::get_url("source", "id={$source_id}&edited"));
         }
         else
         {
-            header('Location: ' . Routes::get_action_url("source-edit", "id={$source_id}&error"));
+            header('Location: ' . Router::get_url("source/edit", "id={$source_id}&error"));
         }
     }
     else
     {
-        header('Location: ' . Routes::get_action_url("source-edit", "id={$source_id}&invalid"));
+        header('Location: ' . Router::get_url("source/edit", "id={$source_id}&invalid"));
     }
 }
 else

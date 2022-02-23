@@ -17,16 +17,16 @@ if ($session_is_admin)
 
         if ($character->save())
         {
-            header('Location: ' . Routes::get_action_url("character", "id={$id}&edited"));
+            header('Location: ' . Router::get_url("character", "id={$id}&edited"));
         }
         else
         {
-            header('Location: ' . Routes::get_action_url("character-edit", "id={$id}&error"));
+            header('Location: ' . Router::get_url("character/edit", "id={$id}&error"));
         }
     }
     else
     {
-        header('Location: ' . Routes::get_action_url("characters-edit", "id={$id}&invalid"));
+        header('Location: ' . Router::get_url("characters/edit", "id={$id}&invalid"));
     }
 }
 else
