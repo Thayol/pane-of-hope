@@ -1,5 +1,10 @@
 <?php
-session_start();
+
+session_start([
+	'name' => 'poh_sid',
+	'cookie_lifetime' => 630720000, // 20 years
+	'gc_maxlifetime' => 630720000, // 20 years
+]);
 
 require_once __DIR__ . "/settings-loader.php";
 
