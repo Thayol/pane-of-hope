@@ -8,6 +8,8 @@ class Account < ApplicationRecord
   end
 
   def draw_character
-    Character.draw.update account_id: id
+    character = Character.draw
+    character.update account_id: id
+    character
   end
 end

@@ -1,6 +1,22 @@
 <h1>Profile</h1>
 <% if signed_in? %>
   <p>Hello, <%= account.username %>!</p>
+
+  <p><%= link_to 'Pull a new character', profiles_path(pull: true) %></p>
+
+  <% if params[:pull].present? %>
+    <p><%= account.draw_character.to_s %></p>
+  <% end %>
+
+  <h3>Your Characters</h3>
+
+  <ul>
+    <% account.characters.reverse.each do |character| %>
+      <li>
+        <%= character.to_s %>
+      </li>
+    <% end %>
+  </ul>
 <% else %>
   <p>You are not signed in. <%= link_to 'Click here', login_path %> to sign in.</p>
 <% end %>
