@@ -10,15 +10,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_16_162429) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_16_191155) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
     t.string "username"
-    t.string "password"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "password_digest"
+  end
+
+  create_table "character_templates", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "characters", force: :cascade do |t|
+    t.bigint "character_template_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "rarity_id", null: false
+    t.index ["account_id"], name: "index_characters_on_account_id"
+    t.index ["character_template_id"], name: "index_characters_on_character_template_id"
+    t.index ["rarity_id"], name: "index_characters_on_rarity_id"
+  end
+
+  create_table "rarities", force: :cascade do |t|
+    t.string "name"
+    t.integer "chance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "characters", "accounts"
+  add_foreign_key "characters", "character_templates"
+  add_foreign_key "characters", "rarities"
 end

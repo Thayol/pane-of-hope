@@ -1,0 +1,14 @@
+<h1>Log In</h1>
+<p>Don't have an account? <%= link_to('Click here', signup_path) %>.</p>
+<p><%= flash[:notice] %></p>
+<%= form_with url: login_handler_path, method: :post do |form|%>
+  <%= form.label :username, "Username" %>
+  <br>
+  <%= form.text_field :username %>
+  <br>
+  <%= form.label :password, "Password" %>
+  <br>
+  <%= form.password_field :password %>
+  <br>
+  <%= form.submit "Log In" %>
+<% end %>

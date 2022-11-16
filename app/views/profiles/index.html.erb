@@ -1,2 +1,6 @@
-<h1>Profiles</h1>
-<p>TODO</p>
+<h1>Profile</h1>
+<% if signed_in? %>
+  <p>Hello, <%= account.username %>!</p>
+<% else %>
+  <p>You are not signed in. <%= link_to 'Click here', login_path %> to sign in.</p>
+<% end %>
