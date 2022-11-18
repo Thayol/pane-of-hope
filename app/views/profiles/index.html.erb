@@ -2,13 +2,13 @@
 <% if signed_in? %>
   <p>Hello, <%= account.username %>!</p>
 
+  <p><%= link_to 'Log out', logout_path%><p>
+
   <p><%= link_to 'Pull a new character', profiles_path(pull: true) %></p>
 
   <% if params[:pull].present? %>
-    <p><%= account.draw_character.to_s %></p>
+    <p>You pulled: <%= account.draw_character.to_s %></p>
   <% end %>
-
-  <p><%= link_to 'Log out', logout_path%><p>
 
   <h3>Your Characters</h3>
 
