@@ -5,10 +5,6 @@ class AuthController < ApplicationController
   def signup
   end
 
-  def account
-    Account.find_by(username: params[:username].downcase)
-  end
-
   def signup_handler
     account = Account.new(username: params[:username].downcase)
     account.password = params[:password]
@@ -19,17 +15,6 @@ class AuthController < ApplicationController
     redirect_to(profiles_path) and return if saved
     redirect_to signup_path
   end
-  
-  def logout
-    session.delete(:account_id) if helpers.signed_in?
-    redirect_to login_path
-  end
-
-  private
-
-  def matching_password?
-    @matching_password = !!account&.authenticate(params[:password])
-  end
 
   def login_handler
     flash[:notice] = 'Wrong username/password!' unless matching_password?
@@ -37,5 +22,20 @@ class AuthController < ApplicationController
 
     redirect_to(profiles_path) and return if matching_password?
     redirect_to login_path
+  end
+
+  def logout
+    session.delete(:account_id) if helpers.signed_in?
+    redirect_to login_path
+  end
+
+  private
+
+  def account
+    Account.find_by(username: params[:username].downcase)
+  end
+
+  def matching_password?
+    @matching_password = !!account&.authenticate(params[:password])
   end
 end
