@@ -12,7 +12,7 @@ default: &default
   username: nukletti
   password: nukletti
   timeout: 5000
-  host: localhost
+  host: zovguran.net
   port: 5432
 
 development:

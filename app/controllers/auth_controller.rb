@@ -31,4 +31,9 @@ class AuthController < ApplicationController
     redirect_to(profiles_path) and return if saved
     redirect_to signup_path
   end
+  
+  def logout
+    session.delete(:account_id) if helpers.signed_in?
+    redirect_to login_path
+  end
 end
