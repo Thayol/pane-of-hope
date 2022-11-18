@@ -1,8 +1,10 @@
 class AuthController < ApplicationController
   def login
+    redirect_to(profiles_path) and return if helpers.signed_in?
   end
 
   def signup
+    redirect_to(profiles_path) and return if helpers.signed_in?
   end
 
   def signup_handler
