@@ -4,7 +4,7 @@
 <%= form_with url: login_handler_path, method: :post do |form|%>
   <%= form.label :username, "Username" %>
   <br>
-  <%= form.text_field :username %>
+  <%= form.text_field :username, autofocus:true %>
   <br>
   <%= form.label :password, "Password" %>
   <br>
